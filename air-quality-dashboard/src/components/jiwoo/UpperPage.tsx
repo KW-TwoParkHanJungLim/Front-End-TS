@@ -1,10 +1,10 @@
 import { Component } from 'react';
 import '../../styles/Div.css';
-import 로고 from '../../images/로고.jpg';
-import 로그아웃 from '../../images/로그아웃.jpg';
-import 회원정보 from '../../images/회원정보.jpg';
-import 엑셀 from '../../images/엑셀.jpg';
-import 그래프 from '../../images/그래프.jpg';
+import 로고 from '../../assets/images/로고.jpg';
+import 로그아웃 from '../../assets/images/로그아웃.jpg';
+import 회원정보 from '../../assets/images/회원정보.jpg';
+import 엑셀 from '../../assets/images/엑셀.jpg';
+import 그래프 from '../../assets/images/그래프.jpg';
 
 export default class UpperPage extends Component {
     render() {
