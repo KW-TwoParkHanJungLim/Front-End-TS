@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import LoginLogo from '../../assets/images/로그인 로고.jpg';
 import '../../styles/Div.css';
 
@@ -13,7 +14,7 @@ export default class LoginPage extends Component {
             <p />
             <input type="password" placeholder="Password" id="UserPW"></input>
             <p />
-            <a href="user/main"><button id="loginbutton">로그인</button></a>
+            <Link to="/user/main"><button id="loginbutton">로그인</button></Link>
           </div>
         </div>
       );

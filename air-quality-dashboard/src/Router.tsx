@@ -7,9 +7,9 @@ import ExportPage from './pages/jiwoo/ExportPage';
 
 const Router = () => {
   return (
-    <BrowserRouter basename="/">
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
-        <Route path='/Front-End-TS' element={<LoginPage />}></Route>
+        <Route path='/' element={<LoginPage />}></Route>
         <Route path='/user/main' element={<MainPage />}></Route>
         <Route path='/user/graph' element={<TimeGraph />}></Route>
         <Route path='/user/info' element={<UserInfo />}></Route>
