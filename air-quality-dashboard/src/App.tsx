@@ -3,13 +3,14 @@ import Router from "./Router";
 import GlobalStyle from "./styles/GlobalStyle";
 import { darkTheme } from "./styles/theme";
 
-
 function App() {
   return (
-    <ThemeProvider theme = {darkTheme}>
+    <div className="App">
+      <ThemeProvider theme = {darkTheme}>
       <GlobalStyle />
       <Router />
-    </ThemeProvider>
+      </ThemeProvider>
+  </div>
   );
 }
 
