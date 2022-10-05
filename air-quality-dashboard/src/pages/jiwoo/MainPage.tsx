@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import UpperPage from '../../components/jiwoo/UpperPage';
 import SelectSensor from '../../components/jiwoo/SelectSensor';
-import SelectData from '../../components/jiwoo/SelectData';
-import MainPage_Sensor from '../../components/jiwoo/MainPage_Sensor';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import MainPage_List from '../../components/jiwoo/MainPage_List';
 
 export default class MainPage extends Component {
     render() {
@@ -11,15 +9,9 @@ export default class MainPage extends Component {
         <div className="MainPage">
           <UpperPage></UpperPage>
           <div id="MainPage_SelectSensor">
-            <SelectSensor></SelectSensor>
+            <SelectSensor />
           </div>
-          <div id="MainPage_List">
-            <MainPage_Sensor></MainPage_Sensor>
-            <MainPage_Sensor></MainPage_Sensor>
-            {/*
-                   <SelectData></SelectData>
-            */}
-          </div>
+          <MainPage_List></MainPage_List>
         </div>
       );
     }
