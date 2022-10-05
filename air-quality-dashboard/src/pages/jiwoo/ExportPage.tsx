@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import UpperPage from '../../components/jiwoo/UpperPage';
-import Calendar from '../../components/jiwoo/Calendar';
 import SelectSensor from '../../components/jiwoo/SelectSensor';
+import Calendar from '../../components/jiwoo/Calendar';
 
 export default class ExportPage extends Component {
     render() {
@@ -16,7 +16,7 @@ export default class ExportPage extends Component {
 
               }}></input>
             </div>  
-          </div>
+          </div> 
         </div>
       );
     }
