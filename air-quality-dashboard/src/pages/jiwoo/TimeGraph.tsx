@@ -81,7 +81,6 @@ const CoinsList = styled.ul`
 		overflow: scroll;
 		overflow-x:hidden;
 		padding-right: 10px;
-		width:1500px;
 
 		&::-webkit-scrollbar {
 			width: 8px;
@@ -103,7 +102,7 @@ const Img = styled.img`
 
 const Notification = styled.span`
     position: absolute;
-    right: 400px;
+    right: 0px;
     color: tomato;
 `;
 
