@@ -13,17 +13,17 @@ import { ko } from 'date-fns/esm/locale';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Container = styled.div`
-  padding-left : 400px;
-  padding-right : 400px;
+  margin: 0 auto;
   padding-top: 130px;
   height: 200vh;
   position: relative;
+  width: 80%;
 `;
 
 const Wrapper= styled.div`
-    display:flex;
-		margin : 50px 0;
-		width: 1750px;
+  display:flex;
+	margin : 50px auto;
+	width: 100%;
 `;
 
 const Header = styled.h1`
@@ -65,6 +65,15 @@ const Coin = styled.li<{match: boolean}>`
 const CoinsList = styled.ul`
     display:grid;
     grid-template-columns : repeat(4, 1fr);
+    @media screen and (max-width : 800px){
+      grid-template-columns : repeat(1, 1fr);
+    }
+    @media screen and (max-width : 1150px) and (min-width : 800px){
+      grid-template-columns : repeat(2, 1fr);
+    }
+    @media screen and (max-width : 1500px) and (min-width : 1150px){
+      grid-template-columns : repeat(3, 1fr);
+    }
     grid-template-rows : repeat(4, 1fr);
     gap: 10px;
     width: 100%;

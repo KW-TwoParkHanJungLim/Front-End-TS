@@ -9,30 +9,40 @@ interface ChartProps {
 
 const Wrapper= styled.div`
   display : flex;
-  justify-content : space-evenly;
   align-items: center;
-  width: 1750px;
-  height: 900px;
+  width: 100%;
   background-color: #ecf0f1;
   border-radius: 50px;
-  padding : 0px;
   margin-top: 50px;
+  padding : 20px 0;
+  @media screen and (max-width : 1370px){
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const AttributeList = styled.ul`
-  width: 400px;
-  height: 660px;
+  width: 30%;
   display: grid;
   grid-template-columns : repeat(2, 200px);
-  margin-right: -60px;
+  text-align:center;
+  justify-items:center;
+  justify-content: center;
+  @media screen and (max-width : 1370px){
+    width : 100%;
+    grid-template-columns : repeat(6, 1fr);
+    grid-template-rows : repeat(2,150px);
+    text-align : center;
+    margin-top : 50px;
+    
+  }
 `;
 
 const Attribute = styled.li<{isSelected : boolean}>`
   display:flex;
   flex-direction: column;
   align-items: center;
-  width: 110px;
-  height: 110px;
+  width: 40%;
   span{
     font-weight: 600;
     margin-bottom:5px;
@@ -43,9 +53,15 @@ const Attribute = styled.li<{isSelected : boolean}>`
 `;
 
 const PM = styled.div`
-  font-size: 35px;
+  font-size: 25px;
   font-weight: 700;
   margin-bottom: -2.5px;
+`;
+
+const ChartWrapper = styled.div`
+  width: 70%;
+  min-width : 500px;
+  padding: 50px 0;
 `;
 
 /*더미데이터*/
@@ -89,47 +105,47 @@ function Chart(props : ChartProps){
   <Wrapper>
     <AttributeList>
       <Attribute onClick = {() => onClickAttribute('Temperature')} isSelected = {selectedAttr === 'Temperature'}>
-        <FontAwesomeIcon icon = 'temperature-half' size = '4x'/>
+        <FontAwesomeIcon icon = 'temperature-half' size = '3x'/>
         <span>Temperature</span>
         <span>36'C</span>
       </Attribute>
       <Attribute onClick = {() => onClickAttribute('Humidity')} isSelected = {selectedAttr === 'Humidity'}>
-        <FontAwesomeIcon icon = 'droplet' size = '4x'/>
+        <FontAwesomeIcon icon = 'droplet' size = '3x'/>
         <span>Humidity</span>
         <span>Average Value</span>
       </Attribute>
       <Attribute onClick = {() => onClickAttribute('CO2')} isSelected = {selectedAttr === 'CO2'}>
-        <FontAwesomeIcon icon= 'cloud' size= '4x'/>
+        <FontAwesomeIcon icon= 'cloud' size= '3x'/>
         <span>CO2</span>
         <span>Average Value</span>
       </Attribute>
       <Attribute onClick = {() => onClickAttribute('HCHO')} isSelected = {selectedAttr === 'HCHO'}>
-        <FontAwesomeIcon icon= 'droplet-slash' size= '4x'/>
+        <FontAwesomeIcon icon= 'droplet-slash' size= '3x'/>
         <span>HCHO</span>
         <span>Average Value</span>
       </Attribute>
       <Attribute onClick = {() => onClickAttribute('TVOC')} isSelected = {selectedAttr === 'TVOC'}>
-        <FontAwesomeIcon icon= 'biohazard' size= '4x'/>
+        <FontAwesomeIcon icon= 'biohazard' size= '3x'/>
         <span>TVOC</span>
         <span>Average Value</span>
       </Attribute>
       <Attribute onClick = {() => onClickAttribute('LPG')} isSelected = {selectedAttr === 'LPG'}>
-        <FontAwesomeIcon icon= 'gas-pump' size= '4x'/>
+        <FontAwesomeIcon icon= 'gas-pump' size= '3x'/>
         <span>LPG</span>
         <span>Average Value</span>
       </Attribute>
       <Attribute onClick = {() => onClickAttribute('CO')} isSelected = {selectedAttr === 'CO'}>
-        <FontAwesomeIcon icon= 'cloud-meatball' size= '4x'/>
+        <FontAwesomeIcon icon= 'cloud-meatball' size= '3x'/>
         <span>CO</span>
         <span>Average Value</span>
       </Attribute>
       <Attribute onClick = {() => onClickAttribute('Smoke')} isSelected = {selectedAttr === 'Smoke'}>
-        <FontAwesomeIcon icon= 'tornado' size= '4x'/>
+        <FontAwesomeIcon icon= 'tornado' size= '3x'/>
         <span>Smoke</span>
         <span>Average Value</span>
       </Attribute>
       <Attribute onClick = {() => onClickAttribute('O3')} isSelected = {selectedAttr === 'O3'}>
-        <FontAwesomeIcon icon= 'globe' size= '4x'/>
+        <FontAwesomeIcon icon= 'globe' size= '3x'/>
         <span>O3</span>
         <span>Average Value</span>
       </Attribute>
@@ -152,8 +168,9 @@ function Chart(props : ChartProps){
         <span>Average Value</span>
       </Attribute>
     </AttributeList>
+    <ChartWrapper>
     <ReactApexChart   
-      width = {1200}
+      width = {'100%'}
       type = "line"
       series={
         props.selectedSensors.map((sensor) =>{
@@ -236,6 +253,7 @@ function Chart(props : ChartProps){
         }
       }}
     />
+    </ChartWrapper>
   </Wrapper>
   );
 }

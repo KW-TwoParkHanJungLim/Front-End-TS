@@ -8,9 +8,10 @@ const SensorList = styled.div`
   flex-wrap : wrap;
   flex-direction: column;
   margin : 520px 200px;
-  border : 5px solid black;
+  background-color: #ecf0f1;
+  border : none;
   padding : 20px 40px;
-  width: 1000px;
+  width: 70%;
   margin : 100px auto;
 `
 

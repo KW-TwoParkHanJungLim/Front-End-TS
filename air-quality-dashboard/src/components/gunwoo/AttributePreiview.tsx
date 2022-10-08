@@ -7,7 +7,7 @@ interface PreviewProps{
 }
 
 const Wrapper = styled.div`
-  width: 350px;
+  width: 325px;
   height: 400px;
   background-color: #ecf0f1;
   border-radius: 30px;

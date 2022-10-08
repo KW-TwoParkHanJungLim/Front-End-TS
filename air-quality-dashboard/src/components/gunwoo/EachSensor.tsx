@@ -15,6 +15,12 @@ const SensorAttributeWrapper = styled.div`
   display: grid;
   gap : 30px;
   grid-template-columns : repeat(4, 1fr);
+  @media screen and (max-width : 800px){
+    grid-template-columns : repeat(1, 1fr);
+  }
+  @media screen and (max-width : 1350px) and (min-width : 800px){
+    grid-template-columns : repeat(2, 1fr);
+  }
 `;
 
 const SensorAttributeBox = styled.div`
