@@ -13,3 +13,4 @@ https://kw-twoparkhanjunglim.github.io/Front-End-TS/
 + file saver
 + date picker
 + redux
++ font-awesome
