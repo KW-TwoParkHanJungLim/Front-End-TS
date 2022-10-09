@@ -11,7 +11,7 @@ export default class UpperPage extends Component {
     render() {
         return(
             <div className="HomeUpper">
-              <Link to="/"><img src={로고} id="로고" alt="logo"></img></Link>
+              <Link to="/user/main"><img src={로고} id="로고" alt="logo"></img></Link>
               <Link to="/"><img src={로그아웃} id="우측상단" alt="logout"></img></Link>
               <Link to="/user/info"><img src={회원정보} id="우측상단" alt="user"></img></Link>
               <Link to="/user/export"><img src={엑셀} id="우측상단" alt="excel"></img></Link>
