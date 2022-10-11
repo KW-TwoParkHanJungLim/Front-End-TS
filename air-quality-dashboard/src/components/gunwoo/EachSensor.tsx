@@ -53,7 +53,7 @@ function EachSensor({sensor, match} : CoinProps) : React.ReactElement{
     <Sensor>
       <Header>
         <Img src={`https://coinicons-api.vercel.app/api/icon/${sensor.symbol.toLowerCase()}`} />
-				{sensor.id}		
+				{sensor.name}		
       </Header>
       <SensorAttributeWrapper>
         <SensorAttributeBox/>
