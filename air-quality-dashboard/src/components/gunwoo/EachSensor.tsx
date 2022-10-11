@@ -39,6 +39,7 @@ const Header = styled.div`
 
 type CoinProps = {
   sensor : CoinInterface
+  match : boolean
 }
 
 const Img = styled.img`
@@ -47,12 +48,12 @@ const Img = styled.img`
     margin-right: 10px;
 `;
 
-function EachSensor({sensor} : CoinProps) : React.ReactElement{
+function EachSensor({sensor, match} : CoinProps) : React.ReactElement{
   return (
     <Sensor>
       <Header>
         <Img src={`https://coinicons-api.vercel.app/api/icon/${sensor.symbol.toLowerCase()}`} />
-				{sensor.id}		
+				{sensor.name}		
       </Header>
       <SensorAttributeWrapper>
         <SensorAttributeBox/>
