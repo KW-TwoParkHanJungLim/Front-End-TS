@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { CoinInterface } from "../jiwoo/MainPageList";
 
@@ -34,8 +35,8 @@ const Header = styled.div`
   align-items: center;
   margin-bottom: 10px;
   font-weight: 600;
-`;
 
+`;
 
 type CoinProps = {
   sensor : CoinInterface
@@ -51,10 +52,12 @@ const Img = styled.img`
 function EachSensor({sensor, match} : CoinProps) : React.ReactElement{
   return (
     <Sensor>
-      <Header>
-        <Img src={`https://coinicons-api.vercel.app/api/icon/${sensor.symbol.toLowerCase()}`} />
-				{sensor.name}		
-      </Header>
+        <Link to = {`/user/${sensor.id}`}>
+          <Header>
+            <Img src={`https://coinicons-api.vercel.app/api/icon/${sensor.symbol.toLowerCase()}`} />
+            {sensor.name}
+          </Header>
+        </Link>		
       <SensorAttributeWrapper>
         <SensorAttributeBox/>
         <SensorAttributeBox/>
