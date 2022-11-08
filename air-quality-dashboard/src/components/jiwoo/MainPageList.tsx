@@ -54,7 +54,8 @@ function MainPage_List(){
          filterTitle?.map(sensor =>
             <EachSensor key={sensor.id} 
                         sensor = {sensor}
-                        match = {selectedSensors.includes(sensor.name)} />
+                        match = {selectedSensors.includes(sensor.name)} 
+            />
       )}
       </SensorList>
     </Container>
