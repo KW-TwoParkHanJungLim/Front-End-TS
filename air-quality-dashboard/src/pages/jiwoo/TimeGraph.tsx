@@ -42,7 +42,7 @@ const Header = styled.h1`
   }
 `;
 const Coin = styled.li<{match: boolean}>`
-    background-color:  ${props=> props.match ? "#20c997" : "white"};
+    background-color:  ${props=> props.match ? "#20c997" : "#ecf0f1"};
     color: ${props=> props.theme.textColor};
     font-weight: 600;
     border-radius: 10px;
