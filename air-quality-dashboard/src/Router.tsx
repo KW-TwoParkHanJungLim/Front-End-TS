@@ -4,7 +4,7 @@ import MainPage from './pages/jiwoo/MainPage';
 import MainSensor from './pages/jiwoo/MainSensor';
 import MainData from './pages/jiwoo/MainData';
 import TimeGraph from './pages/jiwoo/TimeGraph';
-import UserInfo from './pages/jiwoo/UserInfo';
+import UserInfo from './pages/jiwoo/UserInfoPage';
 import ExportPage from './pages/jiwoo/ExportPage';
 import SensorEntryPage from './pages/gunwoo/SensorEntryPage';
 

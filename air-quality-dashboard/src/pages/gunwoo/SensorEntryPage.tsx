@@ -113,7 +113,7 @@ const SummaryContainer = styled.div`
   
 const Summary = styled.div`
   display: grid;
-  background-color: white;
+  background-color: #ecf0f1;
   grid-template-columns: 3fr 2fr;
   border: 1px solid rgba(0,0,0,0.2);
   padding: 20px;
@@ -164,6 +164,7 @@ const TodayAvgGraphHeader = styled.div`
   justify-content: space-evenly;
   padding: 20px;
   font-weight: 800;
+  background-color:#ecf0f1;
   h3{
     font-size: 24px;
     margin-bottom: 15px;

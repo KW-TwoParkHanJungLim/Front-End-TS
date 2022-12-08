@@ -9,9 +9,7 @@ export default class LoginPage extends Component {
         <div className="LoginPage">
           <div id="Login">
             <img src= {LoginLogo} id="LoginLogo" alt="LoginLogo"></img>
-            <p />
             <input type="text" placeholder="ID" id="UserID"></input>
-            <p />
             <input type="password" placeholder="Password" id="UserPW"></input>
             <p />
             <Link to="/user/main"><button id="loginbutton">로그인</button></Link>

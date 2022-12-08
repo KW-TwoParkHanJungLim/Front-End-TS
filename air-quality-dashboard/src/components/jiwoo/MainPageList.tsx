@@ -50,7 +50,7 @@ function MainPage_List(){
     <Container>
       <SensorSearch value={search} onChange = {onChange} />
       <SensorList>
-        {
+      {
          filterTitle?.map(sensor =>
             <EachSensor key={sensor.id} 
                         sensor = {sensor}

@@ -22,7 +22,7 @@ const Input = styled.input`
 `;
 
 
-function SensorSearch({search, onChange} : any){
+function SearchCompany({search, onChange}: any){
   return (
     <Search>
       <Input type = "text" value={search} onChange={onChange} placeholder="Search for Sensor"/>
@@ -31,4 +31,4 @@ function SensorSearch({search, onChange} : any){
   );
 }
 
-export default SensorSearch;
+export default SearchCompany;
