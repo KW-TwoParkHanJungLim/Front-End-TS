@@ -13,7 +13,7 @@ const SensorList = styled.div`
   background-color: #ecf0f1;
   border : none;
   padding : 20px 40px;
-  width: 70%;
+  width: 80%;
   margin : 50px auto;
 `
 
@@ -58,6 +58,7 @@ function MainPage_List(){
             />
       )}
       </SensorList>
+      <br />
     </Container>
   );
 }

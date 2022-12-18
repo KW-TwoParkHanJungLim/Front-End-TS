@@ -19,7 +19,7 @@
   }
 
   h3#UserInfo {
-    padding-top:40px; font-size:20px;
+    padding-bottom:30px; font-size:20px;
   }
 
   h4 {
@@ -129,7 +129,7 @@
 
   #UserInfo_Update {
     position: absolute; left: 700px; top: 500px; width:100px; height:40px; font-size:20px;    
-    border:2px solid black; border-radius:20px; color:black; background-color:#20c997;
+    border:1px solid black; border-radius:20px; color:black; background-color:#20c997; box-shadow:2px 2px lightgray;
   }
 
   .InfoText {

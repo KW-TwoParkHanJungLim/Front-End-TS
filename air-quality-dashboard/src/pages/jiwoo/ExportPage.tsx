@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styled from 'styled-components'
 import UpperPage from '../../components/jiwoo/UpperPage';
 import SelectSensor from '../../components/jiwoo/SelectSensor';
 import Calendar from '../../components/jiwoo/Calendar';
@@ -8,6 +9,7 @@ export default class ExportPage extends Component {
       return (
         <div className="ExportPage">
           <UpperPage></UpperPage>
+          
           <div id="ExportPage_Main">
             <SelectSensor /><Calendar />
             <div id="ExportPage_File">
