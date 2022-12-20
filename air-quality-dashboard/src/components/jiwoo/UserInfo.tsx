@@ -54,6 +54,16 @@ function UserInfo() {
         }
     }
 
+    const handleDelete = (e:any) => {
+        alert("회원정보삭제");
+    }
+
+    const DiffButton = () => {
+        if(User === 'admin')
+            return <button value="delete" id="UserInfo_Update" onClick={handleDelete}>삭제</button>
+        else   
+            return <button value="update" id="UserInfo_Update" onClick={handleUpdate}>수정</button>
+    }
     var Title;
     if(User === 'admin') {
         Title = '사용자 프로필'
@@ -68,7 +78,7 @@ function UserInfo() {
             <h3 id="UserInfo">아이디 <input type='text' name="ID" value={ID} className="InfoText" onChange={handleChange}></input><p /><br /></h3>
             <h3 id="UserInfo">연락처 <input type='text' name="PhoneNum" value={PhoneNum} className="InfoText" onChange={handleChange}></input><p /><br /></h3>
             <h3 id="UserInfo">이메일 <input type='text' name="Email" value={Email} className="InfoText" onChange={handleChange}></input><p /><br /></h3>
-            <button value="update" id="UserInfo_Update" onClick={handleUpdate}>수정</button>
+            {DiffButton()}
         </div>
     );
 }
