@@ -22,6 +22,7 @@ const Router = () => {
         <Route path='/:user/info' element={<UserInfo />}></Route>
         <Route path='/:user/export' element={<ExportPage />}></Route>
         <Route path='/admin/userlist' element={<AdminUserListPage />}></Route>
+        <Route path='/admin/:user/info' element={<UserInfo />}></Route>
       </Routes>
     </BrowserRouter>
   );

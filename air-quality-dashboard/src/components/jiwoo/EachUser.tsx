@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from 'react-router-dom';
 import { CoinInterface } from "../jiwoo/MainPageList";
 
 const SensorAttributeBox = styled.div`
@@ -27,15 +28,15 @@ type UserProps = {
     user : CoinInterface
 }
 
-interface Udata {
-  name: string;
-}
-
 function EachUser({user} : UserProps){
   return (
-    <SensorAttributeBox>
-      <Name>{user.name}</Name><br />
-    </SensorAttributeBox>
+    <Link to= {`/admin/${user.name}/info`} state={{ User: 'admin', //사용자가 누군지에 따라 달라질 수 있도록 추후에 수정
+      Name: user.name, ID: '', PhoneNum: '', Email: ''
+    }}>
+      <SensorAttributeBox>
+        <Name>{user.name}</Name><br />
+      </SensorAttributeBox>
+    </Link>
   );
 }
 

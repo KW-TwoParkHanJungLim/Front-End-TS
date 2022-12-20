@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import EachSensor from "../gunwoo/EachSensor";
 import styled from 'styled-components';
 import UserSearch from '../../components/jiwoo/UserSearch';
 import EachUser from './EachUser';
