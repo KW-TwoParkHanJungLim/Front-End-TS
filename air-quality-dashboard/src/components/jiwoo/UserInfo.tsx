@@ -1,11 +1,31 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import {useLocation} from 'react-router-dom';
+import styled from 'styled-components';
+
+const Header = styled.h1`
+  margin-bottom: 50px;
+  font-weight: 700;
+  font-size : 46px;
+  color: #2c3e50;
+  position : relative;
+  span{
+    z-index : 1;
+    font-size : 35px;
+    position : absolute;
+    left : 20px;
+    top : 110px;
+    opacity : 0.5;
+  }
+`;
 
 function UserInfo() {
+    const location = useLocation();
+    const User = location.state.User;
     const [Inputs, setInputs] = useState({
-        Name: '',
-        ID: '',
-        PhoneNum: '',
-        Email: ''
+        Name: location.state.Name,
+        ID: location.state.ID,
+        PhoneNum: location.state.PhoneNum,
+        Email: location.state.Email
     });
 
     const { Name, ID, PhoneNum, Email } = Inputs;
@@ -33,15 +53,32 @@ function UserInfo() {
             //DB에 넣는 코드 추가
         }
     }
+
+    const handleDelete = (e:any) => {
+        alert("회원정보삭제");
+    }
+
+    const DiffButton = () => {
+        if(User === 'admin')
+            return <button value="delete" id="UserInfo_Update" onClick={handleDelete}>삭제</button>
+        else   
+            return <button value="update" id="UserInfo_Update" onClick={handleUpdate}>수정</button>
+    }
+    var Title;
+    if(User === 'admin') {
+        Title = '사용자 프로필'
+    } else {
+        Title = '내 프로필'
+    }
     
     return(
         <div>
-            <h1>내 프로필</h1><p /><br />
+            <Header>{Title}</Header>
             <h3 id="UserInfo">이름 &nbsp;&nbsp;&nbsp;<input type='text' name="Name" value={Name} className="InfoText" onChange={handleChange}></input><p /><br /></h3>
             <h3 id="UserInfo">아이디 <input type='text' name="ID" value={ID} className="InfoText" onChange={handleChange}></input><p /><br /></h3>
             <h3 id="UserInfo">연락처 <input type='text' name="PhoneNum" value={PhoneNum} className="InfoText" onChange={handleChange}></input><p /><br /></h3>
-            <h3 id="UserInfo">이메일 <input type='text' name="Email" value={Email} className="InfoText" onChange={handleChange}></input></h3>
-            <button value="update" id="UserInfo_Update" onClick={handleUpdate}>수정</button>
+            <h3 id="UserInfo">이메일 <input type='text' name="Email" value={Email} className="InfoText" onChange={handleChange}></input><p /><br /></h3>
+            {DiffButton()}
         </div>
     );
 }

@@ -12,6 +12,7 @@ const Sensor = styled.div`
   border : 5px solid black;
   padding : 15px 20px;
   margin-bottom: 20px;
+  box-shadow: 3px 3px #c5c5c5;
   overflow: auto;
   &::-webkit-scrollbar {
     width: 8px;

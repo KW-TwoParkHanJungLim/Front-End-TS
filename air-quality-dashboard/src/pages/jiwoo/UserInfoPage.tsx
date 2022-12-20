@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import UpperPage from '../../components/jiwoo/UpperPage';
 import UserInfo from '../../components/jiwoo/UserInfo';
 

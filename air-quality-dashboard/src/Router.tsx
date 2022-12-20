@@ -7,19 +7,22 @@ import TimeGraph from './pages/jiwoo/TimeGraph';
 import UserInfo from './pages/jiwoo/UserInfoPage';
 import ExportPage from './pages/jiwoo/ExportPage';
 import SensorEntryPage from './pages/gunwoo/SensorEntryPage';
+import AdminUserListPage from './pages/jiwoo/AdminUserListPage';
 
 const Router = () => {
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route path='/' element={<LoginPage />}></Route>
-        <Route path='/user/main' element={<MainPage />}></Route>
-        <Route path='/user/:sensorId' element={<SensorEntryPage/>}></Route>
-        <Route path='/user/main/sensor' element={<MainSensor />}></Route>
-        <Route path='/user/main/sensor/data' element={<MainData />}></Route>
-        <Route path='/user/graph' element={<TimeGraph />}></Route>
-        <Route path='/user/info' element={<UserInfo />}></Route>
-        <Route path='/user/export' element={<ExportPage />}></Route>
+        <Route path='/:user/main' element={<MainPage />}></Route>
+        <Route path='/:user/:sensorId' element={<SensorEntryPage/>}></Route>
+        <Route path='/:user/main/sensor' element={<MainSensor />}></Route>
+        <Route path='/:user/main/sensor/data' element={<MainData />}></Route>
+        <Route path='/:user/graph' element={<TimeGraph />}></Route>
+        <Route path='/:user/info' element={<UserInfo />}></Route>
+        <Route path='/:user/export' element={<ExportPage />}></Route>
+        <Route path='/admin/userlist' element={<AdminUserListPage />}></Route>
+        <Route path='/admin/:user/info' element={<UserInfo />}></Route>
       </Routes>
     </BrowserRouter>
   );

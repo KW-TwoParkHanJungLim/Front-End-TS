@@ -1,29 +1,47 @@
 import React, { useState } from 'react';
-import EachSensor from "../gunwoo/EachSensor";
 import styled from 'styled-components';
-import SensorSearch from '../../components/gunwoo/SensorSearch';
+import UserSearch from '../../components/jiwoo/UserSearch';
+import EachUser from './EachUser';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCoins } from '../../api/api';
 
-const SensorList = styled.div`
+const Header = styled.h1`
+  margin-top: 50px;
+  margin-bottom:50px;
+  font-weight: 700;
+  font-size : 46px;
+  color: #2c3e50;
+  position : relative;
+  span{
+    z-index : 1;
+    font-size : 35px;
+    position : absolute;
+    left : 20px;
+    top : 110px;
+    opacity : 0.5;
+  }
+`
+
+const UserList = styled.div`
   display: flex;
   flex-wrap : wrap;
   flex-direction: column;
-  margin : 520px 200px;
+  margin : 520px 150px;
   background-color: #ecf0f1;
   border : none;
   padding : 20px 40px;
   width: 80%;
-  margin : 50px auto;
+  margin: 50px; 
+  margin-left: 100px;
 `
 
 const Container = styled.div`
   margin: 0 auto;
   padding-top: 70px;
-  padding-left: 50px;
+  padding-left: 100px;
   height: 200vh;
   position: relative;
-  width: 100%;
+  width: 80%;
 `;
 
 export interface CoinInterface{
@@ -36,9 +54,8 @@ export interface CoinInterface{
   type: string,
 }
 
-function MainPage_List(){
+function AdminUserList(){
   const [search, setSearch] = useState("");
-  const [selectedSensors, setselectedSensors] = useState<string[]>([]);
   const {data} = useQuery<CoinInterface[]>(["allCoins"], fetchCoins);
   const onChange = (e : React.FormEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value);
@@ -48,19 +65,19 @@ function MainPage_List(){
   })
   return(
     <Container>
-      <SensorSearch value={search} onChange = {onChange} />
-      <SensorList>
-      {
-         filterTitle?.map(sensor =>
-            <EachSensor key={sensor.id} 
-                        sensor = {sensor}
-                        match = {selectedSensors.includes(sensor.name)} 
-            />
-      )}
-      </SensorList>
-      <br />
+        <Header>User List</Header>
+        <UserSearch value={search} onChange = {onChange} />
+        <UserList>
+        {
+            filterTitle?.map((data,index) =>
+                <EachUser key={index} 
+                    user = {data}
+                />
+        )}
+        </UserList>
+        <br />
     </Container>
   );
 }
 
-export default MainPage_List;
+export default AdminUserList;
