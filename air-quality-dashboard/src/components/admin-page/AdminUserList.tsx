@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import UserSearch from '../../components/jiwoo/UserSearch';
-import EachUser from './EachUser';
+import UserSearch from './UserSearch';
+import EachUser from '../user-info-page/EachUser';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCoins } from '../../api/api';
 

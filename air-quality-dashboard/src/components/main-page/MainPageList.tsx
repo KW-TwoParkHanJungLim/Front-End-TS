@@ -3,7 +3,7 @@ import EachSensor from "../sensor-entry-page/EachSensor";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCoins } from "../../api/api";
-import SensorSearch from "../time-graph/SensorSearch";
+import SensorSearch from "../sensor-entry-page/SensorSearch";
 
 const SensorList = styled.div`
   display: flex;

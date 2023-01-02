@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
-import { CoinInterface } from "../jiwoo/MainPageList";
+import { CoinInterface } from "../main-page/MainPageList";
 
 const SensorAttributeBox = styled.div`
   position:relative;

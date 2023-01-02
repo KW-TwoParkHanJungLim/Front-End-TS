@@ -1,4 +1,4 @@
-import UpperPage from "../components/jiwoo/UpperPage";
+import UpperPage from "../components/UpperPage";
 import styled from "styled-components";
 import React, { useState } from "react";
 import Chart from "../components/time-graph/Chart";

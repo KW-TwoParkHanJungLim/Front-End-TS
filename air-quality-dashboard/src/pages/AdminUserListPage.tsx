@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import UpperPage from "../components/jiwoo/UpperPage";
-import AdminUserList from "../components/jiwoo/AdminUserList";
+import UpperPage from "../components/UpperPage";
+import AdminUserList from "../components/admin-page/AdminUserList";
 
 export default class AdminUserListPage extends Component {
   render() {

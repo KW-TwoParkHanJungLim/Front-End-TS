@@ -2,9 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 import { fetchCoins } from "../../api/api";
-import { CoinInterface } from "../jiwoo/MainPageList";
+import { CoinInterface } from "../main-page/MainPageList";
 import AttributePreview from "./AttributePreiview";
-import SensorSearch from "./SensorSearch";
+import SensorSearch from "../sensor-entry-page/SensorSearch";
 
 const Container = styled.div`
   width: 1700px;
