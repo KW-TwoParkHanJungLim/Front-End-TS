@@ -3,11 +3,11 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { fetchCoinInfo, fetchCoins } from "../../api/api";
-import UpperPage from "../../components/jiwoo/UpperPage";
+import { fetchCoinInfo, fetchCoins } from "../api/api";
+import UpperPage from "../components/jiwoo/UpperPage";
 import { ko } from "date-fns/esm/locale";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import SensorEntryGraph from "../../components/gunwoo/sensor-entry-page/SensorEntryGraph";
+import SensorEntryGraph from "../components/sensor-entry-page/SensorEntryGraph";
 
 const Container = styled.div`
   margin: 0 auto;

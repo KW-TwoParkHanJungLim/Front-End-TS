@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import EachSensor from "../gunwoo/sensor-entry-page/EachSensor";
+import EachSensor from "../sensor-entry-page/EachSensor";
 import styled from "styled-components";
-import SensorSearch from "../gunwoo/sensor-entry-page/SensorSearch";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCoins } from "../../api/api";
+import SensorSearch from "../time-graph/SensorSearch";
 
 const SensorList = styled.div`
   display: flex;
@@ -48,7 +48,6 @@ function MainPage_List() {
   });
   return (
     <Container>
-      <SensorSearch value={search} onChange={onChange} />
       <SensorList>
         {filterTitle?.map((sensor) => (
           <EachSensor
