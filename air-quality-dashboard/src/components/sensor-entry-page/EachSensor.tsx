@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { CoinInterface } from "../../jiwoo/MainPageList";
+import { CoinInterface } from "../jiwoo/MainPageList";
 import SensorAttribute from "./SensorAttribute";
 
 const Sensor = styled.div`

@@ -6,11 +6,11 @@ import { darkTheme } from "./styles/theme";
 function App() {
   return (
     <div className="App">
-      <ThemeProvider theme = {darkTheme}>
-      <GlobalStyle />
-      <Router />
+      <ThemeProvider theme={darkTheme}>
+        <GlobalStyle />
+        <Router />
       </ThemeProvider>
-  </div>
+    </div>
   );
 }
 

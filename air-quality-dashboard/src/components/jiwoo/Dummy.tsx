@@ -1,6 +1,0 @@
-const Dummy = () => {
-  return (
-    <>
-    </>
-  );
-}
