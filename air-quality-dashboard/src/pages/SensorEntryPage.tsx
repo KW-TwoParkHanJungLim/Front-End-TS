@@ -61,7 +61,7 @@ const Header = styled.h1`
   color: #2c3e50;
   position: relative;
   span {
-    z-index: 1;
+    z-index: 0;
     font-size: 35px;
     position: absolute;
     left: 20px;
@@ -71,10 +71,10 @@ const Header = styled.h1`
 `;
 
 const SDatePicker = styled(DatePicker)`
-  padding: 20px 60px;
+  padding: 20px 30px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 5px;
-  width: 360px;
+  width: 320px;
   font-size: 20px;
   font-weight: 700;
   color: rgba(0, 0, 0, 0.5);
@@ -94,14 +94,6 @@ const SummaryContainer = styled.div`
 
 const Calendar = styled.div`
   position: relative;
-  span {
-    z-index: 1;
-    font-size: 35px;
-    position: absolute;
-    left: 20px;
-    top: 12px;
-    opacity: 0.5;
-  }
   padding-bottom: 50px;
   margin-bottom: 50px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
@@ -132,9 +124,6 @@ function SensorEntryPage() {
       <Container>
         <Header>{infoData?.name}</Header>
         <Calendar>
-          <span>
-            <FontAwesomeIcon icon="chevron-down" />
-          </span>
           <SDatePicker
             selected={startDate}
             onChange={(date: Date) => setStartDate(date)}
