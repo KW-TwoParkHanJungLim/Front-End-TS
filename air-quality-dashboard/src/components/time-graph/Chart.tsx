@@ -129,7 +129,7 @@ function Chart(props: ChartProps) {
       <Header>Time Line</Header>
       <SDatePicker
         selected={startDate}
-        onChange={(date: Date) => setStartDate}
+        onChange={(date: Date) => setStartDate(date)}
         selectsStart
         dateFormat={" yyyy / MM / dd"}
         locale={ko}
