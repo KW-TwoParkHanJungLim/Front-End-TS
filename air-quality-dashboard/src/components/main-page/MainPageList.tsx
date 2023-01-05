@@ -5,12 +5,13 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchCoins } from "../../api/api";
 import SensorSearch from "../sensor-entry-page/SensorSearch";
 
+
 const SensorList = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   margin: 520px 200px;
-  background-color: #ecf0f1;
+  //background-color: #ecf0f1;
   border: none;
   padding: 20px 40px;
   width: 80%;

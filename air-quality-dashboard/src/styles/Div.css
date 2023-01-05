@@ -47,12 +47,12 @@
 
   #UserID, #UserPW {
     width:70%; height:10%; font-size:20px; margin-top:10px;
-    border:2px solid black; border-radius:10px;
+    border:2px solid black; border-radius:5px;
   }
   
   #loginbutton {
-    width:30%; height:10%; font-size:15px; background-color:#20c997;
-    border:0; border-radius:4px; margin-top:20px; color:white; 
+    width:100px; height:30px; font-size:18px; background-color:#20c997;
+    border:0; border-radius:5px; margin-top:20px; color:white; 
   }
   
   .LoginPage {
@@ -128,8 +128,8 @@
   }
 
   #UserInfo_Update {
-    position: absolute; left: 700px; top: 500px; width:100px; height:40px; font-size:20px;    
-    border:1px solid black; border-radius:20px; color:black; background-color:#20c997; box-shadow:2px 2px lightgray;
+    position: absolute; left: 700px; top: 500px; width:100px; height:30px; font-size:18px;    
+    border:0; border-radius:5px; color: white; background-color:#20c997; box-shadow:2px 2px lightgray;
   }
 
   .InfoText {

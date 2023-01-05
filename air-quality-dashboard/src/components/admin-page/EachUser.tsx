@@ -11,7 +11,7 @@ const SensorAttributeBox = styled.div`
   height:60px; 
   flex-wrap : wrap;
   flex-direction:column;
-  background-color: #ecf0f1;
+  //background-color: #f6f6f6;
   padding : 15px 20px;
   margin-bottom: 20px;
   justify-content : center;

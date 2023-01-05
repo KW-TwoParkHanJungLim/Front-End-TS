@@ -1,10 +1,13 @@
 import styled from "styled-components";
 
+
 const SensorAttributeBox = styled.div`
   position:relative;
-  width: 160px;
+  width: 185px;
   height: 160px;
-  border : 3px solid black;
+  margin-right:30px;
+  border : 2px solid black;
+  //background-color: #f6f6f6;
   border-radius: 20px;
   display: flex;
   justify-content : center;

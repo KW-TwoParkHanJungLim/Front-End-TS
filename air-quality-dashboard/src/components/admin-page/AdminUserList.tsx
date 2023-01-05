@@ -1,33 +1,16 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import UserSearch from './UserSearch';
-import EachUser from '../user-info-page/EachUser';
+import EachUser from './EachUser';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCoins } from '../../api/api';
-
-const Header = styled.h1`
-  margin-top: 50px;
-  margin-bottom:50px;
-  font-weight: 700;
-  font-size : 46px;
-  color: #2c3e50;
-  position : relative;
-  span{
-    z-index : 1;
-    font-size : 35px;
-    position : absolute;
-    left : 20px;
-    top : 110px;
-    opacity : 0.5;
-  }
-`
 
 const UserList = styled.div`
   display: flex;
   flex-wrap : wrap;
   flex-direction: column;
   margin : 520px 150px;
-  background-color: #ecf0f1;
+  //background-color: #ecf0f1;
   border : none;
   padding : 20px 40px;
   width: 80%;
@@ -37,7 +20,7 @@ const UserList = styled.div`
 
 const Container = styled.div`
   margin: 0 auto;
-  padding-top: 70px;
+  padding-top: 100px;
   padding-left: 100px;
   height: 200vh;
   position: relative;
@@ -65,7 +48,6 @@ function AdminUserList(){
   })
   return(
     <Container>
-        <Header>User List</Header>
         <UserSearch value={search} onChange = {onChange} />
         <UserList>
         {

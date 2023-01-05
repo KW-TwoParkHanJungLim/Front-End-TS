@@ -1,29 +1,27 @@
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { CoinInterface } from "../main-page/MainPageList";
 import SensorAttribute from "./SensorAttribute";
 
+ 
 const Sensor = styled.div`
   display: flex;
   width: 100%;
   flex-wrap: wrap;
   flex-direction: column;
-  background-color: #ecf0f1;
-  border: 5px solid black;
+  background-color: white;
+  border: 3px solid black;
+  border-radius : 20px;
   padding: 15px 20px;
   margin-bottom: 20px;
   box-shadow: 3px 3px #c5c5c5;
-  overflow: auto;
-  &::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-    border-radius: 6px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #888888;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: white;
+  overflow: hidden;
+  span {
+    position: relative;
+    left:900px;
+    bottom: 30px;
+    opacity: 0.8;
   }
 `;
 
@@ -50,10 +48,18 @@ const Img = styled.img`
   margin-right: 10px;
 `;
 
+const SensorScroll = styled(motion.div)`
+  display: flex;
+  height: 160px;
+  flex-wrap: nowrap;
+`;
+
 interface DummyData {
-  name: string;
-  avg: number;
-  unit: string;
+  data: {
+    name: string;
+    avg: number;
+    unit: string; 
+  }[];
 }
 
 const dummyData = [
@@ -77,15 +83,22 @@ function EachSensor({ sensor, match }: CoinProps): React.ReactElement {
           {sensor.name}
         </Header>
       </Link>
+      <span>좌우로 드래그 가능</span>
       <SensorAttributeWrapper>
-        {dummyData.map((data, index) => (
-          <SensorAttribute
-            key={index}
-            name={data.name}
-            avg={data.avg}
-            unit={data.unit}
-          />
-        ))}
+        <SensorScroll 
+          drag="x"
+          dragConstraints={{ right: 0, left: -250 * (dummyData.length - 5) }}>
+          {dummyData.map((data, index) => (
+          <motion.div>
+            <SensorAttribute
+              key={index}
+              name={data.name}
+              avg={data.avg}
+              unit={data.unit}
+            />
+          </motion.div>
+          ))}
+        </SensorScroll>
       </SensorAttributeWrapper>
     </Sensor>
   );
