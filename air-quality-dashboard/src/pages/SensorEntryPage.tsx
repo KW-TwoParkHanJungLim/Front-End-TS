@@ -17,6 +17,7 @@ const Container = styled.div`
   height: 200vh;
   position: relative;
   width: 1300px;
+  margin-bottom: 100px;
 `;
 
 export interface CoinInterface {
