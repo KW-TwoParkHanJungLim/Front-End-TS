@@ -117,7 +117,7 @@ export function scoreTvoc(avg = 0) {
   } else if (avg > 600 && avg <= 2000) {
     score -= 30;
   } else {
-    score = 40;
+    score -= 40;
   }
 
   return Number(score.toFixed(0));
