@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
+import { IAvgData } from "../../pages/SensorEntryPage";
 import SensorEntryGraph from "./SensorEntryGraph";
+import SensorEntryLoading from "./SensorEntryLoading";
 
 const TodayAvgGraphContainer = styled.div`
   display: flex;
@@ -48,16 +50,14 @@ const TodayAvgGraph = styled(motion.div)`
   flex-wrap: nowrap;
 `;
 
-interface DummyData {
-  data: {
-    name: string;
-    avg: number;
-    score: number;
-  }[];
+export interface GraphData {
+  data: IAvgData[];
   type: string;
+  isLoading: boolean;
+  isError: boolean;
 }
 
-const GraphSlider = ({ data, type }: DummyData) => {
+const GraphSlider = ({ data, type, isLoading, isError }: GraphData) => {
   return (
     <TodayAvgGraphContainer>
       <TodayAvgGraphHeader>
@@ -65,21 +65,28 @@ const GraphSlider = ({ data, type }: DummyData) => {
         <h4>{"평균 측정 값을 확인하세요."}</h4>
         <span>좌우로 드래그 가능</span>
       </TodayAvgGraphHeader>
-      <TodayAvgGraph
-        drag="x"
-        dragConstraints={{ right: 0, left: -325 * (data.length - 4) }}
-      >
-        {data.map((data, index) => (
-          <motion.div>
-            <SensorEntryGraph
-              key={index}
-              name={data.name}
-              avg={data.avg}
-              score={data.score}
-            />
-          </motion.div>
-        ))}
-      </TodayAvgGraph>
+      {isError || isLoading ? (
+        <SensorEntryLoading isError={isError} isLoading={isLoading} />
+      ) : (
+        <TodayAvgGraph
+          drag="x"
+          dragConstraints={{ right: 0, left: -325 * (data.length - 4) }}
+        >
+          {data.map((data) => (
+            <motion.div key={data.name}>
+              <SensorEntryGraph
+                key={data.name}
+                name={data.name}
+                avg={Number(data.avg.toFixed(2))}
+                weekAvg={Number(data.weekAvg.toFixed(2))}
+                weekScore={data.weekScore}
+                score={data.score}
+                unit={data.unit}
+              />
+            </motion.div>
+          ))}
+        </TodayAvgGraph>
+      )}
     </TodayAvgGraphContainer>
   );
 };
