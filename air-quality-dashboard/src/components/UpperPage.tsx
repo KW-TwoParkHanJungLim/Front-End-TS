@@ -14,17 +14,17 @@ import 그래프 from "../assets/images/그래프.jpg";
 }*/
 
 const HomeUpper = styled.div`
-  position:fixed; width:100%; height:50px; background-color:#20c997;
+  position:fixed; width:100%; height:70px; background-color:#20c997;
   padding-right:20px; z-index:1;
   top: 0;
 `
 
 const Button = styled.img`
-  width:50px; height:50px; float:right;
+  width:70px; height:70px; float:right;
 `
 
 const Logo = styled.img`
-  width:250px; height:50px;
+  width:300px; height:70px;
 `
 
 export default function UpperPage(User : any) {

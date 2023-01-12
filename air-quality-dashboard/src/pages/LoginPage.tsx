@@ -14,6 +14,7 @@ const Login = styled.div`
 `
 
 const Loginlogo = styled.img`
+  position:relative; top:20px;
   width:70%; height:40%; margin-bottom:20px;
 `
 
