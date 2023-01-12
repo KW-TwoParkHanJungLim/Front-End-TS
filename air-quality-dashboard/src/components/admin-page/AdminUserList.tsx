@@ -4,6 +4,7 @@ import UserSearch from './UserSearch';
 import EachUser from './EachUser';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCoins } from '../../api/api';
+import { fetchUserList } from '../../api/api_jiwoo';
 
 const UserList = styled.div`
   display: flex;
@@ -37,9 +38,16 @@ export interface CoinInterface{
   type: string,
 }
 
+/*
+export interface ListInterface {
+  
+}
+*/
+
 function AdminUserList(){
   const [search, setSearch] = useState("");
-  const {data} = useQuery<CoinInterface[]>(["allCoins"], fetchCoins);
+  //const { Userlist } = useQuery<ListInterface>([], fetchUserList); 
+  const { data } = useQuery<CoinInterface[]>(["allCoins"], fetchCoins);
   const onChange = (e : React.FormEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value);
   };

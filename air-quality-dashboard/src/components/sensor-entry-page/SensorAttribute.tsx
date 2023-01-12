@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const SensorAttributeBox = styled.div`
   position:relative;
-  width: 185px;
+  width: 200px;
   height: 160px;
   margin-right:30px;
   border : 2px solid black;

@@ -30,8 +30,8 @@ type UserProps = {
 
 function EachUser({user} : UserProps){
   return (
-    <Link to= {`/admin/${user.name}/info`} state={{ User: 'admin', //사용자가 누군지에 따라 달라질 수 있도록 추후에 수정
-      Name: user.name, ID: '', PhoneNum: '', Email: ''
+    <Link to= {`/${user.id}/main`} state={{
+      UserId: user.id
     }}>
       <SensorAttributeBox>
         <Name>{user.name}</Name><br />
