@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SensorEntryGraph from "../components/sensor-entry-page/SensorEntryGraph";
 import Summary from "../components/sensor-entry-page/Summary";
 import GraphSlider from "../components/sensor-entry-page/GraphSlider";
-import Axios from "axios";
+
 import {
   scoreCo2,
   scoreHumi,
