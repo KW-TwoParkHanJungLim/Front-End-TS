@@ -1,5 +1,7 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import styled from "styled-components";
+import { getStatus } from "../../function/getStatus";
 
 const SummaryBox = styled.div`
   display: grid;
@@ -31,27 +33,63 @@ const SummaryEntry = styled.div`
   }
 `;
 
-const Circle = styled.div`
+const Circle = styled.div<{ color: string }>`
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: #20c997;
+  background-color: ${(props) => props.color};
   margin-right: 20px;
+`;
+
+const Icon = styled(FontAwesomeIcon)<{ color: string }>`
+  color: ${(props) => props.color};
+  margin-bottom: 4px;
+  font-size: 28px;
+  margin-right: 10px;
 `;
 
 interface IProp {
   type: string;
   score: number;
+  isLoading: boolean;
+  isError: boolean;
 }
 
-const Summary = ({ type, score }: IProp) => {
+function getFace(state: string, color: string, isError: boolean) {
+  if (isError) return <Icon icon="face-meh-blank" color={"grey"} />;
+
+  if (state === "매우좋음")
+    return <Icon icon="face-smile-beam" color={color} />;
+  else if (state === "좋음") return <Icon icon="face-smile" color={color} />;
+  else if (state === "보통") return <Icon icon="face-meh" color={color} />;
+  else if (state === "나쁨")
+    return <Icon icon="face-frown-open" color={color} />;
+  else if (state === "매우나쁨")
+    return <Icon icon="face-dizzy" color={color} />;
+}
+
+const Summary = ({ type, score, isError, isLoading }: IProp) => {
+  const color = getStatus(score).color[0];
+  const state = getStatus(score).state[0];
+
   return (
     <SummaryBox>
-      <span>{`Today ${type} Sensor Score`}</span>
-      <SummaryEntry>
-        <Circle />
-        <span>{score}</span>
-      </SummaryEntry>
+      <span>{`${type} Sensor Score`}</span>
+      {isLoading ? (
+        <SummaryEntry>
+          <span>Loading...</span>
+        </SummaryEntry>
+      ) : isError ? (
+        <SummaryEntry>
+          {getFace(state, color, isError)}
+          <span>Error</span>
+        </SummaryEntry>
+      ) : (
+        <SummaryEntry>
+          {getFace(state, color, isError)}
+          <span>{score}</span>
+        </SummaryEntry>
+      )}
     </SummaryBox>
   );
 };

@@ -1,5 +1,7 @@
 import ReactApexChart from "react-apexcharts";
 import styled from "styled-components";
+import { getStatus } from "../../function/getStatus";
+import { IAvgData } from "../../pages/SensorEntryPage";
 
 const GraphWrapper = styled.div`
   display: flex;
@@ -27,28 +29,22 @@ const Footer = styled.div`
   margin-top: 10px;
   font-size: 28px;
   opacity: 0.7;
+  span {
+    font-size: 12px;
+  }
 `;
 
-interface IData {
-  name: string;
-  avg: number;
-  score: number;
-}
+function SensorEntryGraph({
+  name,
+  avg,
+  score,
+  unit,
+  weekAvg,
+  weekScore,
+}: IAvgData) {
+  let state = getStatus(score).state;
+  let color = getStatus(score).color;
 
-function SensorEntryGraph({ name, avg, score }: IData) {
-  let state;
-  let color;
-
-  if (score >= 70) {
-    state = ["좋음"];
-    color = ["#20c997"];
-  } else if (score >= 40 && score < 70) {
-    state = ["보통"];
-    color = ["#f39c12"];
-  } else {
-    state = ["나쁨"];
-    color = ["#e74c3c"];
-  }
   return (
     <GraphWrapper>
       <Header>{name}</Header>
@@ -79,7 +75,10 @@ function SensorEntryGraph({ name, avg, score }: IData) {
           labels: state,
         }}
       />
-      <Footer>{avg}</Footer>
+      <Footer>
+        {`${avg}`}
+        <span>{unit}</span>
+      </Footer>
     </GraphWrapper>
   );
 }
