@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import React, { Component } from "react";
 import styled from 'styled-components';
 import { Link } from "react-router-dom";

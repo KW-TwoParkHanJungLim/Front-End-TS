@@ -4,6 +4,8 @@ import ReactDatePicker from "react-datepicker";
 import styled from "styled-components";
 import ChartAttribute from "./ChartAttribute";
 import { ko } from "date-fns/esm/locale";
+import { useQuery } from "@tanstack/react-query";
+import { fetchGraph } from "../../api/api";
 
 interface ChartProps {
   selectedSensors: string[];
@@ -96,6 +98,12 @@ function Chart(props: ChartProps) {
   const [chartTitle, setChartTitlle] = useState("센서를 선택하세요");
   const [startDate, setStartDate] = useState(new Date());
   const datas: any[] = []; //더미데이터
+  const { isLoading: graphLoading, data: graphData } = useQuery(
+    ["graph", 567],
+    fetchGraph
+  );
+
+  console.log(graphData);
 
   for (let i = 0; i <= 144; i++) {
     datas.push({

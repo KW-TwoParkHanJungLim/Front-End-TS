@@ -1,15 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { fetchCoinInfo, fetchCoins } from "../api/api";
+import { fetchCoinInfo, fetchCoins, fetchSensorAvg } from "../api/api";
 import UpperPage from "../components/UpperPage";
 import { ko } from "date-fns/esm/locale";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SensorEntryGraph from "../components/sensor-entry-page/SensorEntryGraph";
 import Summary from "../components/sensor-entry-page/Summary";
 import GraphSlider from "../components/sensor-entry-page/GraphSlider";
+
+import {
+  scoreCo2,
+  scoreHumi,
+  scorePM10,
+  scorePM25,
+  scoreTemp,
+  scoreTvoc,
+} from "../function/scoreCalculate";
 
 const Container = styled.div`
   margin: 0 auto;
@@ -100,22 +109,126 @@ const Calendar = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
+interface IAvg {
+  dayAvg: {
+    co2: number;
+    humi: number;
+    pm01: number;
+    pm10: number;
+    pm25: number;
+    temp: number;
+    tvoc: number;
+  };
+  weekAvg: {
+    co2: number;
+    humi: number;
+    pm01: number;
+    pm10: number;
+    pm25: number;
+    temp: number;
+    tvoc: number;
+  };
+}
+
+export interface IAvgData {
+  name: string;
+  avg: number;
+  weekAvg: number;
+  score: number;
+  weekScore: number;
+  unit: string;
+}
+
+function getToday(date: Date) {
+  let year = date.getFullYear();
+  let month = ("0" + (1 + date.getMonth())).slice(-2);
+  let day = ("0" + date.getDate()).slice(-2);
+
+  return `${year}-${month}-${day}`;
+}
+
 function SensorEntryPage() {
   const { sensorId } = useParams<keyof RouteParams>() as RouteParams;
   const [startDate, setStartDate] = useState(new Date());
+  const [avgs, setAvgs] = useState<IAvgData[]>([]);
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoInterface>(
     ["info", sensorId],
     () => fetchCoinInfo(sensorId)
   );
-  const dummyData = [
-    { name: "Temperature", avg: 36.5, score: 76.5 },
-    { name: "Humidity", avg: 37.0, score: 47.2 },
-    { name: "CO2", avg: 566.9, score: 81.2 },
-    { name: "PM2.5", avg: 8.2, score: 71.2 },
-    { name: "Whatever", avg: 9.2, score: 12.5 },
-    { name: "Normal", avg: 4.1, score: 43.7 },
-    { name: "CO2", avg: 566.9, score: 81.2 },
-  ];
+  const {
+    isLoading: testLoading,
+    data: testData,
+    isError,
+  } = useQuery<IAvg | undefined>(["test", startDate], () =>
+    fetchSensorAvg(getToday(startDate))
+  );
+
+  console.log(testData);
+
+  useEffect(() => {
+    if (!testLoading && !isError) {
+      setAvgs([
+        {
+          name: "Temperature",
+          avg: testData ? testData.dayAvg.temp : 0,
+          score: scoreTemp(testData?.dayAvg.temp, startDate.getMonth()),
+          weekAvg: testData ? testData.weekAvg.temp : 0,
+          weekScore: scoreTemp(testData?.weekAvg.temp, startDate.getMonth()),
+          unit: "°C",
+        },
+        {
+          name: "Humidity",
+          avg: testData ? testData.dayAvg.humi : 0,
+          score: scoreHumi(testData?.dayAvg.humi, 4),
+          weekAvg: testData ? testData.weekAvg.humi : 0,
+          weekScore: scoreHumi(testData?.weekAvg.humi, startDate.getMonth()),
+          unit: "%",
+        },
+        {
+          name: "CO2",
+          avg: testData ? testData.dayAvg.co2 : 0,
+          score: scoreCo2(testData?.dayAvg.co2),
+          weekAvg: testData ? testData.weekAvg.co2 : 0,
+          weekScore: scoreCo2(testData?.weekAvg.co2),
+          unit: "ppm",
+        },
+        {
+          name: "PM1.0",
+          avg: testData ? testData.dayAvg.pm01 : 0,
+          score: scorePM25(testData?.dayAvg.pm01),
+          weekAvg: testData ? testData.weekAvg.pm01 : 0,
+          weekScore: scorePM25(testData?.weekAvg.pm01),
+          unit: "㎍/m³",
+        },
+        {
+          name: "PM10",
+          avg: testData ? testData.dayAvg.pm10 : 0,
+          score: scorePM10(testData?.dayAvg.pm10),
+          weekAvg: testData ? testData.weekAvg.pm10 : 0,
+          weekScore: scorePM10(testData?.weekAvg.pm10),
+          unit: "㎍/m³",
+        },
+        {
+          name: "PM2.5",
+          avg: testData ? testData.dayAvg.pm25 : 0,
+          score: scorePM25(testData?.dayAvg.pm25),
+          weekAvg: testData ? testData.weekAvg.pm25 : 0,
+          weekScore: scorePM25(testData?.weekAvg.pm25),
+          unit: "㎍/m³",
+        },
+        {
+          name: "TVOC",
+          avg: testData ? testData.dayAvg.tvoc : 0,
+          score: scoreTvoc(testData?.dayAvg.tvoc),
+          weekAvg: testData ? testData.weekAvg.tvoc : 0,
+          weekScore: scoreTvoc(testData?.weekAvg.tvoc),
+          unit: "ppb",
+        },
+      ]);
+    } else {
+      setAvgs([]);
+    }
+  }, [testLoading, startDate]);
 
   return (
     <>
@@ -134,11 +247,43 @@ function SensorEntryPage() {
           />
         </Calendar>
         <SummaryContainer>
-          <Summary type="Today" score={71.3} />
-          <Summary type="Average" score={71.3} />
+          <Summary
+            type="Today"
+            isLoading={testLoading}
+            isError={isError}
+            score={Number(
+              (
+                avgs.reduce((acc, v) => {
+                  return acc + v.score;
+                }, 0) / avgs.length
+              ).toFixed(1)
+            )}
+          />
+          <Summary
+            type="Weekly"
+            isLoading={testLoading}
+            isError={isError}
+            score={Number(
+              (
+                avgs.reduce((acc, v) => {
+                  return acc + v.weekScore;
+                }, 0) / avgs.length
+              ).toFixed(1)
+            )}
+          />
         </SummaryContainer>
-        <GraphSlider data={dummyData} type="Today" />
-        <GraphSlider data={dummyData} type="Week" />
+        <GraphSlider
+          data={avgs}
+          type="Today"
+          isLoading={testLoading}
+          isError={isError}
+        />
+        <GraphSlider
+          data={avgs}
+          type="Weekly"
+          isLoading={testLoading}
+          isError={isError}
+        />
       </Container>
     </>
   );
