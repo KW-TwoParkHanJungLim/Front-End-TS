@@ -1,140 +1,9 @@
-  hr#TimeGraph_B {
-    border:2; color:#20c997;
-  }
-  
-  hr#TimeGraph_S {
-    float:left; width:99%;
-  }
-
-  h1 {
-    font-size:30px; text-align:left;
-  }
-
-  h2#TimeGraph_S {
-    float:left; font-size:25px;
-  }
-
-  h3 {
-    font-size:20px;
-  }
-
-  h3#UserInfo {
-    padding-bottom:30px; font-size:20px;
-  }
-
-  h4 {
-    font-size:15px; padding-top:10px;
-  }
-  
-  #로고 {
-    width:250px; height:50px; 
-    
-  }
-  
-  #우측상단 {
-    width:50px; height:50px; float:right;
-    
-  }
-  
+/*
+  충돌 일어날 페이지 부분 빼놓고 CSS 정리 완료
+*/
   .select {
     width:200px; height:30px; background-size:20px;
     padding: 5px 30px 5px 10px; border-radius:4px; margin-right:5em;
-  }
-  
-  #LoginLogo {
-    width:70%; height:40%; margin-bottom:20px;
-  }
-
-  #UserID, #UserPW {
-    width:70%; height:10%; font-size:20px; margin-top:10px;
-    border:2px solid black; border-radius:5px;
-  }
-  
-  #loginbutton {
-    width:100px; height:30px; font-size:18px; background-color:#20c997;
-    border:0; border-radius:5px; margin-top:20px; color:white; 
-  }
-  
-  .LoginPage {
-    display:flex; justify-content:center;
-  }
-  
-  #Login {
-    position:absolute; top:25%; width:550px; height:45%; text-align:center;
-    padding:10px; border:4px solid gray; border-radius:4px;
-  }
-  
-  .HomeUpper {
-    position:fixed; width:100%; height:50px; background-color:#20c997;
-    padding-right:20px; z-index:1;
-    top: 0;
-  }
-  
-  #MainPage_SelectSensor {
-    position:absolute; top:50px; width:100%; height:20px; 
-    padding-top:2%; padding-left:5%;
-  }
-  
-  #MainPage_List {
-    position:absolute; top:70px; width:1300px; height:100%; 
-    padding-top:10px; padding-left:30px; margin:5%; border:3px solid gray;
-  }
-
-  #MainPage_SensorPick {
-    position:absolute; top:75px; width:1300px; height:700px; 
-    padding-top:30px; padding-left:60px; margin:5%; border:3px solid gray;
-  }
-
-  #MainPage_DataPick {
-    position:absolute; top:100px; width:1100px; height:500px; 
-    padding-top:30px; padding-left:30px; border:3px solid gray;
-  }
-  
-  #MainPage_Sensor {
-    position:relative; top:2%; width:98%; height:200px; 
-    margin-bottom:10px; border:2px solid gray;
-  }
-  
-  #MainPage_SensorName {
-    position:relative; margin-top:10px; height:20px;
-  }
-  
-  #MainPage_SensorList {
-    position:relative; top:15px; left:15px;
-  }
-  
-  #EachData {
-    display:inline-block; top:25px; left:10px; width:130px; height:120px; 
-    text-align:center; padding-top:20px; border:1px solid gray;
-  }
-  
-  #TimeGraph_GraphLayer {
-    position:absolute; top:70px; left:40px; width:1450px; height:500px; border:2px solid gray;
-  }
-  
-  #TimeGraph_BottomPage {
-    position:absolute; top:580px; left:40px; width:1450px; height:300px;
-    text-align:center;
-  }
-  
-  #TimeGraph_SensorList {
-    position:absolute; top:15%; width:100%; height:80%; 
-    padding-left:10px; 
-  }
-  
-  #UserInfo_Main {
-    display:flex; justify-content: center; align-items: center; text-align:center;
-    position:absolute; width:100%; height:500px; top:100px;
-  }
-
-  #UserInfo_Update {
-    position: absolute; left: 700px; top: 500px; width:100px; height:30px; font-size:18px;    
-    border:0; border-radius:5px; color: white; background-color:#20c997; box-shadow:2px 2px lightgray;
-  }
-
-  .InfoText {
-    width:400px; height:40px; font-size:20px; background-size:40px;
-    padding: 5px 20px 5px 10px; border:0px; border-bottom:2px solid gray; margin-left:5em;
   }
   
   .ExportPage {
@@ -152,6 +21,6 @@
   }
 
   .FileSelect {
-    width:80%; height:px; background-size:15px;
+    width:80%; height:30px; background-size:15px;
     border:2px solid black;
   }

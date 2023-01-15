@@ -19,7 +19,7 @@ const Sensor = styled.div`
   overflow: hidden;
   span {
     position: relative;
-    left:900px;
+    left:1200px;
     bottom: 30px;
     opacity: 0.8;
   }
@@ -38,6 +38,7 @@ const Header = styled.div`
 `;
 
 type CoinProps = {
+  UserId: string;
   sensor: CoinInterface;
   match: boolean;
 };
@@ -62,20 +63,23 @@ interface DummyData {
   }[];
 }
 
+//dummyData 대신 실제 data 이용하여 값 띄울 수 있도록 코드 수정
+//단위(unit) 받을 수 있는 API 요청하기
+
 const dummyData = [
-  { name: "Temperature", avg: 36.5, unit: "°C", score: 76.5 },
-  { name: "Humidity", avg: 37.0, unit: "%", score: 47.2 },
-  { name: "CO2", avg: 566.9, unit: "ppm", score: 81.2 },
-  { name: "TVOC", avg: 8.2, unit: "ppb", score: 71.2 },
-  { name: "PM01", avg: 9.2, unit: "㎍/㎡", score: 12.5 },
-  { name: "PM2.5", avg: 4.1, unit: "㎍/㎡", score: 43.7 },
-  { name: "PM10", avg: 566.9, unit: "㎍/㎡", score: 81.2 },
+  { name: "Temperature", avg: 36.5, unit: "°C" },
+  { name: "Humidity", avg: 37.0, unit: "%" },
+  { name: "CO2", avg: 566.9, unit: "ppm" },
+  { name: "TVOC", avg: 8.2, unit: "ppb" },
+  { name: "PM01", avg: 9.2, unit: "㎍/㎡" },
+  { name: "PM2.5", avg: 4.1, unit: "㎍/㎡" },
+  { name: "PM10", avg: 566.9, unit: "㎍/㎡" },
 ];
 
-function EachSensor({ sensor, match }: CoinProps): React.ReactElement {
+function EachSensor({ UserId, sensor, match }: CoinProps): React.ReactElement {
   return (
     <Sensor>
-      <Link to={`/user/${sensor.id}`}>
+      <Link to={`/${UserId}/${sensor.id}`}>
         <Header>
           <Img
             src={`https://coinicons-api.vercel.app/api/icon/${sensor.symbol.toLowerCase()}`}
@@ -87,7 +91,7 @@ function EachSensor({ sensor, match }: CoinProps): React.ReactElement {
       <SensorAttributeWrapper>
         <SensorScroll 
           drag="x"
-          dragConstraints={{ right: 0, left: -250 * (dummyData.length - 5) }}>
+          dragConstraints={{ right: 0, left: -250 * (dummyData.length - 6) }}>
           {dummyData.map((data, index) => (
           <motion.div>
             <SensorAttribute

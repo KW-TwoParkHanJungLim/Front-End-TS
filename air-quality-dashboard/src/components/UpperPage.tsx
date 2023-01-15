@@ -1,6 +1,7 @@
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUser } from "../api/api_jiwoo";
 import styled from "styled-components";
-import "../styles/Div.css";
 import { Link } from "react-router-dom";
 import 로고 from "../assets/images/로고.jpg";
 import 로그아웃 from "../assets/images/로그아웃.jpg";
@@ -8,90 +9,67 @@ import 회원정보 from "../assets/images/회원정보.jpg";
 import 엑셀 from "../assets/images/엑셀.jpg";
 import 그래프 from "../assets/images/그래프.jpg";
 
-const List = styled.div`
-  position: absolute;
-  top: 15px;
-  left: 25%;
-  width: 50%;
-  display: flex;
-  justify-content: center;
-  color: white;
-  font-size: 20px;
-`;
+/*export interface Info {
+  id : string;
+}*/
 
-const UserInfo = {
-  User: "ADMIN", //사용자가 누구냐에 따라 바뀔 수 있게 추후에 수정
-  Name: "사용자",
-  ID: "USER",
-  PhoneNum: "01012345678",
-  Email: "user@gmail.com",
-};
+const HomeUpper = styled.div`
+  position:fixed; width:100%; height:70px; background-color:#20c997;
+  padding-right:20px; z-index:1;
+  top: 0;
+`
 
-export default function UpperPage() {
-  const diffLayer = () => {
-    if (UserInfo.User === "ADMIN") {
+const Button = styled.img`
+  width:70px; height:70px; float:right;
+`
+
+const Logo = styled.img`
+  width:300px; height:70px;
+`
+
+export default function UpperPage(User : any) {
+  //const { UserInfo } = useQuery<Info[]>([], fetchUser); //API 통해 사용자 정보 가져오기
+  const UserInfo = {
+    Name: "사용자",
+    ID: "ADMIN",
+    PhoneNum: "01012345678",
+    Email: "user@gmail.com",
+  };
+
+  const diffLogo = () => {
+    if(UserInfo.ID === "ADMIN") {
       return (
-        <div>
-          <List>
-            <Link to="/admin/userlist">사용자 리스트</Link>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <Link to="/admin/main">센서 리스트</Link>
-          </List>
-          <Link to="/user/main">
-            <img src={로고} id="로고" alt="logo"></img>
-          </Link>
-          <Link to="/">
-            <img src={로그아웃} id="우측상단" alt="logout"></img>
-          </Link>
-          <Link
-            to="/user/info"
-            state={{
-              Name: UserInfo.Name,
-              ID: UserInfo.ID,
-              PhoneNum: UserInfo.PhoneNum,
-              Email: UserInfo.Email,
-            }}
-          >
-            <img src={회원정보} id="우측상단" alt="user"></img>
-          </Link>
-          <Link to="/user/export">
-            <img src={엑셀} id="우측상단" alt="excel"></img>
-          </Link>
-          <Link to="/user/graph">
-            <img src={그래프} id="우측상단" alt="graph"></img>
-          </Link>
-        </div>
+        <Link to ="/admin/userlist">
+          <Logo src={로고} alt="logo" onClick = {diffLogo} />
+        </Link>
       );
     } else {
       return (
-        <div>
-          <Link to="/user/main">
-            <img src={로고} id="로고" alt="logo"></img>
-          </Link>
-          <Link to="/">
-            <img src={로그아웃} id="우측상단" alt="logout"></img>
-          </Link>
-          <Link
-            to="/user/info"
-            state={{
-              Name: UserInfo.Name,
-              ID: UserInfo.ID,
-              PhoneNum: UserInfo.PhoneNum,
-              Email: UserInfo.Email,
-            }}
-          >
-            <img src={회원정보} id="우측상단" alt="user"></img>
-          </Link>
-          <Link to="/user/export">
-            <img src={엑셀} id="우측상단" alt="excel"></img>
-          </Link>
-          <Link to="/user/graph">
-            <img src={그래프} id="우측상단" alt="graph"></img>
-          </Link>
-        </div>
+        <Link to ={`/${UserInfo.ID}/main`}>
+          <Logo src={로고} alt="logo" onClick = {diffLogo} />
+        </Link>
       );
     }
-  };
+  }
 
-  return <div className="HomeUpper">{diffLayer()}</div>;
+  //로그아웃 기능 연결되면 Link 지우기
+  return (
+    <HomeUpper>
+      <form action='/logout' method='post'>
+        {diffLogo()}
+        <Link to="/">
+          <Button src={로그아웃} alt="logout" />
+        </Link>
+        <Link to={`/${UserInfo.ID}/info`} state={{UserInfo: UserInfo}}>
+          <Button src={회원정보} alt="user" />
+        </Link>
+        <Link to={`/${UserInfo.ID}/export`}>
+          <Button src={엑셀} alt="excel" />
+        </Link>
+        <Link to={`/${UserInfo.ID}/graph`}>
+          <Button src={그래프} alt="graph" />
+        </Link>
+      </form>
+    </HomeUpper>
+  );
 }

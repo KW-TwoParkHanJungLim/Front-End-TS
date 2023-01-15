@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {useLocation} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 import styled from 'styled-components';
 
 const Header = styled.h1`
@@ -18,58 +18,35 @@ const Header = styled.h1`
   }
 `;
 
+const H3 = styled.h3`
+    padding-bottom:30px; font-size:20px;
+`
+
+const InfoText = styled.input`
+    width:400px; height:50px; font-size:20px; background-size:40px;
+    padding: 5px 20px 5px 10px; border:0px; border-bottom:2px solid gray; margin-left:5em;
+`
+
+const Back = styled.button`
+    position: absolute; left: 880px; top: 600px; width:120px; height:40px; font-size:20px;    
+    border:0; border-radius:5px; color: white; background-color:#20c997; box-shadow:2px 2px lightgray;
+`
+
 function UserInfo() {
     const location = useLocation();
-    const User = location.state.User;
-    const [Inputs, setInputs] = useState({
-        Name: location.state.Name,
-        ID: location.state.ID,
-        PhoneNum: location.state.PhoneNum,
-        Email: location.state.Email
-    });
-
-    const { Name, ID, PhoneNum, Email } = Inputs;
-
-    const handleChange = (e:any) => {
-        const { value, name } = e.target;
-        setInputs({
-            ...Inputs,
-            [name]: value
-        });
-    };
-    
-    const handleUpdate = (e:any) => {
-        if(Name === '')
-            alert("이름을 입력하세요.");
-        else if(ID === '')
-            alert("아이디를 입력하세요.");
-        else if(PhoneNum === '')
-            alert("올바른 형식의 전화번호를 입력하세요.");
-        else if(Email === '')
-            alert("이메일을 입력하세요.");
-        else {
-            alert("정보 수정 완료.");
-            e.preventDefault();
-            //DB에 넣는 코드 추가
-        }
-    }
-
-
-    var Title;
-    if(User === 'admin') {
-        Title = '사용자 프로필'
-    } else {
-        Title = '내 프로필'
+    const UserInfo = location.state.UserInfo; //상단 바의 사용자 버튼 클릭 시 넘어오는 사용자 정보
+    const Goback = () => {
+        window.history.back();
     }
     
     return(
         <div>
-            <Header>{Title}</Header>
-            <h3 id="UserInfo">이름 &nbsp;&nbsp;&nbsp;<input type='text' name="Name" value={Name} className="InfoText" onChange={handleChange}></input><p /><br /></h3>
-            <h3 id="UserInfo">아이디 <input type='text' name="ID" value={ID} className="InfoText" onChange={handleChange}></input><p /><br /></h3>
-            <h3 id="UserInfo">연락처 <input type='text' name="PhoneNum" value={PhoneNum} className="InfoText" onChange={handleChange}></input><p /><br /></h3>
-            <h3 id="UserInfo">이메일 <input type='text' name="Email" value={Email} className="InfoText" onChange={handleChange}></input><p /><br /></h3>
-            <button value="update" id="UserInfo_Update" onClick={handleUpdate}>수정</button>
+            <Header>내 프로필</Header>
+            <H3>이름 &nbsp;&nbsp;&nbsp;<InfoText type='text' name="Name" value={UserInfo.Name} disabled /><p /><br /></H3>
+            <H3>아이디 <InfoText type='text' name="ID" value={UserInfo.ID} disabled /><p /><br /></H3>
+            <H3>연락처 <InfoText type='text' name="PhoneNum" value={UserInfo.PhoneNum} disabled /><p /><br /></H3>
+            <H3>이메일 <InfoText type='text' name="Email" value={UserInfo.Email} disabled /><p /><br /></H3>
+            <Back onClick={Goback}>뒤로가기</Back>
         </div>
     );
 }
