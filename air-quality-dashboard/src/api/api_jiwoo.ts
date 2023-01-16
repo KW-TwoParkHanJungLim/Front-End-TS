@@ -1,4 +1,4 @@
-export function fetchMain(UserId : any) {
+export function fetchMain(UserId : string) {
     return fetch(`/main?userId=${UserId}`).then((response) =>
         response.json()
     );

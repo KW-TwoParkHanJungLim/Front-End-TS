@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useLocation } from 'react-router-dom';
+//import { useLocation } from 'react-router-dom';
 import styled from "styled-components";
 import EachSensor from "../sensor-entry-page/EachSensor";
 import { useQuery } from "@tanstack/react-query";
-import { fetchCoins } from "../../api/api";
+//import { fetchCoins } from "../../api/api";
+import { fetchMain } from "../../api/api_jiwoo";
 import SensorSearch from "../sensor-entry-page/SensorSearch";
 
 
@@ -38,21 +39,21 @@ export interface CoinInterface {
   type: string;
 }
 
-/*
-export interface MainInterface {
+export interface sensorlist {
   sensorName: string;
+  sensorId: string;
   logtime: string;
-  airData: {
-    temp: Number;
-    humi: Number;
-    co2: Number;
-    tvoc: Number;
-    pm01: Number;
-    pm25: Number;
-    pm10: Number;
-  }
+  airData: any;
 }
-*/
+
+export interface MainInterface {
+  unit: {
+    name: string;
+    value: string;
+  }; 
+  sensorInfoList: sensorlist [];
+} 
+
 
 function MainPage_List() {
   const [search, setSearch] = useState("");
@@ -70,23 +71,26 @@ function MainPage_List() {
     UserId = location.state.UserId;
   }
   */
-  //const { data } = useQuery<MainInterface>([UserId], fetchMain(UserId)); //API 통해 메인화면 정보 가져오기
-  const { data } = useQuery<CoinInterface[]>(["allCoins"], fetchCoins);
+ //const { data } = useQuery<CoinInterface[]>(["allCoins"], fetchCoins);
+  const UserId: string = "axr-inducwon";
+  const { data } = useQuery<MainInterface>([UserId], () => fetchMain(UserId));
   const onChange = (e: React.FormEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value);
   };
-  const filterTitle = data?.slice(0, 50).filter((p) => {
-    return p.name.toLocaleLowerCase().includes(search.toLocaleLowerCase());
+  
+  const filterTitle = data?.sensorInfoList?.slice(0, 50).filter((p) => {
+    return p.sensorName.toLocaleLowerCase().includes(search.toLocaleLowerCase());
   });
   return (
     <Container>
       <SensorList>
         {filterTitle?.map((sensor) => (
           <EachSensor
-            UserId={UserInfo.Id}
-            key={sensor.id}
+            UserId={UserId}
+            key={sensor.sensorId}
+            unit={data?.unit}
             sensor={sensor}
-            match={selectedSensors.includes(sensor.name)}
+            match={selectedSensors.includes(sensor.sensorName)}
           />
         ))}
       </SensorList>
@@ -96,3 +100,4 @@ function MainPage_List() {
 }
 
 export default MainPage_List;
+
