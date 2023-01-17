@@ -14,11 +14,10 @@ const Container = styled.div`
 
 function TimeGraph() {
   const [selectedSensor, setSelectedSensor] = useState<string[]>([]);
-
   return (
     <>
       <div className="MainPage">
-        <UpperPage></UpperPage>
+        <UpperPage />
       </div>
       <Container>
         <ChartSensorList

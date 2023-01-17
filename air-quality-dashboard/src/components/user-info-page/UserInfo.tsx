@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {useNavigate, useLocation} from 'react-router-dom';
+import { fetchUser } from '../../api/api_jiwoo';
+import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 
 const Header = styled.h1`
@@ -34,7 +36,8 @@ const Back = styled.button`
 
 function UserInfo() {
     const location = useLocation();
-    const UserInfo = location.state.UserInfo; //상단 바의 사용자 버튼 클릭 시 넘어오는 사용자 정보
+    const UserId = location.state.UserId; //상단 바의 사용자 버튼 클릭 시 넘어오는 사용자 정보
+    const UserInfo = useQuery<any>([UserId], () => fetchUser(UserId));
     const Goback = () => {
         window.history.back();
     }
@@ -42,10 +45,10 @@ function UserInfo() {
     return(
         <div>
             <Header>내 프로필</Header>
-            <H3>이름 &nbsp;&nbsp;&nbsp;<InfoText type='text' name="Name" value={UserInfo.Name} disabled /><p /><br /></H3>
-            <H3>아이디 <InfoText type='text' name="ID" value={UserInfo.ID} disabled /><p /><br /></H3>
-            <H3>연락처 <InfoText type='text' name="PhoneNum" value={UserInfo.PhoneNum} disabled /><p /><br /></H3>
-            <H3>이메일 <InfoText type='text' name="Email" value={UserInfo.Email} disabled /><p /><br /></H3>
+            <H3>이름 &nbsp;&nbsp;&nbsp;<InfoText type='text' name="Name" value={UserInfo.data.name} disabled /><p /><br /></H3>
+            <H3>아이디 <InfoText type='text' name="ID" value={UserInfo.data.id} disabled /><p /><br /></H3>
+            <H3>연락처 <InfoText type='text' name="PhoneNum" value={UserInfo.data.phone} disabled /><p /><br /></H3>
+            <H3>이메일 <InfoText type='text' name="Email" value={UserInfo.data.email} disabled /><p /><br /></H3>
             <Back onClick={Goback}>뒤로가기</Back>
         </div>
     );

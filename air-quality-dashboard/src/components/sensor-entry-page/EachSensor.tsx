@@ -46,12 +46,11 @@ type MainProps = {
   match: boolean;
 };
 
-
-const Img = styled.img`
+/*const Img = styled.img`
   width: 25px;
   height: 25px;
   margin-right: 10px;
-`;
+`;*/
 
 const SensorScroll = styled(motion.div)`
   display: flex;
@@ -103,6 +102,7 @@ function EachSensor({ UserId, unit, sensor, match }: MainProps): React.ReactElem
           {Data.map((p: any) => (
           <motion.div>
             <SensorAttribute
+              key={p._name}
               name={p._name}
               value={p._value}
               unit={p._unit}

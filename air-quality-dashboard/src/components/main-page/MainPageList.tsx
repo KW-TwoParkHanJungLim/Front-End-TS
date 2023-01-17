@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-//import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import styled from "styled-components";
 import EachSensor from "../sensor-entry-page/EachSensor";
 import { useQuery } from "@tanstack/react-query";
@@ -59,20 +59,19 @@ function MainPage_List() {
   const [search, setSearch] = useState("");
   const [selectedSensors, setselectedSensors] = useState<string[]>([]);
   const UserInfo = {
-    Id: "USER"
+    Id: "axr-inducwon"
   };
-  //const location = useLocation();
-  //var UserId;
   //const { UserInfo } = useQuery<Info[]>([], fetchUser); //API 통해 사용자 정보 가져오기
-  /*
-  if(location.state.UserId === null) { //일반 사용자가 로그인해 메인 화면을 보게 되는 경우
-    UserId = UserInfo.ID;
+  const location = useLocation();
+  var UserId : string;
+  if(location.state === null) { //일반 사용자가 로그인해 메인 화면을 보게 되는 경우
+    UserId = UserInfo.Id;
   } else { //관리자가 사용자 리스트에서 사용자를 선택하여 그의 메인 리스트를 보게 되는 경우
     UserId = location.state.UserId;
   }
-  */
- //const { data } = useQuery<CoinInterface[]>(["allCoins"], fetchCoins);
-  const UserId: string = "axr-inducwon";
+  
+  //const { data } = useQuery<CoinInterface[]>(["allCoins"], fetchCoins);
+  //const UserId: string = "axr-inducwon";
   const { data } = useQuery<MainInterface>([UserId], () => fetchMain(UserId));
   const onChange = (e: React.FormEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value);
