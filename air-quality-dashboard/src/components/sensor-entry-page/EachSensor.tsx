@@ -77,7 +77,7 @@ function EachSensor({ UserId, unit, sensor, match }: MainProps): React.ReactElem
   var i;
   for(i=0; i<7; i++)  {
     var values;
-    if(getValues[i] == null) values = "null";
+    if(getValues[i] == null) values = "-";
     else values = getValues[i];
     Data.push({_name: unit[i].name, _value: values, _unit: unit[i].value})
   }
