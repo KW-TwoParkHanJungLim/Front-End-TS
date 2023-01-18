@@ -4,11 +4,19 @@ import ReactDatePicker from "react-datepicker";
 import styled from "styled-components";
 import ChartAttribute from "./ChartAttribute";
 import { ko } from "date-fns/esm/locale";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import Axios from "axios";
+import { NumberFormat } from "xlsx";
+import { getUnit } from "../../function/getUnit";
+import ChartLoading from "./ChartLoading";
+import { getToday } from "../../pages/SensorEntryPage";
 import { fetchGraph } from "../../api/api";
+import ChartError from "./ChartError";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface ChartProps {
   selectedSensors: string[];
+  selectedSensorId: string[];
 }
 
 const Container = styled.div`
@@ -23,7 +31,9 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  background-color: #ecf0f1;
+  background-color: white;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 50px;
   margin-top: 50px;
 `;
@@ -74,12 +84,7 @@ const AttrList = [
   "Temperature",
   "Humidity",
   "CO2",
-  "HCHO",
   "TVOC",
-  "LPG",
-  "CO",
-  "Smoke",
-  "O3",
   `PM
   1.0`,
   `PM
@@ -88,49 +93,76 @@ const AttrList = [
   10.0`,
 ];
 
-/*더미데이터*/
-const tenMinutes = 600000;
-const date = new Date("2010/07/24/00:00");
-const timestamp = date.getTime();
+interface IGraph {
+  s_id: string;
+  logtime: string;
+  value: number;
+  avg?: number;
+}
 
-function Chart(props: ChartProps) {
+function Chart({ selectedSensors, selectedSensorId }: ChartProps) {
   const [selectedAttr, setSelectedAttr] = useState("Temperature");
   const [chartTitle, setChartTitlle] = useState("센서를 선택하세요");
   const [startDate, setStartDate] = useState(new Date());
-  const datas: any[] = []; //더미데이터
-  const { isLoading: graphLoading, data: graphData } = useQuery(
-    ["graph", 567],
-    fetchGraph
+  const [datas, setDatas] = useState<any[][]>();
+  const { isLoading, data, isError } = useQuery<IGraph[][]>(
+    ["allSensors", selectedSensors, startDate, selectedAttr],
+    () =>
+      fetchGraph(
+        "axr-inducwon",
+        getToday(startDate),
+        selectedSensorId,
+        selectedAttr
+          .toLowerCase()
+          .replace("1.0", "01")
+          .replace(/[\s\.]/g, "")
+          .substring(0, 4)
+      ),
+    {
+      enabled: selectedSensors.length > 0,
+    }
   );
 
-  console.log(graphData);
+  console.log(selectedAttr);
 
-  for (let i = 0; i <= 144; i++) {
-    datas.push({
-      x: timestamp + tenMinutes * i,
-      y: i + 1,
-    });
-  }
+  useEffect(() => {
+    if (data && !isLoading) {
+      const newDatas: any[][] = [];
+      for (let i = 0; i < data.length; i++) {
+        newDatas.push([]);
+        for (let j = 0; j < data[i].length - 1; j++) {
+          const newData = {
+            x: data[i][j].logtime,
+            y: Number(data[i][j].value.toFixed(2)),
+          };
+          newDatas[i].push(newData);
+        }
+      }
+      setDatas(newDatas);
+    } else if (isError) {
+      setDatas(undefined);
+    }
+  }, [isLoading, selectedAttr, isError]);
 
   const onClickAttribute = (attr: string) => {
     setSelectedAttr(attr);
   };
+  console.log(selectedAttr);
 
   const titleFormatter = () => {
     let ret = "";
 
-    if (props.selectedSensors.length === 0) {
+    if (selectedSensors.length === 0) {
       setChartTitlle("센서를 선택하세요");
       return;
     }
 
-    for (let i = 0; i < props.selectedSensors.length; i++) {
-      ret += ` | ${props.selectedSensors[i]}`;
+    for (let i = 0; i < selectedSensors.length; i++) {
+      ret += ` | ${selectedSensors[i]}`;
     }
     setChartTitlle(ret);
   };
-
-  useEffect(titleFormatter, [props.selectedSensors]);
+  useEffect(titleFormatter, [selectedSensors]);
 
   return (
     <Container>
@@ -141,7 +173,7 @@ function Chart(props: ChartProps) {
         selectsStart
         dateFormat={" yyyy / MM / dd"}
         locale={ko}
-      />
+      ></SDatePicker>
       <Wrapper>
         <AttributeList>
           {AttrList.map((attr, idx) => (
@@ -150,93 +182,111 @@ function Chart(props: ChartProps) {
               name={attr}
               index={idx}
               isSelected={selectedAttr === attr}
+              key={attr}
             ></ChartAttribute>
           ))}
         </AttributeList>
         <ChartWrapper>
-          <ReactApexChart
-            width={"100%"}
-            type="line"
-            series={props.selectedSensors.map((sensor) => {
-              return {
-                name: sensor,
-                data: datas,
-              };
-            })}
-            options={{
-              title: {
-                text: `${chartTitle}`,
-                align: "left",
-                style: {
-                  fontSize: "28px",
+          {!isLoading && datas ? (
+            <ReactApexChart
+              width={"100%"}
+              type="line"
+              series={selectedSensors.map((sensor, index) => {
+                if (datas[index]) {
+                  return {
+                    name: sensor,
+                    data: datas[index],
+                  };
+                } else
+                  return {
+                    name: sensor,
+                    data: [],
+                  };
+              })}
+              options={{
+                title: {
+                  text: `${selectedAttr}`,
+                  align: "left",
+                  style: {
+                    fontSize: "28px",
+                  },
                 },
-              },
-              subtitle: {
-                text: `${selectedAttr}`,
-                style: {
-                  fontSize: "20px",
-                  fontWeight: "bold",
+                stroke: {
+                  curve: "straight",
+                  width: 4,
                 },
-                offsetY: 40,
-              },
-              chart: {
-                toolbar: {
-                  show: false,
+
+                chart: {
+                  toolbar: {
+                    show: false,
+                  },
+                  zoom: {
+                    enabled: false,
+                  },
+                  animations: {
+                    enabled: false,
+                  },
                 },
-              },
-              grid: {
-                borderColor: "rgba(0,0,0,0.4)",
-              },
-              xaxis: {
-                type: "numeric",
+                grid: {
+                  borderColor: "rgba(0,0,0,0.4)",
+                },
+                xaxis: {
+                  tooltip: {
+                    enabled: false,
+                  },
+                  tickAmount: 12,
+                  labels: {
+                    style: {
+                      fontSize: "13px",
+                    },
+                    formatter: function (value: string) {
+                      if (typeof value === "string") {
+                        return value.split("T")[1].split(".")[0];
+                      }
+                      return `${value}`;
+                    },
+                  },
+                  axisTicks: {
+                    color: "rgba(0,0,0,0.4)",
+                  },
+                },
+                yaxis: {
+                  labels: {
+                    style: {
+                      colors: "rgba(0,0,0,1)",
+                      fontSize: "14px",
+                    },
+                    formatter: function (value: number) {
+                      return `${value.toFixed(2)} ${getUnit(
+                        selectedAttr
+                          .toLowerCase()
+                          .replace("1.0", "01")
+                          .replace(/[\s\.]/g, "")
+                          .substring(0, 4)
+                      )}`;
+                    },
+                  },
+                },
                 tooltip: {
-                  enabled: false,
-                },
-                tickAmount: 12,
-                labels: {
-                  formatter: function (value: string) {
-                    const v = parseInt(value);
-                    const d = new Date(v);
-                    return `${
-                      d.getHours() >= 12 ? "오후" : "오전"
-                    } ${d.getHours()}시`;
-                  },
-                  style: {
-                    fontSize: "13px",
+                  x: {
+                    show: true,
                   },
                 },
-                axisTicks: {
-                  color: "rgba(0,0,0,0.4)",
+
+                legend: {
+                  show: true,
+                  position: "top",
+                  horizontalAlign: "right",
+                  offsetY: -40,
+                  fontSize: "14px",
                 },
-              },
-              yaxis: {
-                labels: {
-                  style: {
-                    colors: "rgba(0,0,0,1)",
-                    fontSize: "14px",
-                  },
-                  formatter: function (value: number) {
-                    return `${value} 단위`;
-                  },
-                },
-              },
-              tooltip: {
-                x: {
-                  formatter: function (value: number) {
-                    const date = new Date(value);
-                    return date.toLocaleTimeString();
-                  },
-                },
-              },
-              legend: {
-                show: true,
-                position: "top",
-                horizontalAlign: "right",
-                offsetY: -40,
-                fontSize: "14px",
-              },
-            }}
-          />
+              }}
+            />
+          ) : isError ? (
+            <ChartError />
+          ) : (
+            <ChartLoading selectedSensor={selectedSensors} />
+          )}
         </ChartWrapper>
       </Wrapper>
     </Container>
