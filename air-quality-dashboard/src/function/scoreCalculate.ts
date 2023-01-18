@@ -122,3 +122,29 @@ export function scoreTvoc(avg = 0) {
 
   return Number(score.toFixed(0));
 }
+
+interface IData {
+  temp: number;
+  humi: number;
+  co2: number;
+  tvoc: number;
+  pm01: number;
+  pm25: number;
+  pm10: number;
+}
+
+export function scoreTotal(data: IData, month: number) {
+  const avg = [];
+  avg.push(scoreTemp(data?.temp, month));
+  avg.push(scoreHumi(data?.humi, month));
+  avg.push(scoreCo2(data?.co2));
+  avg.push(scorePM10(data?.pm01));
+  avg.push(scorePM25(data?.pm25));
+  avg.push(scoreTvoc(data?.tvoc));
+
+  const sum = avg.reduce((acc, v) => {
+    return acc + v;
+  }, 0);
+
+  return sum / avg.length;
+}

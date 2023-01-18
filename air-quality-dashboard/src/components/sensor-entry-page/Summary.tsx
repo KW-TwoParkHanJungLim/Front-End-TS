@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import styled from "styled-components";
+import { getFace } from "../../function/getIcon";
 import { getStatus } from "../../function/getStatus";
 
 const SummaryBox = styled.div`
@@ -53,19 +54,6 @@ interface IProp {
   score: number;
   isLoading: boolean;
   isError: boolean;
-}
-
-export function getFace(state: string, color: string, isError: boolean) {
-  if (isError) return <Icon icon="face-meh-blank" color={"grey"} />;
-
-  if (state === "매우좋음")
-    return <Icon icon="face-smile-beam" color={color} />;
-  else if (state === "좋음") return <Icon icon="face-smile" color={color} />;
-  else if (state === "보통") return <Icon icon="face-meh" color={color} />;
-  else if (state === "나쁨")
-    return <Icon icon="face-frown-open" color={color} />;
-  else if (state === "매우나쁨")
-    return <Icon icon="face-dizzy" color={color} />;
 }
 
 const Summary = ({ type, score, isError, isLoading }: IProp) => {

@@ -23,8 +23,13 @@ function TimeGraph() {
         <ChartSensorList
           selectedSensor={selectedSensor}
           setSelectedSensor={setSelectedSensor}
+          selectedSensorId={selectedSensorId}
+          setSelectedSensorId={setSelectedSensorId}
         />
-        <Chart selectedSensors={selectedSensor} />
+        <Chart
+          selectedSensors={selectedSensor}
+          selectedSensorId={selectedSensorId}
+        />
       </Container>
     </>
   );

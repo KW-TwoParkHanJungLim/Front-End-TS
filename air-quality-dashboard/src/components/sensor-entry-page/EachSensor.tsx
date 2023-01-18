@@ -10,7 +10,7 @@ import { sensorlist } from "../main-page/MainPageList";
 import SensorAttribute from "./SensorAttribute";
 import { getStatus } from "../../function/getStatus";
 import { IAvg, IAvgData, getToday } from "../../pages/SensorEntryPage";
-import { getFace } from "./Summary";
+import { getFace } from '../../function/getIcon';
 import {
   scoreCo2,
   scoreHumi,
