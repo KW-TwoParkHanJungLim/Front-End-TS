@@ -1,10 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
-import { fetchCoins } from "../../api/api";
+import { fetchCoins, fetchGraphSensorList } from "../../api/api";
 import { CoinInterface } from "../main-page/MainPageList";
 import AttributePreview from "./AttributePreiview";
 import SensorSearch from "../sensor-entry-page/SensorSearch";
+import { getToday } from "../../pages/SensorEntryPage";
+import { getFace } from "../../function/getIcon";
+import { scoreTotal } from "../../function/scoreCalculate";
+import { getStatus } from "../../function/getStatus";
 
 const Container = styled.div`
   width: 1700px;
@@ -41,7 +45,7 @@ const SensorList = styled.ul`
   grid-template-rows: repeat(4, 1fr);
   gap: 10px;
   width: 1900px;
-  height: 400px;
+  height: 450px;
   overflow: scroll;
   overflow-x: hidden;
   padding-right: 10px;
@@ -66,8 +70,14 @@ const Notification = styled.span`
 `;
 
 const Sensor = styled.li<{ match: boolean }>`
-  background-color: ${(props) => (props.match ? "#20c997" : "#ecf0f1")};
-  color: ${(props) => props.theme.textColor};
+  background-color: "white";
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  &:hover {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  }
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  color: ${(props) =>
+    props.match ? props.theme.accentColor : props.theme.textColor};
   font-weight: 600;
   border-radius: 10px;
   display: flex;
@@ -75,19 +85,17 @@ const Sensor = styled.li<{ match: boolean }>`
   padding: 20px;
 
   &:hover {
-    color: ${(props) => (props.match ? "white" : props.theme.accentColor)};
+    color: ${(props) => props.theme.accentColor};
   }
   cursor: pointer;
   height: 90px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-`;
 
-const Img = styled.img`
-  width: 25px;
-  height: 25px;
-  margin-right: 10px;
+  span {
+    margin-bottom: 5px;
+  }
 `;
 
 const Loading = styled.div`
@@ -103,13 +111,36 @@ const Loading = styled.div`
 interface IProp {
   selectedSensor: string[];
   setSelectedSensor: Dispatch<SetStateAction<string[]>>;
+  selectedSensorId: string[];
+  setSelectedSensorId: Dispatch<SetStateAction<string[]>>;
 }
 
-const ChartSensorList = ({ selectedSensor, setSelectedSensor }: IProp) => {
-  const { isLoading, data } = useQuery<CoinInterface[]>(
-    ["allCoins"],
-    fetchCoins
+interface ISensor {
+  sensorName: string;
+  sensorId: string;
+  logtime: string;
+  airData: {
+    temp: number;
+    humi: number;
+    co2: number;
+    tvoc: number;
+    pm01: number;
+    pm25: number;
+    pm10: number;
+  };
+}
+
+const ChartSensorList = ({
+  selectedSensor,
+  setSelectedSensor,
+  selectedSensorId,
+  setSelectedSensorId,
+}: IProp) => {
+  const { isLoading, data, isError } = useQuery<ISensor[]>(
+    ["allSensors", "axr-kotra"],
+    () => fetchGraphSensorList("axr-inducwon")
   );
+  const [hoverSensor, setHoverSensor] = useState<ISensor>();
   const [search, setSearch] = useState("");
   const [preview, setPreview] = useState("");
 
@@ -119,20 +150,31 @@ const ChartSensorList = ({ selectedSensor, setSelectedSensor }: IProp) => {
 
   const onMouseOver = (name: string) => {
     setPreview(name);
+    setHoverSensor(
+      data?.filter((v) => {
+        if (v.sensorName === name) return true;
+      })[0]
+    );
   };
 
-  const onSensorClicked = (sensorId: string) => {
+  const onSensorClicked = (sensorName: string, sensorId: string) => {
     const newSensors = selectedSensor.slice();
-    if (newSensors.includes(sensorId)) {
-      const idx = newSensors.findIndex((item) => item === sensorId);
+    const newSensorsId = selectedSensorId.slice();
+
+    if (newSensorsId.includes(sensorId)) {
+      const idx = newSensorsId.findIndex((item) => item === sensorId);
       newSensors.splice(idx, 1);
+      newSensorsId.splice(idx, 1);
       setSelectedSensor(newSensors);
+      setSelectedSensorId(newSensorsId);
     } else {
-      if (newSensors.length >= 5) {
+      if (newSensors.length >= 3) {
         return;
       }
-      newSensors.push(sensorId);
+      newSensors.push(sensorName);
+      newSensorsId.push(sensorId);
       setSelectedSensor(newSensors);
+      setSelectedSensorId(newSensorsId);
     }
   };
 
@@ -144,7 +186,11 @@ const ChartSensorList = ({ selectedSensor, setSelectedSensor }: IProp) => {
         <Notification>
           {selectedSensor.length === 5 ? "최대 5개까지 선택 가능" : null}
         </Notification>
-        <AttributePreview name={preview} />
+        <AttributePreview
+          isLoading={isLoading}
+          name={preview}
+          data={hoverSensor?.airData}
+        />
         {isLoading ? (
           <Loading>Loading...</Loading>
         ) : (
@@ -152,23 +198,32 @@ const ChartSensorList = ({ selectedSensor, setSelectedSensor }: IProp) => {
             {data
               ?.slice(0, 50)
               .filter((p) => {
-                return p.name
+                return p.sensorName
                   .toLocaleLowerCase()
                   .includes(search.toLocaleLowerCase());
               })
-              .map((sensor) => (
-                <Sensor
-                  match={selectedSensor.includes(sensor.name)}
-                  key={sensor.id}
-                  onClick={() => onSensorClicked(sensor.name)}
-                  onMouseOver={() => onMouseOver(sensor.name)}
-                >
-                  <Img
-                    src={`https://coinicons-api.vercel.app/api/icon/${sensor.symbol.toLowerCase()}`}
-                  />
-                  {sensor.name}
-                </Sensor>
-              ))}
+              .map((sensor) => {
+                const score = scoreTotal(sensor.airData, 5);
+                const res = getStatus(score);
+                const color = res.color[0];
+                const state = res.state[0];
+
+                return (
+                  <>
+                    <Sensor
+                      match={selectedSensor.includes(sensor.sensorName)}
+                      key={sensor.sensorId}
+                      onClick={() =>
+                        onSensorClicked(sensor.sensorName, sensor.sensorId)
+                      }
+                      onMouseOver={() => onMouseOver(sensor.sensorName)}
+                    >
+                      {getFace(state, color, isError)}
+                      <span>{sensor.sensorName}</span>
+                    </Sensor>
+                  </>
+                );
+              })}
           </SensorList>
         )}
       </Wrapper>
