@@ -1,3 +1,6 @@
+import Axios from "axios";
+import { responseInterceptor } from "http-proxy-middleware";
+
 export function fetchCoins() {
   return fetch(`https://api.coinpaprika.com/v1/coins`).then((response) =>
     response.json()
@@ -26,19 +29,27 @@ export function fetchSensorAvg(date: string) {
   });
 }
 
-export function fetchGraph() {
-  return fetch("/graph", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      title: "Test",
-      body: "I amd test",
-      collection: "axr-inducwon",
-      logtime: "2020-05-07",
-      sensors: ["D865950434A0"],
-      airData: "temp",
-    }),
-  }).then((res) => console.log(res));
+export function fetchGraph(
+  collection: string,
+  logTime: string,
+  sensorIds: string[],
+  attr: string
+) {
+  let url = `/graph?collection=${collection}&logTime=${logTime}`;
+  for (let x of sensorIds) {
+    url += `&sensors=${x}`;
+  }
+  url += `&airData=${attr}`;
+
+  return fetch(url).then((res) => {
+    if (res.status !== 200) return undefined;
+    else return res.json();
+  });
+}
+
+export function fetchGraphSensorList(userId: string) {
+  return fetch(`/graph/sensors?userId=${userId}`).then((res) => {
+    console.log(res);
+    return res.json();
+  });
 }

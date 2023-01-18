@@ -11,8 +11,10 @@ const Attribute = styled.li<{ isSelected: boolean }>`
   span {
     font-weight: 600;
     margin-bottom: 5px;
+    font-size: 20px;
+    margin-top: 5px;
   }
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   cursor: pointer;
   color: ${(props) => (props.isSelected ? "#20c997" : "rgba(0,0,0,0.5)")};
 `;
@@ -20,10 +22,12 @@ const Attribute = styled.li<{ isSelected: boolean }>`
 const PM = styled.div`
   display: flex;
   flex-direction: column;
-  font-size: 25px;
+  font-size: 35px;
   font-weight: 700;
   margin-bottom: -2.5px;
 `;
+
+const AttributeIcon = styled(FontAwesomeIcon)``;
 
 interface IProp {
   isSelected: boolean;
@@ -33,40 +37,25 @@ interface IProp {
 }
 
 interface Icon {
-  iconNames:
-    | "temperature-half"
-    | "droplet"
-    | "cloud"
-    | "droplet-slash"
-    | "biohazard"
-    | "gas-pump"
-    | "cloud-meatball"
-    | "tornado"
-    | "globe";
+  iconNames: "temperature-half" | "droplet" | "cloud" | "biohazard";
 }
 
 const iconNames: Icon["iconNames"][] = [
   "temperature-half",
   "droplet",
   "cloud",
-  "droplet-slash",
   "biohazard",
-  "gas-pump",
-  "cloud-meatball",
-  "tornado",
-  "globe",
 ];
 
 const ChartAttribute = ({ isSelected, name, onClick, index }: IProp) => {
   return (
     <Attribute isSelected={isSelected} onClick={onClick}>
-      {index <= 8 ? (
-        <FontAwesomeIcon icon={iconNames[index]} size="3x" />
+      {index <= 3 ? (
+        <AttributeIcon icon={iconNames[index]} size="5x" />
       ) : (
         <PM>{name}</PM>
       )}
       <span>{name}</span>
-      <span>AVG</span>
     </Attribute>
   );
 };

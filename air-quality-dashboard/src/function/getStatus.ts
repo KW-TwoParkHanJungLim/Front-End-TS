@@ -5,10 +5,10 @@ export function getStatus(score: number) {
   };
   if (score >= 85) {
     ret.state = ["매우좋음"];
-    ret.color = ["#41A151"];
+    ret.color = ["#00a8ff"];
   } else if (score >= 70) {
     ret.state = ["좋음"];
-    ret.color = ["#89A13F"];
+    ret.color = ["#4cd137"];
   } else if (score >= 50) {
     ret.state = ["보통"];
     ret.color = ["#F4CD43"];
