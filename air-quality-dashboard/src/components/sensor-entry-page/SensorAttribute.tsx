@@ -20,7 +20,7 @@ const Name = styled.div`
   position:absolute; top:20px; font-size:18px;
 `
 
-const Avg = styled.div`
+const Value = styled.div`
   position:absolute; top:55px; font-size:40px; font-weight:700;
 `
 
@@ -30,15 +30,15 @@ const Unit = styled.div`
 
 interface Sdata {
   name: string;
-  avg : number;
+  value : number;
   unit : string;
 }
 
-function SensorAttribute({name, avg, unit} : Sdata){
+function SensorAttribute({name, value, unit} : Sdata){
   return (
     <SensorAttributeBox>
       <Name>{name}</Name><br />
-      <Avg>{avg}</Avg><br />
+      <Value>{value}</Value><br />
       <Unit>{unit}</Unit><br />
     </SensorAttributeBox>
   );

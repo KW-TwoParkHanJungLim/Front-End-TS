@@ -229,7 +229,7 @@ function SensorEntryPage() {
       setAvgs([]);
     }
   }, [testLoading, startDate]);
-
+  
   return (
     <>
       <div className="MainPage">

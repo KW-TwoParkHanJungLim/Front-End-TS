@@ -10,7 +10,7 @@ const Main = styled.div`
 
 export default class UserInfoPage extends Component {
   render() {
-    return (
+   return (
       <>
         <UpperPage />
         <Main>

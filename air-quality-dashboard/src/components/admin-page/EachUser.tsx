@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
-import { CoinInterface } from "../main-page/MainPageList";
 
 const SensorAttributeBox = styled.div`
   position:relative;
@@ -25,16 +24,16 @@ const Name = styled.div`
 `
 
 type UserProps = {
-    user : CoinInterface
+    user : string
 }
 
 function EachUser({user} : UserProps){
   return (
-    <Link to= {`/${user.id}/main`} state={{
-      UserId: user.id
+    <Link to= {`/${user}/main`} state={{
+      UserId: user
     }}>
       <SensorAttributeBox>
-        <Name>{user.name}</Name><br />
+        <Name>{user}</Name><br />
       </SensorAttributeBox>
     </Link>
   );

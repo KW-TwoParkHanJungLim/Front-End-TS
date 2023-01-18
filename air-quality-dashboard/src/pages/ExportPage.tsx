@@ -8,8 +8,7 @@ export default class ExportPage extends Component {
   render() {
     return (
       <div className="ExportPage">
-        <UpperPage></UpperPage>
-
+        <UpperPage />
         <div id="ExportPage_Main">
           <SelectSensor />
           <Calendar />
