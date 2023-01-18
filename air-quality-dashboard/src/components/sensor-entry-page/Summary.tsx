@@ -55,7 +55,7 @@ interface IProp {
   isError: boolean;
 }
 
-function getFace(state: string, color: string, isError: boolean) {
+export function getFace(state: string, color: string, isError: boolean) {
   if (isError) return <Icon icon="face-meh-blank" color={"grey"} />;
 
   if (state === "매우좋음")

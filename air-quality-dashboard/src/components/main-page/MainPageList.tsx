@@ -7,7 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchMain } from "../../api/api_jiwoo";
 import SensorSearch from "../sensor-entry-page/SensorSearch";
 
-
 const SensorList = styled.div`
   display: flex;
   flex-wrap: wrap;

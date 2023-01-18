@@ -109,7 +109,7 @@ const Calendar = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
-interface IAvg {
+export interface IAvg {
   dayAvg: {
     co2: number;
     humi: number;
@@ -139,7 +139,7 @@ export interface IAvgData {
   unit: string;
 }
 
-function getToday(date: Date) {
+export function getToday(date: Date) {
   let year = date.getFullYear();
   let month = ("0" + (1 + date.getMonth())).slice(-2);
   let day = ("0" + date.getDate()).slice(-2);
@@ -162,9 +162,8 @@ function SensorEntryPage() {
   } = useQuery<IAvg | undefined>(["test", startDate], () =>
     fetchSensorAvg(getToday(startDate))
   );
-
   console.log(testData);
-
+  
   useEffect(() => {
     if (!testLoading && !isError) {
       setAvgs([

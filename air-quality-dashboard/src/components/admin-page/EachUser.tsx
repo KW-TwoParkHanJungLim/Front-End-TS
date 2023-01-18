@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const SensorAttributeBox = styled.div`
   position:relative;
-  border : 3px solid black;
+  border : 3px solid rgba(0, 0, 0, 0.2);
   border-radius: 15px;
   display: flex;
   width:100%;

@@ -1,10 +1,24 @@
-import { motion } from "framer-motion";
+import React, {useState} from 'react';
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { fetchSensorAvg } from "../../api/api";
+import { motion } from "framer-motion";
 import styled from "styled-components";
-import { MainInterface, sensorlist } from "../main-page/MainPageList";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { sensorlist } from "../main-page/MainPageList";
 //import { CoinInterface } from "../main-page/MainPageList";
 import SensorAttribute from "./SensorAttribute";
-
+import { getStatus } from "../../function/getStatus";
+import { IAvg, IAvgData, getToday } from "../../pages/SensorEntryPage";
+import { getFace } from "./Summary";
+import {
+  scoreCo2,
+  scoreHumi,
+  scorePM10,
+  scorePM25,
+  scoreTemp,
+  scoreTvoc,
+} from "../../function/scoreCalculate";
  
 const Sensor = styled.div`
   display: flex;
@@ -12,7 +26,8 @@ const Sensor = styled.div`
   flex-wrap: wrap;
   flex-direction: column;
   background-color: white;
-  border: 3px solid black;
+  border: 3px solid rgba(0, 0, 0, 0.2);
+  border-opacity : 0.2;
   border-radius : 20px;
   padding: 15px 20px;
   margin-bottom: 20px;
@@ -35,6 +50,7 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  font-size:24px;
   font-weight: 600;
 `;
 
@@ -46,12 +62,6 @@ type MainProps = {
   match: boolean;
 };
 
-/*const Img = styled.img`
-  width: 25px;
-  height: 25px;
-  margin-right: 10px;
-`;*/
-
 const SensorScroll = styled(motion.div)`
   display: flex;
   height: 160px;
@@ -60,20 +70,6 @@ const SensorScroll = styled(motion.div)`
 
 //dummyData 대신 실제 data 이용하여 값 띄울 수 있도록 코드 수정
 //단위(unit) 받을 수 있는 API 요청하기
-
-/*const dummyData = [
-  { name: "Temperature", avg: 36.5, unit: "°C" },
-  { name: "Humidity", avg: 37.0, unit: "%" },
-  { name: "CO2", avg: 566.9, unit: "ppm" },
-  { name: "TVOC", avg: 8.2, unit: "ppb" },
-  { name: "PM01", avg: 9.2, unit: "㎍/㎡" },
-  { name: "PM2.5", avg: 4.1, unit: "㎍/㎡" },
-  { name: "PM10", avg: 566.9, unit: "㎍/㎡" },
-];*/
-
-/*<Img
-    src={`https://coinicons-api.vercel.app/api/icon/${sensor.symbol.toLowerCase()}`}
-  />*/
 
 function EachSensor({ UserId, unit, sensor, match }: MainProps): React.ReactElement {
   const getValues = Object.values(sensor.airData);
@@ -85,15 +81,65 @@ function EachSensor({ UserId, unit, sensor, match }: MainProps): React.ReactElem
     else values = getValues[i];
     Data.push({_name: unit[i].name, _value: values, _unit: unit[i].value})
   }
-    
+
+  const startDate = new Date();
+  const {
+    isLoading: testLoading,
+    data: testData,
+    isError,
+  } = useQuery<IAvg | undefined>(["test", startDate], () =>
+    fetchSensorAvg(getToday(startDate))
+  );
+  const avgs = [
+    {
+      dayscore: scoreTemp(testData?.dayAvg.temp, startDate.getMonth()),
+      weekscore: scoreTemp(testData?.weekAvg.temp, startDate.getMonth())
+    },
+    {
+      dayscore: scoreHumi(testData?.dayAvg.humi, startDate.getMonth()),
+      weekscore: scoreHumi(testData?.weekAvg.humi, startDate.getMonth())
+    },
+    {
+      dayscore: scoreCo2(testData?.dayAvg.co2),
+      weekscore: scoreCo2(testData?.weekAvg.co2)
+    },
+    {
+      dayscore: scorePM25(testData?.dayAvg.pm01),
+      weekscore: scorePM25(testData?.weekAvg.pm01)
+    },
+    {
+      dayscore: scorePM25(testData?.dayAvg.pm25),
+      weekscore:scorePM25(testData?.weekAvg.pm25)
+    },
+    {
+      dayscore: scorePM10(testData?.dayAvg.pm10),
+      weekscore: scorePM10(testData?.weekAvg.pm10)
+    },
+    {
+      dayscore: scoreTvoc(testData?.dayAvg.tvoc),
+      weekscore: scorePM10(testData?.weekAvg.pm10)
+    }
+  ]
+  
+  const score = Number(
+    (
+      avgs.reduce((acc, v) => {
+        return acc + v.weekscore;
+      }, 0) / avgs.length
+    ).toFixed(1)
+  )
+  const color = getStatus(score).color[0];
+  const state = getStatus(score).state[0];  
+
   return (
     <Sensor>
-      <Link to={`/${UserId}/${sensor.sensorId}`}>
         <Header>
-          
-          {sensor.sensorName}
+          {getFace(state, color, isError)}
+          {sensor.sensorName}&nbsp;&nbsp;
+          <Link to={`/${UserId}/${sensor.sensorId}`}>
+            <FontAwesomeIcon icon="magnifying-glass" size="1x" />
+          </Link>  
         </Header>
-      </Link>
       <span>좌우로 드래그 가능</span>
       <SensorAttributeWrapper>
         <SensorScroll 

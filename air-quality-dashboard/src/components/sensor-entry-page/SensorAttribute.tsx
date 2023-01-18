@@ -6,7 +6,7 @@ const SensorAttributeBox = styled.div`
   width: 200px;
   height: 160px;
   margin-right:30px;
-  border : 2px solid black;
+  border : 2px solid rgba(0, 0, 0, 0.2);
   //background-color: #f6f6f6;
   border-radius: 20px;
   display: flex;
