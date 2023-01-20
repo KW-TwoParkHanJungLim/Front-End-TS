@@ -42,7 +42,7 @@ const SDatePicker = styled(ReactDatePicker)`
   padding: 20px 60px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 5px;
-  width: 360px;
+  width: 330px;
   font-size: 20px;
   color: rgba(0, 0, 0, 0.5);
   &:focus {

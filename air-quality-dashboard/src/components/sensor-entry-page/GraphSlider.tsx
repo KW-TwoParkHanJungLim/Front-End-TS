@@ -9,6 +9,7 @@ const TodayAvgGraphContainer = styled.div`
   display: flex;
   background-color: white;
   width: 1300px;
+  border-radius: 20px;
   flex-direction: column;
   height: 410px;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -82,6 +83,7 @@ const GraphSlider = ({ data, type, isLoading, isError }: GraphData) => {
                 weekScore={data.weekScore}
                 score={data.score}
                 unit={data.unit}
+                type={type}
               />
             </motion.div>
           ))}

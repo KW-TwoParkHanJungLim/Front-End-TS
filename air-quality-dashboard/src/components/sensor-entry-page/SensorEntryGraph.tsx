@@ -41,15 +41,16 @@ function SensorEntryGraph({
   unit,
   weekAvg,
   weekScore,
+  type,
 }: IAvgData) {
-  let state = getStatus(score).state;
-  let color = getStatus(score).color;
+  let state = getStatus(type === "Today" ? score : weekScore).state;
+  let color = getStatus(type === "Today" ? score : weekScore).color;
 
   return (
     <GraphWrapper>
       <Header>{name}</Header>
       <ReactApexChart
-        series={[score]}
+        series={[type === "Today" ? score : weekScore]}
         type="radialBar"
         options={{
           chart: {
@@ -76,7 +77,7 @@ function SensorEntryGraph({
         }}
       />
       <Footer>
-        {`${avg}`}
+        {`${type === "Today" ? avg : weekAvg}`}
         <span>{unit}</span>
       </Footer>
     </GraphWrapper>
