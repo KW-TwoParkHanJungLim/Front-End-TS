@@ -7,22 +7,24 @@ import UserInfo from "./pages/UserInfoPage";
 import ExportPage from "./pages/ExportPage";
 import SensorEntryPage from "./pages/SensorEntryPage";
 import AdminUserListPage from "./pages/AdminUserListPage";
-import axios from "axios";
+import {CookiesProvider} from 'react-cookie'; //쿠키 관리
 
 const Router = () => {
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <Routes>
-        <Route path="/" element={<LoginPage />}></Route>
-        <Route path="/:user/main" element={<MainPage />}></Route>
-        <Route path="/:user/:sensorId" element={<SensorEntryPage />}></Route>
-        <Route path="/:user/graph" element={<TimeGraph />}></Route>
-        <Route path="/:user/info" element={<UserInfo />}></Route>
-        <Route path="/:user/export" element={<ExportPage />}></Route>
-        <Route path="/admin/userlist" element={<AdminUserListPage />}></Route>
-        <Route path="/admin/:user/info" element={<UserInfo />}></Route>
-      </Routes>
-    </BrowserRouter>
+    <CookiesProvider> 
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <Routes>
+          <Route path="/" element={<LoginPage />}></Route>
+          <Route path="/:user/main" element={<MainPage />}></Route>
+          <Route path="/:user/:sensorId" element={<SensorEntryPage />}></Route>
+          <Route path="/:user/graph" element={<TimeGraph />}></Route>
+          <Route path="/:user/info" element={<UserInfo />}></Route>
+          <Route path="/:user/export" element={<ExportPage />}></Route>
+          <Route path="/admin/userlist" element={<AdminUserListPage />}></Route>
+          <Route path="/admin/:user/info" element={<UserInfo />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </CookiesProvider>
   );
 };
 

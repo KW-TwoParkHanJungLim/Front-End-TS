@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import React, {useState, useEffect} from "react";
+import React, {useRef} from "react";
 import axios from "axios";
 import styled from 'styled-components';
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import {setCookie} from '../JWT/cookie';
 import LoginLogo from "../assets/images/로그인 로고.jpg";
-import { onLogin } from "../JWT/auth";
+
 
 const Container = styled.div`
   display:flex; justify-content:center;
@@ -30,34 +31,37 @@ const LoginButton = styled.button`
   border:0; border-radius:5px; margin-top:20px; color:white; 
 `
 
-export default function LoginPage (props : any) {
-  const JWT_EXPIRY_TIME = 24*3600*1000; //만료시간 (24시간 millisec로 표현)
-  const [Info, setInfo] = useState({
-      ID: "", PW: ""
-    })
-    const {ID, PW} = Info;
-    const handleChange = (e : any) => {
-      const { value, name } = e.target;
-        setInfo({
-            ...Info,
-            [name]: value
-        });
+export default function LoginPage () {
+    const formRef : any = useRef();
+    const navigate : any = useNavigate();
+    
+    const login = (e : any) => {
+      e.preventDefault();
+      axios.post('/login', {
+        id: formRef.current.ID.value,
+        password: formRef.current.PW.value
+      }).then((res) => {
+        alert("로그인 되었습니다.");
+        setCookie('id', res.data);
+        console.log(res.data);
+        navigate(`/${formRef.current.ID.value}/main`)
+      }).catch(() => {
+        alert("존재하지 않는 아이디 또는 비밀번호 입니다.")
+      })       
     }
-
-    //form의 action 이용해서 login 작업 control
-    //관리자 로그인 시 /admin/userlist로 이동, 일반사용자 로그인 시 /user/main으로 이동
-    //로그인 기능 연결되면 Link 지우기
+    
     return (
       <Container>
         <Login>
-          <Loginlogo src={LoginLogo} alt="LoginLogo" />
-          <LoginInfo type="text" name="ID" value={ID} placeholder="ID" onChange={handleChange} />
-          <LoginInfo type="password" name="PW" value={PW} placeholder="Password" onChange={handleChange} />
-          <p /><br />
-          <Link to="/axr-inducwon/main">
-            <LoginButton onClick={onLogin}>로그인</LoginButton>
-          </Link>
+          <form ref={formRef} onSubmit={login}>
+            <Loginlogo src={LoginLogo} alt="LoginLogo" />
+            <LoginInfo type="text" name="ID" id="ID" placeholder="ID" required />
+            <LoginInfo type="password" name="PW" id="PW" placeholder="Password" required />
+            <p /><br />
+            <LoginButton type="submit">로그인</LoginButton>
+          </form> 
         </Login>
       </Container>
+       
     );
 }

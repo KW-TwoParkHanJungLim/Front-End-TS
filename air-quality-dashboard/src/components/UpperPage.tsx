@@ -1,6 +1,7 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { fetchUser } from "../api/api_jiwoo";
+import { removeCookie } from "../JWT/cookie";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import 로고 from "../assets/images/로고.jpg";
@@ -36,6 +37,7 @@ export interface UserInterface {
 
 
 export default function UpperPage(){
+  const navigate = useNavigate();
   const User : string = "axr-inducwon";
   const diffLogo = () => {
     if(User === "ADMIN") {
@@ -52,15 +54,21 @@ export default function UpperPage(){
       );
     }
   }
-
+  const logOut = () => {
+    if(window.confirm("로그아웃 하시겠습니까?")) {
+      removeCookie(User); // 쿠키를 삭제
+    alert("로그아웃 되었습니다.")
+		navigate('/'); // 메인 페이지로 이동
+    } else {
+      //동작 x
+    }
+	};
   //로그아웃 기능 연결되면 Link 지우기
   return (
     <HomeUpper>
       <form action='/logout' method='post'>
         {diffLogo()}
-        <Link to="/">
-          <Button src={로그아웃} alt="logout" />
-        </Link>
+        <Button src={로그아웃} alt="logout" onClick={logOut} />
         <Link to={`/${User}/info`} state={{UserId: User}}>
           <Button src={회원정보} alt="user" />
         </Link>

@@ -1,28 +1,48 @@
 import Axios from "axios";
+import { getCookie } from "../JWT/cookie";
 import { responseInterceptor } from "http-proxy-middleware";
 
 export function fetchCoins() {
-  return fetch(`https://api.coinpaprika.com/v1/coins`).then((response) =>
+  return fetch(`https://api.coinpaprika.com/v1/coins`, {
+    method: "GET",
+    headers: {
+        "X-AUTH-TOKEN" : getCookie('id')
+    }
+}).then((response) =>
     response.json()
   );
 }
 
 export function fetchCoinInfo(coinId: string) {
-  return fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`).then(
+  return fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`, {
+    method: "GET",
+    headers: {
+        "X-AUTH-TOKEN" : getCookie('id')
+    }
+}).then(
     (response) => response.json()
   );
 }
 
 export function fetchCoinTickers(coinId: string) {
-  return fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`).then(
+  return fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`, {
+    method: "GET",
+    headers: {
+        "X-AUTH-TOKEN" : getCookie('id')
+    }
+}).then(
     (response) => response.json()
   );
 }
 
 //2020-05-07
 export function fetchSensorAvg(date: string) {
-  return fetch(
-    `/details?userId=axr-inducwon&date=${date}&id=D865950434A0`
+  return fetch(`/details?userId=axr-inducwon&date=${date}&id=D865950434A0`, {
+    method: "GET",
+    headers: {
+        "X-AUTH-TOKEN" : getCookie('id')
+    }
+}
   ).then((response) => {
     if (response.status !== 200) return undefined;
     else return response.json();
@@ -41,14 +61,24 @@ export function fetchGraph(
   }
   url += `&airData=${attr}`;
 
-  return fetch(url).then((res) => {
+  return fetch(url, {
+    method: "GET",
+    headers: {
+        "X-AUTH-TOKEN" : getCookie('id')
+    }
+}).then((res) => {
     if (res.status !== 200) return undefined;
     else return res.json();
   });
 }
 
 export function fetchGraphSensorList(userId: string) {
-  return fetch(`/graph/sensors?userId=${userId}`).then((res) => {
+  return fetch(`/graph/sensors?userId=${userId}`, {
+        method: "GET",
+        headers: {
+            "X-AUTH-TOKEN" : getCookie('id')
+        }
+    }).then((res) => {
     console.log(res);
     return res.json();
   });
