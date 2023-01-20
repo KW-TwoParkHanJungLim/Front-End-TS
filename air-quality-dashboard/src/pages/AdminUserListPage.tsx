@@ -7,7 +7,7 @@ export default class AdminUserListPage extends Component {
     return (
       <>
         <div className="MainPage">
-          <UpperPage></UpperPage>
+          <UpperPage />
         </div>
         <AdminUserList />
       </>

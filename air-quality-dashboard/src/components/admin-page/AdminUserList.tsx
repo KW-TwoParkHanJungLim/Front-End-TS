@@ -38,31 +38,26 @@ export interface CoinInterface{
   type: string,
 }
 
-/*
-export interface ListInterface {
-  
-}
-*/
-
-function AdminUserList(){
+function AdminUserList() {
   const [search, setSearch] = useState("");
-  //const { Userlist } = useQuery<ListInterface>([], fetchUserList); 
-  const { data } = useQuery<CoinInterface[]>(["allCoins"], fetchCoins);
+  const userList = useQuery<string[]>([], fetchUserList);
+  //const { data } = useQuery<CoinInterface[]>(["allCoins"], fetchCoins);
   const onChange = (e : React.FormEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value);
   };
-  const filterTitle = data?.slice(0,50).filter((p) => {
-    return p.name.toLocaleLowerCase().includes(search.toLocaleLowerCase());
+  const filterTitle = userList.data?.slice(0,50).filter((p : string) => {
+    return p.toLocaleLowerCase().includes(search.toLocaleLowerCase());
   })
   return(
     <Container>
         <UserSearch value={search} onChange = {onChange} />
         <UserList>
         {
-            filterTitle?.map((data,index) =>
-                <EachUser key={index} 
-                    user = {data}
-                />
+            filterTitle?.map((data, index) =>
+            <EachUser 
+                key = {index}
+                user = {data}
+            />
         )}
         </UserList>
         <br />

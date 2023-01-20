@@ -19,7 +19,7 @@ function TimeGraph() {
   return (
     <>
       <div className="MainPage">
-        <UpperPage></UpperPage>
+        <UpperPage />
       </div>
       <Container>
         <ChartSensorList
