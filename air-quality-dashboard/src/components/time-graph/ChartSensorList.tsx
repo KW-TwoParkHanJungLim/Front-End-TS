@@ -17,6 +17,10 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
+const ChartSearch = styled(SensorSearch)`
+  width: 100px;
+`;
+
 const Wrapper = styled.div`
   display: flex;
   margin-top: 56px;
@@ -181,7 +185,7 @@ const ChartSensorList = ({
   return (
     <Container>
       <Header>Sensor List</Header>
-      <SensorSearch search={search} onChange={onChange} />
+      <ChartSearch search={search} onChange={onChange} />
       <Wrapper>
         <Notification>
           {selectedSensor.length === 5 ? "최대 5개까지 선택 가능" : null}
@@ -209,19 +213,17 @@ const ChartSensorList = ({
                 const state = res.state[0];
 
                 return (
-                  <>
-                    <Sensor
-                      match={selectedSensor.includes(sensor.sensorName)}
-                      key={sensor.sensorId}
-                      onClick={() =>
-                        onSensorClicked(sensor.sensorName, sensor.sensorId)
-                      }
-                      onMouseOver={() => onMouseOver(sensor.sensorName)}
-                    >
-                      {getFace(state, color, isError)}
-                      <span>{sensor.sensorName}</span>
-                    </Sensor>
-                  </>
+                  <Sensor
+                    match={selectedSensor.includes(sensor.sensorName)}
+                    key={sensor.sensorId}
+                    onClick={() =>
+                      onSensorClicked(sensor.sensorName, sensor.sensorId)
+                    }
+                    onMouseOver={() => onMouseOver(sensor.sensorName)}
+                  >
+                    {getFace(state, color, isError)}
+                    <span>{sensor.sensorName}</span>
+                  </Sensor>
                 );
               })}
           </SensorList>

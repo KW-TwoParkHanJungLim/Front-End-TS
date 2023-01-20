@@ -133,8 +133,10 @@ interface IData {
   pm10: number;
 }
 
-export function scoreTotal(data: IData, month: number) {
+export function scoreTotal(data: IData | undefined, month: number) {
   const avg = [];
+  if (!data) return 0;
+
   avg.push(scoreTemp(data?.temp, month));
   avg.push(scoreHumi(data?.humi, month));
   avg.push(scoreCo2(data?.co2));
