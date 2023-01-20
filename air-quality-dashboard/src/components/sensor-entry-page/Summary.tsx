@@ -8,6 +8,7 @@ const SummaryBox = styled.div`
   display: grid;
   grid-template-columns: 3fr 2fr;
   border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
   padding: 20px;
   padding-bottom: 40px;
   span {
@@ -32,21 +33,6 @@ const SummaryEntry = styled.div`
     font-weight: 700;
     opacity: 0.8;
   }
-`;
-
-const Circle = styled.div<{ color: string }>`
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: ${(props) => props.color};
-  margin-right: 20px;
-`;
-
-const Icon = styled(FontAwesomeIcon)<{ color: string }>`
-  color: ${(props) => props.color};
-  margin-bottom: 4px;
-  font-size: 28px;
-  margin-right: 10px;
 `;
 
 interface IProp {

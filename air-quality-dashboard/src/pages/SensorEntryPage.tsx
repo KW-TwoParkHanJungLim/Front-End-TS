@@ -137,6 +137,7 @@ export interface IAvgData {
   score: number;
   weekScore: number;
   unit: string;
+  type?: string;
 }
 
 export function getToday(date: Date) {
@@ -151,10 +152,6 @@ function SensorEntryPage() {
   const { sensorId } = useParams<keyof RouteParams>() as RouteParams;
   const [startDate, setStartDate] = useState(new Date());
   const [avgs, setAvgs] = useState<IAvgData[]>([]);
-  const { isLoading: infoLoading, data: infoData } = useQuery<InfoInterface>(
-    ["info", sensorId],
-    () => fetchCoinInfo(sensorId)
-  );
   const {
     isLoading: testLoading,
     data: testData,
@@ -235,7 +232,7 @@ function SensorEntryPage() {
         <UpperPage />
       </div>
       <Container>
-        <Header>{infoData?.name}</Header>
+        <Header>{sensorId}</Header>
         <Calendar>
           <SDatePicker
             selected={startDate}

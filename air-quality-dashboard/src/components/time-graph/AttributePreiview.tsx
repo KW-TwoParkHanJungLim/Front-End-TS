@@ -158,6 +158,7 @@ function AttributePreview({ name, data, isLoading }: PreviewProps) {
                     value: {
                       fontSize: "30px",
                       fontWeight: 700,
+                      offsetY: 12,
                       formatter: function (val: any) {
                         return val;
                       },
@@ -226,7 +227,7 @@ function AttributePreview({ name, data, isLoading }: PreviewProps) {
               <span>{`PM1.0`}</span>
             </AttributeName>
             <AttributeValue>
-              <span>{`${data.pm01}`}</span>
+              <span>{`${data.pm01 ?? "-"}`}</span>
               <div>{`${getUnit("pm01")}`}</div>
             </AttributeValue>
           </Attribute>
