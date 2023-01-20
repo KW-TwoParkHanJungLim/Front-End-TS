@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { CoinInterface } from "../main-page/MainPageList";
+import { MainInterface, sensorlist } from "../main-page/MainPageList";
+//import { CoinInterface } from "../main-page/MainPageList";
 import SensorAttribute from "./SensorAttribute";
 
  
@@ -37,17 +38,19 @@ const Header = styled.div`
   font-weight: 600;
 `;
 
-type CoinProps = {
+type MainProps = {
   UserId: string;
-  sensor: CoinInterface;
+  unit: any;
+  sensor: sensorlist;
+  //sensor: CoinInterface;
   match: boolean;
 };
 
-const Img = styled.img`
+/*const Img = styled.img`
   width: 25px;
   height: 25px;
   margin-right: 10px;
-`;
+`;*/
 
 const SensorScroll = styled(motion.div)`
   display: flex;
@@ -55,18 +58,10 @@ const SensorScroll = styled(motion.div)`
   flex-wrap: nowrap;
 `;
 
-interface DummyData {
-  data: {
-    name: string;
-    avg: number;
-    unit: string; 
-  }[];
-}
-
 //dummyData 대신 실제 data 이용하여 값 띄울 수 있도록 코드 수정
 //단위(unit) 받을 수 있는 API 요청하기
 
-const dummyData = [
+/*const dummyData = [
   { name: "Temperature", avg: 36.5, unit: "°C" },
   { name: "Humidity", avg: 37.0, unit: "%" },
   { name: "CO2", avg: 566.9, unit: "ppm" },
@@ -74,31 +69,43 @@ const dummyData = [
   { name: "PM01", avg: 9.2, unit: "㎍/㎡" },
   { name: "PM2.5", avg: 4.1, unit: "㎍/㎡" },
   { name: "PM10", avg: 566.9, unit: "㎍/㎡" },
-];
+];*/
 
-function EachSensor({ UserId, sensor, match }: CoinProps): React.ReactElement {
+/*<Img
+    src={`https://coinicons-api.vercel.app/api/icon/${sensor.symbol.toLowerCase()}`}
+  />*/
+
+function EachSensor({ UserId, unit, sensor, match }: MainProps): React.ReactElement {
+  const getValues = Object.values(sensor.airData);
+  var Data = [];
+  var i;
+  for(i=0; i<7; i++)  {
+    var values;
+    if(getValues[i] == null) values = "null";
+    else values = getValues[i];
+    Data.push({_name: unit[i].name, _value: values, _unit: unit[i].value})
+  }
+    
   return (
     <Sensor>
-      <Link to={`/${UserId}/${sensor.id}`}>
+      <Link to={`/${UserId}/${sensor.sensorId}`}>
         <Header>
-          <Img
-            src={`https://coinicons-api.vercel.app/api/icon/${sensor.symbol.toLowerCase()}`}
-          />
-          {sensor.name}
+          
+          {sensor.sensorName}
         </Header>
       </Link>
       <span>좌우로 드래그 가능</span>
       <SensorAttributeWrapper>
         <SensorScroll 
           drag="x"
-          dragConstraints={{ right: 0, left: -250 * (dummyData.length - 6) }}>
-          {dummyData.map((data, index) => (
+          dragConstraints={{ right: 0, left: -250 }}>
+          {Data.map((p: any) => (
           <motion.div>
             <SensorAttribute
-              key={index}
-              name={data.name}
-              avg={data.avg}
-              unit={data.unit}
+              key={p._name}
+              name={p._name}
+              value={p._value}
+              unit={p._unit}
             />
           </motion.div>
           ))}

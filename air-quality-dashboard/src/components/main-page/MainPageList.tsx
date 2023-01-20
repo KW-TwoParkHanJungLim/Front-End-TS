@@ -3,7 +3,8 @@ import { useLocation } from 'react-router-dom';
 import styled from "styled-components";
 import EachSensor from "../sensor-entry-page/EachSensor";
 import { useQuery } from "@tanstack/react-query";
-import { fetchCoins } from "../../api/api";
+//import { fetchCoins } from "../../api/api";
+import { fetchMain } from "../../api/api_jiwoo";
 import SensorSearch from "../sensor-entry-page/SensorSearch";
 
 
@@ -38,55 +39,57 @@ export interface CoinInterface {
   type: string;
 }
 
-/*
-export interface MainInterface {
+export interface sensorlist {
   sensorName: string;
+  sensorId: string;
   logtime: string;
-  airData: {
-    temp: Number;
-    humi: Number;
-    co2: Number;
-    tvoc: Number;
-    pm01: Number;
-    pm25: Number;
-    pm10: Number;
-  }
+  airData: any;
 }
-*/
+
+export interface MainInterface {
+  unit: {
+    name: string;
+    value: string;
+  }; 
+  sensorInfoList: sensorlist [];
+} 
+
 
 function MainPage_List() {
   const [search, setSearch] = useState("");
   const [selectedSensors, setselectedSensors] = useState<string[]>([]);
   const UserInfo = {
-    Id: "USER"
+    Id: "axr-inducwon"
   };
-  //const location = useLocation();
-  //var UserId;
   //const { UserInfo } = useQuery<Info[]>([], fetchUser); //API 통해 사용자 정보 가져오기
-  /*
-  if(location.state.UserId === null) { //일반 사용자가 로그인해 메인 화면을 보게 되는 경우
-    UserId = UserInfo.ID;
+  const location = useLocation();
+  var UserId : string;
+  if(location.state === null) { //일반 사용자가 로그인해 메인 화면을 보게 되는 경우
+    UserId = UserInfo.Id;
   } else { //관리자가 사용자 리스트에서 사용자를 선택하여 그의 메인 리스트를 보게 되는 경우
     UserId = location.state.UserId;
   }
-  */
-  //const { data } = useQuery<MainInterface>([UserId], fetchMain(UserId)); //API 통해 메인화면 정보 가져오기
-  const { data } = useQuery<CoinInterface[]>(["allCoins"], fetchCoins);
+  
+  //const { data } = useQuery<CoinInterface[]>(["allCoins"], fetchCoins);
+  //const UserId: string = "axr-inducwon";
+  const { data } = useQuery<MainInterface>([UserId], () => fetchMain(UserId));
   const onChange = (e: React.FormEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value);
   };
-  const filterTitle = data?.slice(0, 50).filter((p) => {
-    return p.name.toLocaleLowerCase().includes(search.toLocaleLowerCase());
+  
+  const filterTitle = data?.sensorInfoList?.slice(0, 50).filter((p) => {
+    return p.sensorName.toLocaleLowerCase().includes(search.toLocaleLowerCase());
   });
   return (
     <Container>
       <SensorList>
         {filterTitle?.map((sensor) => (
           <EachSensor
-            UserId={UserInfo.Id}
-            key={sensor.id}
+            UserId={UserId}
+            key={sensor.sensorId}
+            unit={data?.unit}
             sensor={sensor}
-            match={selectedSensors.includes(sensor.name)}
+            match={selectedSensors.includes(sensor.sensorName)}
           />
         ))}
       </SensorList>
@@ -96,3 +99,4 @@ function MainPage_List() {
 }
 
 export default MainPage_List;
+
