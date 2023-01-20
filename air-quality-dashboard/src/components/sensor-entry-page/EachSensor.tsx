@@ -11,6 +11,7 @@ import SensorAttribute from "./SensorAttribute";
 import { getStatus } from "../../function/getStatus";
 import { IAvg, IAvgData, getToday } from "../../pages/SensorEntryPage";
 import { getFace } from '../../function/getIcon';
+import { getCookie } from '../../JWT/cookie';
 import {
   scoreCo2,
   scoreHumi,
@@ -72,6 +73,8 @@ const SensorScroll = styled(motion.div)`
 //단위(unit) 받을 수 있는 API 요청하기
 
 function EachSensor({ UserId, unit, sensor, match }: MainProps): React.ReactElement {
+  const Role = getCookie('role');
+  const Id = getCookie('id');
   const getValues = Object.values(sensor.airData);
   var Data = [];
   var i;
@@ -131,12 +134,17 @@ function EachSensor({ UserId, unit, sensor, match }: MainProps): React.ReactElem
   const color = getStatus(score).color[0];
   const state = getStatus(score).state[0];  
 
+  var link : string;
+  if(Role === "admin") link = `/${Id}/${UserId}/${sensor.sensorId}`;
+  else link = `/${UserId}/${sensor.sensorId}`;
   return (
     <Sensor>
         <Header>
           {getFace(state, color, isError)}
           {sensor.sensorName}&nbsp;&nbsp;
-          <Link to={`/${UserId}/${sensor.sensorId}`}>
+          <Link to={link} state={{
+            sensorName: sensor.sensorName
+          }} >
             <FontAwesomeIcon icon="magnifying-glass" size="1x" />
           </Link>  
         </Header>

@@ -7,7 +7,7 @@ import UserInfo from "./pages/UserInfoPage";
 import ExportPage from "./pages/ExportPage";
 import SensorEntryPage from "./pages/SensorEntryPage";
 import AdminUserListPage from "./pages/AdminUserListPage";
-import {CookiesProvider} from 'react-cookie'; //쿠키 관리
+import { CookiesProvider } from 'react-cookie'; //쿠키 관리
 
 const Router = () => {
   return (
@@ -20,8 +20,12 @@ const Router = () => {
           <Route path="/:user/graph" element={<TimeGraph />}></Route>
           <Route path="/:user/info" element={<UserInfo />}></Route>
           <Route path="/:user/export" element={<ExportPage />}></Route>
-          <Route path="/admin/userlist" element={<AdminUserListPage />}></Route>
-          <Route path="/admin/:user/info" element={<UserInfo />}></Route>
+          <Route path="/:admin/userlist" element={<AdminUserListPage />}></Route>
+          <Route path="/:admin/:user/main" element={<MainPage />}></Route>
+          <Route path="/:admin/:user/:sensorId" element={<SensorEntryPage />}></Route>
+          <Route path="/:admin/:user/graph" element={<TimeGraph />}></Route>
+          <Route path="/:admin/:user/info" element={<UserInfo />}></Route>
+          <Route path="/:admin/:user/export" element={<ExportPage />}></Route>
         </Routes>
       </BrowserRouter>
     </CookiesProvider>

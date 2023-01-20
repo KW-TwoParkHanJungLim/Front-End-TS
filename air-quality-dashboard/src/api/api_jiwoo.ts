@@ -4,7 +4,7 @@ export function fetchMain(UserId : string) {
     return fetch(`/main?userId=${UserId}`, {
         method: "GET",
         headers: {
-            "X-AUTH-TOKEN" : getCookie('id')
+            "X-AUTH-TOKEN" : getCookie('token')
         }
     }).then((response) =>
         response.json()
@@ -12,12 +12,12 @@ export function fetchMain(UserId : string) {
 }
 
 //로그인한 사용자의 정보를 불러오는 함수
-export function fetchUser(Id : string) {
+export function fetchUser(UserId : any) {
     //API 받아서 연결하기
-    return fetch(`/user/profile?id=${Id}`, {
+    return fetch(`/user/profile?id=${UserId}`, {
         method: "GET",
         headers: {
-            "X-AUTH-TOKEN" : getCookie('id')
+            "X-AUTH-TOKEN" : getCookie('token')
         }
     }).then((response) =>
         response.json()
@@ -30,7 +30,7 @@ export function fetchUserList() {
     return fetch(`/admin/userList`, {
         method: "GET",
         headers: {
-            "X-AUTH-TOKEN" : getCookie('id')
+            "X-AUTH-TOKEN" : getCookie('token')
         }
     }).then((response) =>
         response.json()

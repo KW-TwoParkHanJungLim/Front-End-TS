@@ -3,7 +3,7 @@ import React, {useRef} from "react";
 import axios from "axios";
 import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
-import {setCookie} from '../JWT/cookie';
+import { setCookie } from '../JWT/cookie';
 import LoginLogo from "../assets/images/로그인 로고.jpg";
 
 
@@ -42,9 +42,17 @@ export default function LoginPage () {
         password: formRef.current.PW.value
       }).then((res) => {
         alert("로그인 되었습니다.");
-        setCookie('id', res.data);
-        console.log(res.data);
-        navigate(`/${formRef.current.ID.value}/main`)
+        const value : any = {
+          token : res.data.token,
+          id : formRef.current.ID.value,
+          role : res.data.role
+        }
+        setCookie('token', value.token);
+        setCookie('id', value.id);
+        setCookie('role', value.role);
+        setCookie('user', value.id);
+        if(value.role === "admin") navigate(`/${value.id}/userlist`)
+        else navigate(`/${value.id}/main`)
       }).catch(() => {
         alert("존재하지 않는 아이디 또는 비밀번호 입니다.")
       })       
