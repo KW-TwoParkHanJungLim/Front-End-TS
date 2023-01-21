@@ -13,6 +13,7 @@ import { getToday } from "../../pages/SensorEntryPage";
 import { fetchGraph } from "../../api/api";
 import ChartError from "./ChartError";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useParams } from "react-router-dom";
 
 interface ChartProps {
   selectedSensors: string[];
@@ -100,16 +101,21 @@ interface IGraph {
   avg?: number;
 }
 
+interface RouteParams {
+  user: string;
+}
+
 function Chart({ selectedSensors, selectedSensorId }: ChartProps) {
   const [selectedAttr, setSelectedAttr] = useState("Temperature");
   const [chartTitle, setChartTitlle] = useState("센서를 선택하세요");
+  const { user } = useParams<keyof RouteParams>() as RouteParams;
   const [startDate, setStartDate] = useState(new Date());
   const [datas, setDatas] = useState<any[][]>();
   const { isLoading, data, isError } = useQuery<IGraph[][]>(
     ["allSensors", selectedSensors, startDate, selectedAttr],
     () =>
       fetchGraph(
-        "axr-inducwon",
+        user,
         getToday(startDate),
         selectedSensorId,
         selectedAttr
@@ -123,10 +129,8 @@ function Chart({ selectedSensors, selectedSensorId }: ChartProps) {
     }
   );
 
-  console.log(selectedAttr);
-
   useEffect(() => {
-    if (data && !isLoading) {
+    if (data && !isLoading && !isError) {
       const newDatas: any[][] = [];
       for (let i = 0; i < data.length; i++) {
         newDatas.push([]);
@@ -147,7 +151,6 @@ function Chart({ selectedSensors, selectedSensorId }: ChartProps) {
   const onClickAttribute = (attr: string) => {
     setSelectedAttr(attr);
   };
-  console.log(selectedAttr);
 
   const titleFormatter = () => {
     let ret = "";

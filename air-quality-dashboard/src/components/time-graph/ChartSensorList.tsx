@@ -9,6 +9,7 @@ import { getToday } from "../../pages/SensorEntryPage";
 import { getFace } from "../../function/getIcon";
 import { scoreTotal } from "../../function/scoreCalculate";
 import { getStatus } from "../../function/getStatus";
+import { useParams } from "react-router-dom";
 
 const Container = styled.div`
   width: 1700px;
@@ -103,13 +104,17 @@ const Sensor = styled.li<{ match: boolean }>`
 `;
 
 const Loading = styled.div`
-  background-color: #ecf0f1;
+  background-color: "white";
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   font-size: 32px;
   font-weight: 600;
+  opacity: 0.6;
 `;
 
 interface IProp {
@@ -134,15 +139,23 @@ interface ISensor {
   };
 }
 
+interface RouteParams {
+  user: string;
+}
+
 const ChartSensorList = ({
   selectedSensor,
   setSelectedSensor,
   selectedSensorId,
   setSelectedSensorId,
 }: IProp) => {
+  const { user } = useParams<keyof RouteParams>() as RouteParams;
   const { isLoading, data, isError } = useQuery<ISensor[]>(
-    ["allSensors", "axr-kotra"],
-    () => fetchGraphSensorList("axr-inducwon")
+    ["allSensors", user],
+    () => fetchGraphSensorList(user),
+    {
+      retry: 1,
+    }
   );
   const [hoverSensor, setHoverSensor] = useState<ISensor>();
   const [search, setSearch] = useState("");
@@ -192,12 +205,15 @@ const ChartSensorList = ({
         </Notification>
         <AttributePreview
           isLoading={isLoading}
+          isError={isError}
           name={preview}
           data={hoverSensor?.airData}
         />
         {isLoading ? (
           <Loading>Loading...</Loading>
-        ) : (
+        ) : isError ? (
+          <Loading>Error : 서버에 데이터가 없습니다.</Loading>
+        ) : data ? (
           <SensorList>
             {data
               ?.slice(0, 50)
@@ -227,7 +243,7 @@ const ChartSensorList = ({
                 );
               })}
           </SensorList>
-        )}
+        ) : null}
       </Wrapper>
     </Container>
   );
