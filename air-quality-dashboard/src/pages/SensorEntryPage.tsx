@@ -63,6 +63,7 @@ interface InfoInterface {
 
 interface RouteParams {
   sensorId: string;
+  user: string;
 }
 
 const Header = styled.h1`
@@ -151,83 +152,85 @@ export function getToday(date: Date) {
 
 function SensorEntryPage() {
   const location = useLocation();
-  const { sensorId } = useParams<keyof RouteParams>() as RouteParams;
+  const { user, sensorId } = useParams<keyof RouteParams>() as RouteParams;
   const [startDate, setStartDate] = useState(new Date());
   const [avgs, setAvgs] = useState<IAvgData[]>([]);
   const {
     isLoading: testLoading,
     data: testData,
     isError,
-  } = useQuery<IAvg | undefined>(["test", startDate], () =>
-    fetchSensorAvg(getToday(startDate))
-  );
-  console.log(testData);
-  
+  } = useQuery<IAvg>(["test", startDate], () => {
+    return fetchSensorAvg(getToday(startDate), user, sensorId);
+  });
+
   useEffect(() => {
     if (!testLoading && !isError) {
-      setAvgs([
-        {
-          name: "Temperature",
-          avg: testData ? testData.dayAvg.temp : 0,
-          score: scoreTemp(testData?.dayAvg.temp, startDate.getMonth()),
-          weekAvg: testData ? testData.weekAvg.temp : 0,
-          weekScore: scoreTemp(testData?.weekAvg.temp, startDate.getMonth()),
-          unit: "°C",
-        },
-        {
-          name: "Humidity",
-          avg: testData ? testData.dayAvg.humi : 0,
-          score: scoreHumi(testData?.dayAvg.humi, 4),
-          weekAvg: testData ? testData.weekAvg.humi : 0,
-          weekScore: scoreHumi(testData?.weekAvg.humi, startDate.getMonth()),
-          unit: "%",
-        },
-        {
-          name: "CO2",
-          avg: testData ? testData.dayAvg.co2 : 0,
-          score: scoreCo2(testData?.dayAvg.co2),
-          weekAvg: testData ? testData.weekAvg.co2 : 0,
-          weekScore: scoreCo2(testData?.weekAvg.co2),
-          unit: "ppm",
-        },
-        {
-          name: "PM1.0",
-          avg: testData ? testData.dayAvg.pm01 : 0,
-          score: scorePM25(testData?.dayAvg.pm01),
-          weekAvg: testData ? testData.weekAvg.pm01 : 0,
-          weekScore: scorePM25(testData?.weekAvg.pm01),
-          unit: "㎍/m³",
-        },
-        {
-          name: "PM10",
-          avg: testData ? testData.dayAvg.pm10 : 0,
-          score: scorePM10(testData?.dayAvg.pm10),
-          weekAvg: testData ? testData.weekAvg.pm10 : 0,
-          weekScore: scorePM10(testData?.weekAvg.pm10),
-          unit: "㎍/m³",
-        },
-        {
-          name: "PM2.5",
-          avg: testData ? testData.dayAvg.pm25 : 0,
-          score: scorePM25(testData?.dayAvg.pm25),
-          weekAvg: testData ? testData.weekAvg.pm25 : 0,
-          weekScore: scorePM25(testData?.weekAvg.pm25),
-          unit: "㎍/m³",
-        },
-        {
-          name: "TVOC",
-          avg: testData ? testData.dayAvg.tvoc : 0,
-          score: scoreTvoc(testData?.dayAvg.tvoc),
-          weekAvg: testData ? testData.weekAvg.tvoc : 0,
-          weekScore: scoreTvoc(testData?.weekAvg.tvoc),
-          unit: "ppb",
-        },
-      ]);
+      setAvgs(
+        [
+          {
+            name: "Temperature",
+            avg: testData ? testData.dayAvg.temp : 0,
+            score: scoreTemp(testData?.dayAvg.temp, startDate.getMonth()),
+            weekAvg: testData ? testData.weekAvg.temp : 0,
+            weekScore: scoreTemp(testData?.weekAvg.temp, startDate.getMonth()),
+            unit: "°C",
+          },
+          {
+            name: "Humidity",
+            avg: testData ? testData.dayAvg.humi : 0,
+            score: scoreHumi(testData?.dayAvg.humi, 4),
+            weekAvg: testData ? testData.weekAvg.humi : 0,
+            weekScore: scoreHumi(testData?.weekAvg.humi, startDate.getMonth()),
+            unit: "%",
+          },
+          {
+            name: "CO2",
+            avg: testData ? testData.dayAvg.co2 : 0,
+            score: scoreCo2(testData?.dayAvg.co2),
+            weekAvg: testData ? testData.weekAvg.co2 : 0,
+            weekScore: scoreCo2(testData?.weekAvg.co2),
+            unit: "ppm",
+          },
+          {
+            name: "PM1.0",
+            avg: testData.dayAvg.pm01 ? testData.dayAvg.pm01 : -999,
+            score: scorePM25(testData?.dayAvg.pm01),
+            weekAvg: testData ? testData.weekAvg.pm01 : -1,
+            weekScore: scorePM25(testData?.weekAvg.pm01),
+            unit: "㎍/m³",
+          },
+          {
+            name: "PM10",
+            avg: testData ? testData.dayAvg.pm10 : 0,
+            score: scorePM10(testData?.dayAvg.pm10),
+            weekAvg: testData ? testData.weekAvg.pm10 : 0,
+            weekScore: scorePM10(testData?.weekAvg.pm10),
+            unit: "㎍/m³",
+          },
+          {
+            name: "PM2.5",
+            avg: testData ? testData.dayAvg.pm25 : 0,
+            score: scorePM25(testData?.dayAvg.pm25),
+            weekAvg: testData ? testData.weekAvg.pm25 : 0,
+            weekScore: scorePM25(testData?.weekAvg.pm25),
+            unit: "㎍/m³",
+          },
+          {
+            name: "TVOC",
+            avg: testData ? testData.dayAvg.tvoc : 0,
+            score: scoreTvoc(testData?.dayAvg.tvoc),
+            weekAvg: testData ? testData.weekAvg.tvoc : 0,
+            weekScore: scoreTvoc(testData?.weekAvg.tvoc),
+            unit: "ppb",
+          },
+        ].filter((v) => {
+          return v.avg !== -999;
+        })
+      );
     } else {
       setAvgs([]);
     }
   }, [testLoading, startDate]);
-  console.log(location);
 
   return (
     <>

@@ -2,6 +2,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import styled, { keyframes } from "styled-components";
 
+const Loading = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 95vh;
+  justify-content: center;
+  align-items: center;
+  span {
+    font-size: 30px;
+  }
+`;
+
 const rotation = keyframes`
   from{
     transform: rotate(0deg);
@@ -11,29 +23,13 @@ const rotation = keyframes`
   }
 `;
 
-const Loading = styled.div`
-  display: flex;
-  width: 100%;
-  height: 90%;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  span {
-    font-size: 30px;
-    font-weight: 600;
-    opacity: 0.7;
-    margin-left: 10px;
-  }
-`;
-
 const LoadingIcon = styled(FontAwesomeIcon)`
-  font-size: 60px;
+  font-size: 80px;
   margin-bottom: 10px;
   animation: ${rotation} 1s linear infinite;
-  opacity: 0.7;
 `;
 
-const ExportLoading = () => {
+const MainLoading = () => {
   return (
     <Loading>
       <LoadingIcon icon="spinner" />
@@ -42,4 +38,4 @@ const ExportLoading = () => {
   );
 };
 
-export default ExportLoading;
+export default MainLoading;

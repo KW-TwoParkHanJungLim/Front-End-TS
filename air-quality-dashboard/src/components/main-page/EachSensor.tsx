@@ -1,0 +1,128 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { sensorlist } from "./MainPageList";
+//import { CoinInterface } from "../main-page/MainPageList";
+import SensorAttribute from "./SensorAttribute";
+import { getStatus } from "../../function/getStatus";
+import { IAvg, IAvgData, getToday } from "../../pages/SensorEntryPage";
+import { getFace } from "../../function/getIcon";
+import { getCookie } from "../../JWT/cookie";
+import { scoreTotal } from "../../function/scoreCalculate";
+
+const Sensor = styled.div`
+  display: flex;
+  width: 81%;
+  flex-wrap: wrap;
+  flex-direction: column;
+  background-color: white;
+  border: 3px solid rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  box-shadow: 3px 3px #c5c5c5;
+  overflow: hidden;
+  position: relative;
+  span {
+    position: absolute;
+    top: 24px;
+    right: 26px;
+  }
+  margin: 0 auto;
+  margin-bottom: 30px;
+`;
+
+const SensorAttributeWrapper = styled.div`
+  display: flex;
+  gap: 30px;
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: 600;
+`;
+
+type MainProps = {
+  UserId: string;
+  unit: any;
+  sensor: sensorlist;
+  //sensor: CoinInterface;
+  match: boolean;
+};
+
+const SensorScroll = styled(motion.div)`
+  display: flex;
+  height: 160px;
+  flex-wrap: nowrap;
+`;
+
+//dummyData 대신 실제 data 이용하여 값 띄울 수 있도록 코드 수정
+//단위(unit) 받을 수 있는 API 요청하기
+
+function EachSensor({
+  UserId,
+  unit,
+  sensor,
+  match,
+}: MainProps): React.ReactElement {
+  const statusRet = getStatus(scoreTotal(sensor.airData, 5));
+  const Role = getCookie("role");
+  const Id = getCookie("id");
+  const getValues = Object.values(sensor.airData);
+  var Data = [];
+  var i;
+  for (i = 0; i < 7; i++) {
+    var values;
+    if (getValues[i] == null) values = "-";
+    else values = getValues[i];
+    Data.push({ _name: unit[i].name, _value: values, _unit: unit[i].value });
+  }
+
+  var link: string;
+  if (Role === "admin") link = `/${Id}/${UserId}/${sensor.sensorId}`;
+  else link = `/${UserId}/${sensor.sensorId}`;
+  return (
+    <Sensor>
+      <Header>
+        {getFace(statusRet.state[0], statusRet.color[0], false)}
+        {sensor.sensorName}&nbsp;&nbsp;
+        <Link
+          to={link}
+          state={{
+            sensorName: sensor.sensorName,
+          }}
+        >
+          <FontAwesomeIcon icon="magnifying-glass" size="1x" />
+        </Link>
+      </Header>
+      <span>좌우로 드래그 가능</span>
+      <SensorAttributeWrapper>
+        <SensorScroll
+          drag="x"
+          dragConstraints={{
+            right: 0,
+            left: -210 * (Object.values(sensor.airData).length - 5),
+          }}
+        >
+          {Data.map((p: any) => (
+            <motion.div>
+              <SensorAttribute
+                key={p._name}
+                name={p._name}
+                value={p._value}
+                unit={p._unit}
+              />
+            </motion.div>
+          ))}
+        </SensorScroll>
+      </SensorAttributeWrapper>
+    </Sensor>
+  );
+}
+
+export default EachSensor;
