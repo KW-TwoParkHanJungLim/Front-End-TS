@@ -24,6 +24,7 @@ interface PreviewProps {
   };
   logtime?: string;
   isLoading: boolean;
+  isError: boolean;
 }
 
 const Wrapper = styled.div`

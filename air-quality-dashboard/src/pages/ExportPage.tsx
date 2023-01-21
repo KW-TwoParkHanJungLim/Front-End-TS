@@ -8,11 +8,13 @@ import ExportLine from "../components/export-page/ExportLine";
 import ExportSensor from "../components/export-page/ExportSensor";
 import UpperPage from "../components/UpperPage";
 import ExportLoading from "../components/export-page/ExportLoading";
+import { useParams } from "react-router-dom";
+import ExportError from "../components/export-page/ExportError";
 
 const Container = styled.div`
   margin: 0 auto;
-  padding-top: 150px;
-  height: 100vh;
+  padding-top: 100px;
+  height: 125vh;
   position: relative;
   width: 1300px;
   margin-bottom: 100px;
@@ -50,7 +52,7 @@ const Header = styled.h1`
 
 const SensorList = styled.div`
   width: 100%;
-  height: 600px;
+  height: 500px;
   border: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
@@ -69,13 +71,18 @@ export interface ISensor {
   };
 }
 
+interface RouteParams {
+  user: string;
+}
+
 const ExportPage = () => {
   const [visible, setVisible] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const modalRef = useRef<HTMLDivElement>(null);
+  const { user } = useParams<keyof RouteParams>() as RouteParams;
   const { isLoading, data, isError } = useQuery<ISensor[]>(
-    ["allSensors", "axr-kotra"],
-    () => fetchGraphSensorList("axr-inducwon")
+    ["allSensors", user],
+    () => fetchGraphSensorList(user)
   );
   const [sensorName, setSensorName] = useState<string[]>([]);
   const [sensorId, setSensorId] = useState<string[]>([]);
@@ -109,6 +116,8 @@ const ExportPage = () => {
           <ExportSensor isHeader={true} />
           {isLoading ? (
             <ExportLoading />
+          ) : isError ? (
+            <ExportError />
           ) : (
             data?.map((v) => {
               return (

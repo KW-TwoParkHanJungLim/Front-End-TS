@@ -6,47 +6,44 @@ export function fetchCoins() {
   return fetch(`https://api.coinpaprika.com/v1/coins`, {
     method: "GET",
     headers: {
-        "X-AUTH-TOKEN" : getCookie('token')
-    }
-}).then((response) =>
-    response.json()
-  );
+      "X-AUTH-TOKEN": getCookie("token"),
+    },
+  }).then((response) => response.json());
 }
 
 export function fetchCoinInfo(coinId: string) {
   return fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`, {
     method: "GET",
     headers: {
-        "X-AUTH-TOKEN" : getCookie('token')
-    }
-}).then(
-    (response) => response.json()
-  );
+      "X-AUTH-TOKEN": getCookie("token"),
+    },
+  }).then((response) => response.json());
 }
 
 export function fetchCoinTickers(coinId: string) {
   return fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`, {
     method: "GET",
     headers: {
-        "X-AUTH-TOKEN" : getCookie('token')
-    }
-}).then(
-    (response) => response.json()
-  );
+      "X-AUTH-TOKEN": getCookie("token"),
+    },
+  }).then((response) => response.json());
 }
 
 //2020-05-07
-export function fetchSensorAvg(date: string) {
-  return fetch(`/details?userId=axr-inducwon&date=${date}&id=D865950434A0`, {
+export function fetchSensorAvg(date: string, userId: string, sensorId: string) {
+  return fetch(`/details?userId=${userId}&date=${date}&id=${sensorId}`, {
     method: "GET",
     headers: {
-        "X-AUTH-TOKEN" : getCookie('token')
-    }
-}
-  ).then((response) => {
-    if (response.status !== 200) return undefined;
-    else return response.json();
-  });
+      "X-AUTH-TOKEN": getCookie("token"),
+    },
+  })
+    .then((response) => {
+      if (response.status !== 200) throw new Error(response.status.toString());
+      else return response.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 export function fetchGraph(
@@ -64,22 +61,26 @@ export function fetchGraph(
   return fetch(url, {
     method: "GET",
     headers: {
-        "X-AUTH-TOKEN" : getCookie('token')
-    }
-}).then((res) => {
-    if (res.status !== 200) return undefined;
-    else return res.json();
-  });
+      "X-AUTH-TOKEN": getCookie("token"),
+    },
+  })
+    .then((res) => {
+      if (res.status !== 200) throw new Error(res.status.toString());
+      else return res.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 export function fetchGraphSensorList(userId: string) {
   return fetch(`/graph/sensors?userId=${userId}`, {
-        method: "GET",
-        headers: {
-            "X-AUTH-TOKEN" : getCookie('token')
-        }
-    }).then((res) => {
-    console.log(res);
-    return res.json();
+    method: "GET",
+    headers: {
+      "X-AUTH-TOKEN": getCookie("token"),
+    },
+  }).then((res) => {
+    if (res.status !== 200) throw new Error(res.statusText);
+    else return res.json();
   });
 }
