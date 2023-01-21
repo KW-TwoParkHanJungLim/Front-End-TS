@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
+import { setCookie, getCookie } from "../../JWT/cookie";
 
 const SensorAttributeBox = styled.div`
   position:relative;
-  border : 3px solid black;
+  border : 3px solid rgba(0, 0, 0, 0.2);
   border-radius: 15px;
   display: flex;
   width:100%;
@@ -28,10 +29,17 @@ type UserProps = {
 }
 
 function EachUser({user} : UserProps){
+  const Role = getCookie('role');
+  const Id = getCookie('id');
+  var link : string;
+  if(Role === "admin") link = `/${Id}/${user}/main`;
+  else link = `/${user}/main`;
   return (
-    <Link to= {`/${user}/main`} state={{
-      UserId: user
-    }}>
+    <Link to= {link} onClick = {
+      () => {
+        setCookie('user', user);
+      }
+    }>
       <SensorAttributeBox>
         <Name>{user}</Name><br />
       </SensorAttributeBox>

@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { getCookie } from "../JWT/cookie";
 import DatePicker from "react-datepicker";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoinInfo, fetchCoins, fetchSensorAvg } from "../api/api";
 import UpperPage from "../components/UpperPage";
@@ -109,7 +110,7 @@ const Calendar = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
-interface IAvg {
+export interface IAvg {
   dayAvg: {
     co2: number;
     humi: number;
@@ -149,6 +150,7 @@ export function getToday(date: Date) {
 }
 
 function SensorEntryPage() {
+  const location = useLocation();
   const { sensorId } = useParams<keyof RouteParams>() as RouteParams;
   const [startDate, setStartDate] = useState(new Date());
   const [avgs, setAvgs] = useState<IAvgData[]>([]);
@@ -159,9 +161,8 @@ function SensorEntryPage() {
   } = useQuery<IAvg | undefined>(["test", startDate], () =>
     fetchSensorAvg(getToday(startDate))
   );
-
   console.log(testData);
-
+  
   useEffect(() => {
     if (!testLoading && !isError) {
       setAvgs([
@@ -226,14 +227,15 @@ function SensorEntryPage() {
       setAvgs([]);
     }
   }, [testLoading, startDate]);
-  
+  console.log(location);
+
   return (
     <>
       <div className="MainPage">
         <UpperPage />
       </div>
       <Container>
-        <Header>{sensorId}</Header>
+        <Header>{location.state.sensorName}</Header>
         <Calendar>
           <SDatePicker
             selected={startDate}
