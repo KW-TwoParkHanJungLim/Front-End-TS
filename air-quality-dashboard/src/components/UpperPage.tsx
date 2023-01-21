@@ -40,11 +40,10 @@ export interface UserInterface {
 
 export default function UpperPage(){
   const navigate = useNavigate();
-  const ID : string = getCookie('id');
-  const Role : string = getCookie('role');
-  const User : string = getCookie('user');
-  //const User : string = "admin";
-
+  const ID : any = getCookie('id');
+  const Role : any = getCookie('role');
+  const User : any = getCookie('user');
+  
   const diffLogo = () => {
     if(Role === "admin") {
       return (
@@ -67,12 +66,17 @@ export default function UpperPage(){
   }
   const logOut = () => {
     if(window.confirm("로그아웃 하시겠습니까?")) {
-      removeCookie('id'); // 쿠키를 삭제
+      // 쿠키 완전 삭제
+      //console.log(getCookie('token'), getCookie('id'), getCookie('role'), getCookie('user'));
+      
+      removeCookie('id'); 
       removeCookie('role');
       removeCookie('user'); 
       removeCookie('token');
+      
+      //console.log(getCookie('token'), getCookie('id'), getCookie('role'), getCookie('user'));
       alert("로그아웃 되었습니다.")
-		  navigate('/'); // 메인 페이지로 이동
+      navigate('/'); // 메인 페이지로 이동
     } else {
       //동작 x
     }

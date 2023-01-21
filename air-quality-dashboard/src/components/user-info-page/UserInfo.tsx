@@ -3,6 +3,7 @@ import { fetchUser } from '../../api/api_jiwoo';
 import { useQuery } from '@tanstack/react-query';
 import { getCookie } from '../../JWT/cookie';
 import styled from 'styled-components';
+import { StringMappingType } from 'typescript';
 
 const Header = styled.h1`
   margin-bottom: 50px;
@@ -33,6 +34,13 @@ const Back = styled.button`
     border:0; border-radius:5px; color: white; background-color:#20c997; box-shadow:2px 2px lightgray;
 `
 
+interface UserInterface {
+    name: string,
+    id: string,
+    phone: string,
+    email: string
+}
+
 function UserInfo() {
     const UserId : any = getCookie('user'); //상단 바의 사용자 버튼 클릭 시 넘어오는 사용자 정보
     const userInfo = useQuery<any>([UserId], () => fetchUser(UserId));
@@ -44,10 +52,10 @@ function UserInfo() {
         <div>
             <Header>내 프로필</Header><p /><br />
             <Container>
-                <H3>이름 &nbsp;&nbsp;&nbsp;<InfoText type='text' name="Name" value={userInfo.data.name} disabled /><p /><br /></H3>
-                <H3>아이디 <InfoText type='text' name="ID" value={userInfo.data.id} disabled /><p /><br /></H3>
-                <H3>연락처 <InfoText type='text' name="PhoneNum" value={userInfo.data.phone} disabled /><p /><br /></H3>
-                <H3>이메일 <InfoText type='text' name="Email" value={userInfo.data.email} disabled /><p /><br /></H3>
+                <H3>이름 &nbsp;&nbsp;&nbsp;<InfoText type='text' name="Name" value={userInfo.data?.name} disabled /><p /><br /></H3>
+                <H3>아이디 <InfoText type='text' name="ID" value={userInfo.data?.id} disabled /><p /><br /></H3>
+                <H3>연락처 <InfoText type='text' name="PhoneNum" value={userInfo.data?.phone} disabled /><p /><br /></H3>
+                <H3>이메일 <InfoText type='text' name="Email" value={userInfo.data?.email} disabled /><p /><br /></H3>
             </Container>
             <Back onClick={Goback}>뒤로가기</Back>
         </div>
