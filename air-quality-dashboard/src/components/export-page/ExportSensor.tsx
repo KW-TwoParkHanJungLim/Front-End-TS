@@ -88,7 +88,7 @@ const CheckIcon = styled.div`
   background-color: #63cdda;
 `;
 
-const ExportSensor = ({
+function ExportSensor ({
   isHeader = false,
   data,
   isError,
@@ -96,7 +96,7 @@ const ExportSensor = ({
   setSensorId,
   sensorName,
   sensorId,
-}: IProp) => {
+}: IProp) {
   const ret = getStatus(scoreTotal(data?.airData, 5));
   const state = ret.state[0];
   const color = ret.color[0];

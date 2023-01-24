@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import styled from "styled-components";
 import { getFace } from "../../function/getIcon";
@@ -42,7 +41,7 @@ interface IProp {
   isError: boolean;
 }
 
-const Summary = ({ type, score, isError, isLoading }: IProp) => {
+function Summary ({ type, score, isError, isLoading }: IProp) {
   const color = getStatus(score).color[0];
   const state = getStatus(score).state[0];
 

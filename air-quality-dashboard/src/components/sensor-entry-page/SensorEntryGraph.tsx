@@ -1,5 +1,6 @@
-import ReactApexChart from "react-apexcharts";
+import React from 'react';
 import styled from "styled-components";
+import ReactApexChart from "react-apexcharts";
 import { getStatus } from "../../function/getStatus";
 import { IAvgData } from "../../pages/SensorEntryPage";
 

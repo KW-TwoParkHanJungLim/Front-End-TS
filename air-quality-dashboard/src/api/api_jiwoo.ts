@@ -6,10 +6,12 @@ export function fetchMain(UserId: string) {
     headers: {
       "X-AUTH-TOKEN": getCookie("token"),
     },
-  }).then((response) => {
+  })
+  .then((response) => {
     if (response.status !== 200) throw new Error(response.statusText);
     else return response.json();
-  });
+  })
+  .catch(() => console.log("fetch error"));
 }
 
 //로그인한 사용자의 정보를 불러오는 함수
@@ -20,7 +22,9 @@ export function fetchUser(UserId: any) {
     headers: {
       "X-AUTH-TOKEN": getCookie("token"),
     },
-  }).then((response) => response.json());
+  })
+  .then((response) => response.json())
+  .catch(() => console.log("fetch error"));
 }
 
 //관리자용 전체 사용자 리스트 불러오는 함수

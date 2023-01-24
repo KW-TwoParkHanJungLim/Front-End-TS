@@ -1,9 +1,8 @@
 import React from 'react';
+import styled from 'styled-components';
 import { fetchUser } from '../../api/api_jiwoo';
 import { useQuery } from '@tanstack/react-query';
 import { getCookie } from '../../JWT/cookie';
-import styled from 'styled-components';
-import { StringMappingType } from 'typescript';
 
 const Header = styled.h1`
   margin-bottom: 50px;
@@ -33,13 +32,6 @@ const Back = styled.button`
     position: absolute; left: 880px; top: 600px; width:120px; height:40px; font-size:20px;    
     border:0; border-radius:5px; color: white; background-color:#20c997; box-shadow:2px 2px lightgray;
 `
-
-interface UserInterface {
-    name: string,
-    id: string,
-    phone: string,
-    email: string
-}
 
 function UserInfo() {
     const UserId : any = getCookie('user'); //상단 바의 사용자 버튼 클릭 시 넘어오는 사용자 정보

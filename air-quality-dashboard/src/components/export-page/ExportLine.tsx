@@ -1,6 +1,6 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { utils, writeFile } from "xlsx";
 import { fetchGraph } from "../../api/api";
 import { getToday } from "../../pages/SensorEntryPage";
@@ -149,13 +149,13 @@ const Attributes = [
   ["PM10.0", "pm10"],
 ];
 
-const ExportLine = ({
+function ExportLine ({
   visible,
   setVisible,
   sensorName,
   sensorId,
   startDate,
-}: IProp) => {
+}: IProp) {
   const [errorMessage, setErrorMessage] = useState("파일 형식 : XLSX");
   const [attr, setAttr] = useState<string[][]>([]);
   const excelFile = utils.book_new();

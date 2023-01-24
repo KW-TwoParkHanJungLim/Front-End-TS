@@ -1,6 +1,4 @@
-import Axios from "axios";
 import { getCookie } from "../JWT/cookie";
-import { responseInterceptor } from "http-proxy-middleware";
 
 export function fetchCoins() {
   return fetch(`https://api.coinpaprika.com/v1/coins`, {

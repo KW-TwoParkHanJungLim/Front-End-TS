@@ -1,6 +1,6 @@
-import { motion } from "framer-motion";
-import React, { useRef, useState } from "react";
+import React from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 import { IAvgData } from "../../pages/SensorEntryPage";
 import SensorEntryGraph from "./SensorEntryGraph";
 import SensorEntryLoading from "./SensorEntryLoading";
@@ -58,7 +58,7 @@ export interface GraphData {
   isError: boolean;
 }
 
-const GraphSlider = ({ data, type, isLoading, isError }: GraphData) => {
+function GraphSlider ({ data, type, isLoading, isError }: GraphData) {
   return (
     <TodayAvgGraphContainer>
       <TodayAvgGraphHeader>

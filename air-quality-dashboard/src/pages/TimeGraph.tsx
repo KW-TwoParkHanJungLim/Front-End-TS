@@ -1,9 +1,9 @@
-import UpperPage from "../components/UpperPage";
-import styled from "styled-components";
 import React, { useState } from "react";
+import styled from "styled-components";
+import UpperPage from "../components/UpperPage";
 import Chart from "../components/time-graph/Chart";
-import "react-datepicker/dist/react-datepicker.css";
 import ChartSensorList from "../components/time-graph/ChartSensorList";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Container = styled.div`
   margin: 0 auto;

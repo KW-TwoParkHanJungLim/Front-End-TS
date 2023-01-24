@@ -1,6 +1,6 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import styled, { keyframes } from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const rotation = keyframes`
   from{
@@ -33,7 +33,7 @@ const LoadingIcon = styled(FontAwesomeIcon)`
   opacity: 0.7;
 `;
 
-const ExportLoading = () => {
+function ExportLoading() {
   return (
     <Loading>
       <LoadingIcon icon="spinner" />

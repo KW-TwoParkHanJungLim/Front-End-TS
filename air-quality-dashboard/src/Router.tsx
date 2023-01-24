@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
@@ -9,7 +9,7 @@ import SensorEntryPage from "./pages/SensorEntryPage";
 import AdminUserListPage from "./pages/AdminUserListPage";
 import { CookiesProvider } from 'react-cookie'; //쿠키 관리
 
-const Router = () => {
+function Router () {
   return (
     <CookiesProvider> 
       <BrowserRouter basename={process.env.PUBLIC_URL}>
