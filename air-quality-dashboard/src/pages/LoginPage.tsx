@@ -1,11 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import React, {useRef} from "react";
-import axios from "axios";
+import React, { useRef } from "react";
 import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { setCookie } from '../JWT/cookie';
 import LoginLogo from "../assets/images/로그인 로고.jpg";
-
 
 const Container = styled.div`
   display:flex; justify-content:center;
@@ -31,7 +29,7 @@ const LoginButton = styled.button`
   border:0; border-radius:5px; margin-top:20px; color:white; 
 `
 
-export default function LoginPage () {
+function LoginPage () {
     const formRef : any = useRef();
     const navigate : any = useNavigate();
     
@@ -69,7 +67,8 @@ export default function LoginPage () {
             <LoginButton type="submit">로그인</LoginButton>
           </form> 
         </Login>
-      </Container>
-       
+      </Container>   
     );
 }
+
+export default LoginPage;

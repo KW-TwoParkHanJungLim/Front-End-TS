@@ -1,19 +1,16 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import ReactApexChart from "react-apexcharts";
 import ReactDatePicker from "react-datepicker";
 import styled from "styled-components";
-import ChartAttribute from "./ChartAttribute";
 import { ko } from "date-fns/esm/locale";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import Axios from "axios";
-import { NumberFormat } from "xlsx";
+import { useQuery } from "@tanstack/react-query";
 import { getUnit } from "../../function/getUnit";
-import ChartLoading from "./ChartLoading";
 import { getToday } from "../../pages/SensorEntryPage";
 import { fetchGraph } from "../../api/api";
+import ChartAttribute from "./ChartAttribute";
+import ChartLoading from "./ChartLoading";
 import ChartError from "./ChartError";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useParams } from "react-router-dom";
 
 interface ChartProps {
   selectedSensors: string[];
@@ -107,7 +104,6 @@ interface RouteParams {
 
 function Chart({ selectedSensors, selectedSensorId }: ChartProps) {
   const [selectedAttr, setSelectedAttr] = useState("Temperature");
-  const [chartTitle, setChartTitlle] = useState("센서를 선택하세요");
   const { user } = useParams<keyof RouteParams>() as RouteParams;
   const [startDate, setStartDate] = useState(new Date());
   const [datas, setDatas] = useState<any[][]>();
@@ -156,14 +152,12 @@ function Chart({ selectedSensors, selectedSensorId }: ChartProps) {
     let ret = "";
 
     if (selectedSensors.length === 0) {
-      setChartTitlle("센서를 선택하세요");
       return;
     }
 
     for (let i = 0; i < selectedSensors.length; i++) {
       ret += ` | ${selectedSensors[i]}`;
     }
-    setChartTitlle(ret);
   };
   useEffect(titleFormatter, [selectedSensors]);
 

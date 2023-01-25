@@ -1,16 +1,13 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { setCookie, getCookie, removeCookie } from "../JWT/cookie";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { setCookie, getCookie, removeCookie } from "../JWT/cookie";
 import 로고 from "../assets/images/로고.jpg";
 import 로그아웃 from "../assets/images/로그아웃.jpg";
 import 회원정보 from "../assets/images/회원정보.jpg";
 import 엑셀 from "../assets/images/엑셀.jpg";
 import 그래프 from "../assets/images/그래프.jpg";
 import 홈 from "../assets/images/홈.jpg";
-import { useRecoilCallback } from "recoil";
 
 const HomeUpper = styled.div`
   position:fixed; width:100%; height:70px; background-color:#20c997;
@@ -26,10 +23,6 @@ const Logo = styled.img`
   width:300px; height:70px;
 `
 
-type IdProps = {
-  Id: string
-} 
-
 export interface UserInterface {
   name: string,
   id: string,
@@ -38,7 +31,7 @@ export interface UserInterface {
 }
 
 
-export default function UpperPage(){
+function UpperPage(){
   const navigate = useNavigate();
   const ID : any = getCookie('id');
   const Role : any = getCookie('role');
@@ -64,23 +57,20 @@ export default function UpperPage(){
       );
     }
   }
+
   const logOut = () => {
     if(window.confirm("로그아웃 하시겠습니까?")) {
-      // 쿠키 완전 삭제
-      //console.log(getCookie('token'), getCookie('id'), getCookie('role'), getCookie('user'));
-      
       removeCookie('id'); 
       removeCookie('role');
       removeCookie('user'); 
       removeCookie('token');
-      
-      //console.log(getCookie('token'), getCookie('id'), getCookie('role'), getCookie('user'));
       alert("로그아웃 되었습니다.")
       navigate('/'); // 메인 페이지로 이동
     } else {
       //동작 x
     }
 	};
+
   const diffInfo = () => {
     var link : string;
     if(Role === "admin") {
@@ -94,6 +84,7 @@ export default function UpperPage(){
       </Link>
     ); 
   }
+
   const diffExport = () => {
     var link : string;
     if(Role === "admin") {
@@ -107,6 +98,7 @@ export default function UpperPage(){
       </Link>
     );
   }
+
   const diffGraph = () => {
     var link : string;
     if(Role === "admin") {
@@ -120,6 +112,7 @@ export default function UpperPage(){
       </Link>
     );
   }
+
   const diffHome = () => {
     var link : string;
     if(Role === "admin") {
@@ -134,17 +127,16 @@ export default function UpperPage(){
     )
   }
 
-  //로그아웃 기능 연결되면 Link 지우기
   return (
     <HomeUpper>
-      <form action='/logout' method='post'>
-        {diffLogo()}
-        <Button src={로그아웃} alt="logout" onClick={logOut} />
-        {diffInfo()}
-        {diffExport()}
-        {diffGraph()}
-        {diffHome()}
-      </form>
+      {diffLogo()}
+      <Button src={로그아웃} alt="logout" onClick={logOut} />
+      {diffInfo()}
+      {diffExport()}
+      {diffGraph()}
+      {diffHome()}  
     </HomeUpper>
   );
 }
+
+export default UpperPage;

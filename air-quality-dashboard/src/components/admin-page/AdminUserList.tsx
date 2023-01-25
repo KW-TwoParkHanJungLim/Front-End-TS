@@ -3,9 +3,7 @@ import styled from 'styled-components';
 import UserSearch from './UserSearch';
 import EachUser from './EachUser';
 import { useQuery } from '@tanstack/react-query';
-import { fetchCoins } from '../../api/api';
 import { fetchUserList } from '../../api/api_jiwoo';
-import { getCookie } from '../../JWT/cookie';
 
 const UserList = styled.div`
   display: flex;
@@ -27,22 +25,11 @@ const Container = styled.div`
   height: 200vh;
   position: relative;
   width: 80%;
-`;
-
-export interface CoinInterface{
-  id: string,
-  name: string,
-  symbol: string,
-  rank: number,
-  is_new: boolean,
-  is_active: boolean,
-  type: string,
-}
+`
 
 function AdminUserList() {
   const [search, setSearch] = useState("");
   const userList = useQuery<any>(["allUser"], fetchUserList);
-  //const { data } = useQuery<CoinInterface[]>(["allCoins"], fetchCoins);
   const onChange = (e : React.FormEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value);
   };

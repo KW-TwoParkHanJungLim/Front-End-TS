@@ -1,14 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { getCookie } from "../JWT/cookie";
-import DatePicker from "react-datepicker";
+import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { fetchCoinInfo, fetchCoins, fetchSensorAvg } from "../api/api";
-import UpperPage from "../components/UpperPage";
+import { useQuery } from "@tanstack/react-query";
+import DatePicker from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import SensorEntryGraph from "../components/sensor-entry-page/SensorEntryGraph";
+import { fetchSensorAvg } from "../api/api";
+import UpperPage from "../components/UpperPage";
 import Summary from "../components/sensor-entry-page/Summary";
 import GraphSlider from "../components/sensor-entry-page/GraphSlider";
 
@@ -38,27 +35,6 @@ export interface CoinInterface {
   is_new: boolean;
   is_active: boolean;
   type: string;
-}
-
-interface InfoInterface {
-  id: string;
-  name: string;
-  symbol: string;
-  rank: number;
-  is_new: boolean;
-  is_active: boolean;
-  type: string;
-  description: string;
-  message: string;
-  open_source: boolean;
-  started_at: string;
-  development_status: string;
-  hardware_wallet: boolean;
-  proof_type: string;
-  org_structure: string;
-  hash_algorithm: string;
-  first_data_at: string;
-  last_data_at: string;
 }
 
 interface RouteParams {

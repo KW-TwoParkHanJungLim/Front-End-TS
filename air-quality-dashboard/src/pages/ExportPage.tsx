@@ -1,14 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import ReactDatePicker from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
-import styled from "styled-components";
 import { fetchGraphSensorList } from "../api/api";
+import UpperPage from "../components/UpperPage";
 import ExportLine from "../components/export-page/ExportLine";
 import ExportSensor from "../components/export-page/ExportSensor";
-import UpperPage from "../components/UpperPage";
 import ExportLoading from "../components/export-page/ExportLoading";
-import { useParams } from "react-router-dom";
 import ExportError from "../components/export-page/ExportError";
 
 const Container = styled.div`
@@ -75,7 +75,7 @@ interface RouteParams {
   user: string;
 }
 
-const ExportPage = () => {
+function ExportPage () {
   const [visible, setVisible] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const modalRef = useRef<HTMLDivElement>(null);

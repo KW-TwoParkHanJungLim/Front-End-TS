@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import ReactApexChart from "react-apexcharts";
+import React from 'react';
 import styled from "styled-components";
+import ReactApexChart from "react-apexcharts";
 import { getStatus } from "../../function/getStatus";
 import { getUnit } from "../../function/getUnit";
 import {
@@ -124,9 +124,7 @@ const StatusDot = styled.div<{ color: string }>`
   margin-top: 5px;
 `;
 
-const Loading = styled.div``;
-
-function AttributePreview({ name, data, isLoading }: PreviewProps) {
+function AttributePreview({ name, data }: PreviewProps) {
   return (
     <Wrapper>
       <Header>{`${name}`}</Header>

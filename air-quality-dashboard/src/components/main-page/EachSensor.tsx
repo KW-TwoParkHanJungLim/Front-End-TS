@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { sensorlist } from "./MainPageList";
-//import { CoinInterface } from "../main-page/MainPageList";
 import SensorAttribute from "./SensorAttribute";
 import { getStatus } from "../../function/getStatus";
-import { IAvg, IAvgData, getToday } from "../../pages/SensorEntryPage";
 import { getFace } from "../../function/getIcon";
 import { getCookie } from "../../JWT/cookie";
 import { scoreTotal } from "../../function/scoreCalculate";
@@ -51,8 +49,6 @@ type MainProps = {
   UserId: string;
   unit: any;
   sensor: sensorlist;
-  //sensor: CoinInterface;
-  match: boolean;
 };
 
 const SensorScroll = styled(motion.div)`
@@ -61,14 +57,10 @@ const SensorScroll = styled(motion.div)`
   flex-wrap: nowrap;
 `;
 
-//dummyData 대신 실제 data 이용하여 값 띄울 수 있도록 코드 수정
-//단위(unit) 받을 수 있는 API 요청하기
-
 function EachSensor({
   UserId,
   unit,
-  sensor,
-  match,
+  sensor
 }: MainProps): React.ReactElement {
   const statusRet = getStatus(scoreTotal(sensor.airData, 5));
   const Role = getCookie("role");

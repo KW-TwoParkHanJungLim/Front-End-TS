@@ -1,15 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
 import React, { Dispatch, SetStateAction, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { fetchCoins, fetchGraphSensorList } from "../../api/api";
-import { CoinInterface } from "../main-page/MainPageList";
+import { useQuery } from "@tanstack/react-query";
+import { fetchGraphSensorList } from "../../api/api";
 import AttributePreview from "./AttributePreiview";
 import SensorSearch from "../sensor-entry-page/SensorSearch";
-import { getToday } from "../../pages/SensorEntryPage";
 import { getFace } from "../../function/getIcon";
 import { scoreTotal } from "../../function/scoreCalculate";
 import { getStatus } from "../../function/getStatus";
-import { useParams } from "react-router-dom";
 
 const Container = styled.div`
   width: 1700px;

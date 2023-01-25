@@ -1,6 +1,6 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Error = styled.div`
   display: flex;
@@ -23,7 +23,7 @@ const Icon = styled(FontAwesomeIcon)`
   opacity: 0.7;
 `;
 
-const ExportError = () => {
+function ExportError() {
   return (
     <Error>
       <Icon icon="frown-open" />

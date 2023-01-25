@@ -47,7 +47,7 @@ interface IProp {
   isError: boolean;
 }
 
-const SensorEntryLoading = ({ isError, isLoading }: IProp) => {
+function SensorEntryLoading ({ isError, isLoading }: IProp) {
   return (
     <Container>
       {isError ? (

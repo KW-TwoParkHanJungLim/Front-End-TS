@@ -1,12 +1,9 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import React from "react";
 import styled from "styled-components";
 import EachSensor from "./EachSensor";
 import { useQuery } from "@tanstack/react-query";
-//import { fetchCoins } from "../../api/api";
 import { fetchMain } from "../../api/api_jiwoo";
 import { getCookie } from "../../JWT/cookie";
-import SensorSearch from "../sensor-entry-page/SensorSearch";
 import MainLoading from "./MainLoading";
 import MainError from "./MainError";
 
@@ -31,16 +28,6 @@ const Container = styled.div`
   width: 1400px;
 `;
 
-export interface CoinInterface {
-  id: string;
-  name: string;
-  symbol: string;
-  rank: number;
-  is_new: boolean;
-  is_active: boolean;
-  type: string;
-}
-
 export interface sensorlist {
   sensorName: string;
   sensorId: string;
@@ -56,10 +43,7 @@ export interface MainInterface {
   sensorInfoList: sensorlist[];
 }
 
-//const { data } = useQuery<CoinInterface[]>(["allCoins"], fetchCoins);
 function MainPage_List() {
-  const [search, setSearch] = useState("");
-  const [selectedSensors, setselectedSensors] = useState<string[]>([]);
   const UserId: string = getCookie("user");
   const { data, isLoading, isError } = useQuery<MainInterface>(
     [UserId],
@@ -69,14 +53,8 @@ function MainPage_List() {
     }
   );
 
-  const onChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setSearch(e.currentTarget.value);
-  };
-
   const filterTitle = data?.sensorInfoList?.slice(0, 50).filter((p) => {
-    return p.sensorName
-      .toLocaleLowerCase()
-      .includes(search.toLocaleLowerCase());
+    return p.sensorName.toLocaleLowerCase()
   });
   return (
     <Container>
@@ -92,7 +70,6 @@ function MainPage_List() {
               key={sensor.sensorId}
               unit={data?.unit}
               sensor={sensor}
-              match={selectedSensors.includes(sensor.sensorName)}
             />
           ))}
         </SensorList>
