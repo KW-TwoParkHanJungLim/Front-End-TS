@@ -71,7 +71,7 @@ function EachSensor({
   for (i = 0; i < 7; i++) {
     var values;
     if (getValues[i] == null) values = "-";
-    else values = getValues[i];
+    else values = Number(getValues[i]).toFixed(2);
     Data.push({ _name: unit[i].name, _value: values, _unit: unit[i].value });
   }
 

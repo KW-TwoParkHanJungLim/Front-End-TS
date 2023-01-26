@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import UserSearch from './UserSearch';
 import EachUser from './EachUser';
 import { useQuery } from '@tanstack/react-query';
-import { fetchUserList } from '../../api/api_jiwoo';
+import { fetchUserList } from '../../api/api';
 
 const UserList = styled.div`
   display: flex;
