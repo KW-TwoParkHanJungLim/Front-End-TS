@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import EachSensor from "./EachSensor";
 import { useQuery } from "@tanstack/react-query";
-import { fetchMain } from "../../api/api_jiwoo";
+import { fetchMain } from "../../api/api";
 import { getCookie } from "../../JWT/cookie";
+import EachSensor from "./EachSensor";
 import MainLoading from "./MainLoading";
 import MainError from "./MainError";
 

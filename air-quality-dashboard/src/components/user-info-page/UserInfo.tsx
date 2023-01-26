@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { fetchUser } from '../../api/api_jiwoo';
+import { fetchUser } from '../../api/api';
 import { useQuery } from '@tanstack/react-query';
 import { getCookie } from '../../JWT/cookie';
 
