@@ -145,25 +145,25 @@ function SensorEntryPage() {
         [
           {
             name: "Temperature",
-            avg: testData ? testData.dayAvg.temp : 0,
+            avg: testData.dayAvg.temp ? testData.dayAvg.temp : -999,
             score: scoreTemp(testData?.dayAvg.temp, startDate.getMonth()),
-            weekAvg: testData ? testData.weekAvg.temp : 0,
+            weekAvg: testData.weekAvg.temp ? testData.weekAvg.temp : -999,
             weekScore: scoreTemp(testData?.weekAvg.temp, startDate.getMonth()),
             unit: "°C",
           },
           {
             name: "Humidity",
-            avg: testData ? testData.dayAvg.humi : 0,
+            avg: testData.dayAvg.humi ? testData.dayAvg.humi : -999,
             score: scoreHumi(testData?.dayAvg.humi, 4),
-            weekAvg: testData ? testData.weekAvg.humi : 0,
+            weekAvg: testData.weekAvg.humi ? testData.weekAvg.humi : -999,
             weekScore: scoreHumi(testData?.weekAvg.humi, startDate.getMonth()),
             unit: "%",
           },
           {
             name: "CO2",
-            avg: testData ? testData.dayAvg.co2 : 0,
+            avg: testData.dayAvg.co2 ? testData.dayAvg.co2 : -999,
             score: scoreCo2(testData?.dayAvg.co2),
-            weekAvg: testData ? testData.weekAvg.co2 : 0,
+            weekAvg: testData.weekAvg.co2 ? testData.weekAvg.co2 : -999,
             weekScore: scoreCo2(testData?.weekAvg.co2),
             unit: "ppm",
           },
@@ -171,31 +171,31 @@ function SensorEntryPage() {
             name: "PM1.0",
             avg: testData.dayAvg.pm01 ? testData.dayAvg.pm01 : -999,
             score: scorePM25(testData?.dayAvg.pm01),
-            weekAvg: testData ? testData.weekAvg.pm01 : -1,
+            weekAvg: testData.weekAvg.pm01 ? testData.weekAvg.pm01 : -999,
             weekScore: scorePM25(testData?.weekAvg.pm01),
             unit: "㎍/m³",
           },
           {
             name: "PM10",
-            avg: testData ? testData.dayAvg.pm10 : 0,
+            avg: testData.dayAvg.pm10 ? testData.dayAvg.pm10 : -999,
             score: scorePM10(testData?.dayAvg.pm10),
-            weekAvg: testData ? testData.weekAvg.pm10 : 0,
+            weekAvg: testData.weekAvg.pm10 ? testData.weekAvg.pm10 : -999,
             weekScore: scorePM10(testData?.weekAvg.pm10),
             unit: "㎍/m³",
           },
           {
             name: "PM2.5",
-            avg: testData ? testData.dayAvg.pm25 : 0,
+            avg: testData.dayAvg.pm25 ? testData.dayAvg.pm25 : -999,
             score: scorePM25(testData?.dayAvg.pm25),
-            weekAvg: testData ? testData.weekAvg.pm25 : 0,
+            weekAvg: testData.weekAvg.pm25 ? testData.weekAvg.pm25 : -999,
             weekScore: scorePM25(testData?.weekAvg.pm25),
             unit: "㎍/m³",
           },
           {
             name: "TVOC",
-            avg: testData ? testData.dayAvg.tvoc : 0,
+            avg: testData.dayAvg.tvoc ? testData.dayAvg.tvoc : -999,
             score: scoreTvoc(testData?.dayAvg.tvoc),
-            weekAvg: testData ? testData.weekAvg.tvoc : 0,
+            weekAvg: testData.weekAvg.tvoc ? testData.weekAvg.tvoc : -999,
             weekScore: scoreTvoc(testData?.weekAvg.tvoc),
             unit: "ppb",
           },
@@ -232,7 +232,7 @@ function SensorEntryPage() {
             score={Number(
               (
                 avgs.reduce((acc, v) => {
-                  return acc + v.score;
+                  return Number(acc) + Number(v.score);
                 }, 0) / avgs.length
               ).toFixed(1)
             )}
