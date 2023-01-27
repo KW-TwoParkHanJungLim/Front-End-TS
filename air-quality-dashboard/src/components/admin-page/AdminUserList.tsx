@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import UserSearch from './UserSearch';
 import EachUser from './EachUser';
@@ -28,14 +29,21 @@ const Container = styled.div`
 `
 
 function AdminUserList() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
-  const userList = useQuery<any>(["allUser"], fetchUserList);
+  const {data, isError} = useQuery<any>(["allUser"], fetchUserList);
+  useEffect(() => {
+    if(isError === true) {
+      alert("로그인 정보가 없습니다.\n로그인 화면으로 이동합니다.")
+      return navigate('/');
+    }
+  }, [isError])
   const onChange = (e : React.FormEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value);
   };
-  const filterTitle = userList.data?.slice(0,50).filter((p : string) => {
+  const filterTitle = data?.slice(0,50).filter((p : string) => {
     return p.toLocaleLowerCase().includes(search.toLocaleLowerCase());
-  })
+  });
   return(
     <Container>
         <UserSearch value={search} onChange = {onChange} />

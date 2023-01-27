@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { fetchMain } from "../../api/api";
@@ -44,15 +45,17 @@ export interface MainInterface {
 }
 
 function MainPage_List() {
+  const navigate = useNavigate();
   const UserId: string = getCookie("user");
   const { data, isLoading, isError } = useQuery<MainInterface>(
-    [UserId],
-    () => fetchMain(UserId),
-    {
-      retry: 1,
-    }
+    [UserId], () => fetchMain(UserId), { retry: 1, }
   );
-
+  useEffect(() => {
+    if(isError === true && getCookie('token') === undefined) {
+        alert("로그인 정보가 없습니다.\n로그인 화면으로 이동합니다.")
+        return navigate('/');
+    }
+  }, [isError])
   const filterTitle = data?.sensorInfoList?.slice(0, 50).filter((p) => {
     return p.sensorName.toLocaleLowerCase()
   });

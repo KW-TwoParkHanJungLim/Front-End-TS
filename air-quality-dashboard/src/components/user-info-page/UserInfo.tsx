@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { fetchUser } from '../../api/api';
 import { useQuery } from '@tanstack/react-query';
@@ -34,8 +35,15 @@ const Back = styled.button`
 `
 
 function UserInfo() {
+    const navigate = useNavigate();
     const UserId : any = getCookie('user'); //상단 바의 사용자 버튼 클릭 시 넘어오는 사용자 정보
-    const userInfo = useQuery<any>([UserId], () => fetchUser(UserId));
+    const {data, isError} = useQuery<any>([UserId], () => fetchUser(UserId));
+    useEffect(() => {
+        if(isError === true) {
+            alert("로그인 정보가 없습니다.\n로그인 화면으로 이동합니다.")
+            return navigate('/');
+        }
+      }, [isError])
     const Goback = () => {
         window.history.back();
     }
@@ -44,10 +52,10 @@ function UserInfo() {
         <div>
             <Header>내 프로필</Header><p /><br />
             <Container>
-                <H3>이름 &nbsp;&nbsp;&nbsp;<InfoText type='text' name="Name" value={userInfo.data?.name} disabled /><p /><br /></H3>
-                <H3>아이디 <InfoText type='text' name="ID" value={userInfo.data?.id} disabled /><p /><br /></H3>
-                <H3>연락처 <InfoText type='text' name="PhoneNum" value={userInfo.data?.phone} disabled /><p /><br /></H3>
-                <H3>이메일 <InfoText type='text' name="Email" value={userInfo.data?.email} disabled /><p /><br /></H3>
+                <H3>이름 &nbsp;&nbsp;&nbsp;<InfoText type='text' name="Name" value={data?.name} disabled /><p /><br /></H3>
+                <H3>아이디 <InfoText type='text' name="ID" value={data?.id} disabled /><p /><br /></H3>
+                <H3>연락처 <InfoText type='text' name="PhoneNum" value={data?.phone} disabled /><p /><br /></H3>
+                <H3>이메일 <InfoText type='text' name="Email" value={data?.email} disabled /><p /><br /></H3>
             </Container>
             <Back onClick={Goback}>뒤로가기</Back>
         </div>
