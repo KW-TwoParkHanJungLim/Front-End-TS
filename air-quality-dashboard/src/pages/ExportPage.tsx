@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import ReactDatePicker from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
@@ -10,6 +10,7 @@ import ExportLine from "../components/export-page/ExportLine";
 import ExportSensor from "../components/export-page/ExportSensor";
 import ExportLoading from "../components/export-page/ExportLoading";
 import ExportError from "../components/export-page/ExportError";
+import { getCookie } from "../JWT/cookie";
 
 const Container = styled.div`
   margin: 0 auto;
@@ -75,8 +76,9 @@ interface RouteParams {
   user: string;
 }
 
-function ExportPage () {
+function ExportPage() {
   const [visible, setVisible] = useState(false);
+  const navigate = useNavigate();
   const [startDate, setStartDate] = useState(new Date());
   const modalRef = useRef<HTMLDivElement>(null);
   const { user } = useParams<keyof RouteParams>() as RouteParams;
@@ -99,6 +101,13 @@ function ExportPage () {
       document.removeEventListener("mousedown", clickModalOutside);
     };
   });
+
+  useEffect(() => {
+    if (isError && getCookie("token") === undefined) {
+      alert("로그인 정보가 없습니다.\n로그인 화면으로 이동합니다.");
+      return navigate("/");
+    }
+  }, [isError]);
 
   return (
     <div>
@@ -147,6 +156,6 @@ function ExportPage () {
       </Container>
     </div>
   );
-};
+}
 
 export default ExportPage;

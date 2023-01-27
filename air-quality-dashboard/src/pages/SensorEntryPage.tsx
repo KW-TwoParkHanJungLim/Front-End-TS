@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import DatePicker from "react-datepicker";
@@ -17,6 +17,7 @@ import {
   scoreTemp,
   scoreTvoc,
 } from "../function/scoreCalculate";
+import { getCookie } from "../JWT/cookie";
 
 const Container = styled.div`
   margin: 0 auto;
@@ -128,6 +129,7 @@ export function getToday(date: Date) {
 
 function SensorEntryPage() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, sensorId } = useParams<keyof RouteParams>() as RouteParams;
   const [startDate, setStartDate] = useState(new Date());
   const [avgs, setAvgs] = useState<IAvgData[]>([]);
@@ -138,6 +140,13 @@ function SensorEntryPage() {
   } = useQuery<IAvg>(["test", startDate], () => {
     return fetchSensorAvg(getToday(startDate), user, sensorId);
   });
+
+  useEffect(() => {
+    if (isError && getCookie("token") === undefined) {
+      alert("로그인 정보가 없습니다.\n로그인 화면으로 이동합니다.");
+      return navigate("/");
+    }
+  }, [isError]);
 
   useEffect(() => {
     if (!testLoading && !isError) {
@@ -214,7 +223,7 @@ function SensorEntryPage() {
         <UpperPage />
       </div>
       <Container>
-        <Header>{location.state.sensorName}</Header>
+        <Header>{location.state ? location.state.sensorName : "Error"}</Header>
         <Calendar>
           <SDatePicker
             selected={startDate}
