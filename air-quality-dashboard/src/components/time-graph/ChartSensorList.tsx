@@ -1,5 +1,5 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { fetchGraphSensorList } from "../../api/api";
@@ -8,6 +8,7 @@ import SensorSearch from "../sensor-entry-page/SensorSearch";
 import { getFace } from "../../function/getIcon";
 import { scoreTotal } from "../../function/scoreCalculate";
 import { getStatus } from "../../function/getStatus";
+import { getCookie } from "../../JWT/cookie";
 
 const Container = styled.div`
   width: 1700px;
@@ -148,6 +149,7 @@ const ChartSensorList = ({
   setSelectedSensorId,
 }: IProp) => {
   const { user } = useParams<keyof RouteParams>() as RouteParams;
+  const navigate = useNavigate();
   const { isLoading, data, isError } = useQuery<ISensor[]>(
     ["allSensors", user],
     () => fetchGraphSensorList(user),
@@ -158,6 +160,13 @@ const ChartSensorList = ({
   const [hoverSensor, setHoverSensor] = useState<ISensor>();
   const [search, setSearch] = useState("");
   const [preview, setPreview] = useState("");
+
+  useEffect(() => {
+    if (isError === true && getCookie("token") === undefined) {
+      alert("로그인 후 이용해주십시오");
+      return navigate("/");
+    }
+  }, [isError]);
 
   const onChange = (e: React.FormEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value);
