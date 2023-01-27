@@ -81,13 +81,13 @@ export function scoreHumi(avg = 0, month: number) {
     score -= stk;
     stk = score > 50 ? 3 : 1;
   }
-  return score;
+  return Number(score.toFixed(0));
 }
 
 export function scoreCo2(avg = 0) {
   let score = 100;
 
-  if (avg < 350) return score;
+  if (avg < 350) return Number(score.toFixed(0));
   else if (avg >= 350 && avg <= 460) {
     score -= avg * 0.01;
   } else if (avg > 460 && avg <= 700) {
@@ -109,7 +109,7 @@ export function scoreTvoc(avg = 0) {
   let score = 100;
   score -= avg * 0.01;
 
-  if (avg < 60) return score;
+  if (avg < 60) return Number(score.toFixed(0));
   else if (avg >= 60 && avg <= 200) {
     score -= 10;
   } else if (avg > 200 && avg <= 600) {
@@ -148,5 +148,5 @@ export function scoreTotal(data: IData | undefined, month: number) {
     return acc + v;
   }, 0);
 
-  return sum / avg.length;
+  return Number((sum / avg.length).toFixed(0));
 }

@@ -131,11 +131,13 @@ function Chart({ selectedSensors, selectedSensorId }: ChartProps) {
       for (let i = 0; i < data.length; i++) {
         newDatas.push([]);
         for (let j = 0; j < data[i].length - 1; j++) {
-          const newData = {
-            x: data[i][j].logtime,
-            y: Number(data[i][j].value.toFixed(2)),
-          };
-          newDatas[i].push(newData);
+          if (data[i][j].value) {
+            const newData = {
+              x: data[i][j].logtime,
+              y: Number(data[i][j].value.toFixed(2)),
+            };
+            newDatas[i].push(newData);
+          }
         }
       }
       setDatas(newDatas);
