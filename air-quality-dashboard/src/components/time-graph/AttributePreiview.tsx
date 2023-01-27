@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
 import ReactApexChart from "react-apexcharts";
 import { getStatus } from "../../function/getStatus";
@@ -186,7 +186,7 @@ function AttributePreview({ name, data }: PreviewProps) {
               <span>{`Temperature `}</span>
             </AttributeName>
             <AttributeValue>
-              <span>{`${data.temp}`}</span>
+              <span>{`${data.temp.toFixed(2)}`}</span>
               <div>{`${getUnit("temp")}`}</div>
             </AttributeValue>
           </Attribute>
@@ -196,7 +196,7 @@ function AttributePreview({ name, data }: PreviewProps) {
               <span>{`Humidity `}</span>
             </AttributeName>
             <AttributeValue>
-              <span>{`${data.humi}`}</span>
+              <span>{`${data.humi.toFixed(2)}`}</span>
               <div>{`${getUnit("humi")}`}</div>
             </AttributeValue>
           </Attribute>
@@ -206,7 +206,7 @@ function AttributePreview({ name, data }: PreviewProps) {
               <span>{`CO2 `}</span>
             </AttributeName>
             <AttributeValue>
-              <span>{`${data.co2}`}</span>
+              <span>{`${data.co2.toFixed(2)}`}</span>
               <div>{`${getUnit("co2")}`}</div>
             </AttributeValue>
           </Attribute>
@@ -216,7 +216,7 @@ function AttributePreview({ name, data }: PreviewProps) {
               <span>{`TVOC `}</span>
             </AttributeName>
             <AttributeValue>
-              <span>{`${data.tvoc}`}</span>
+              <span>{`${data.tvoc.toFixed(2)}`}</span>
               <div>{`${getUnit("tvoc")}`}</div>
             </AttributeValue>
           </Attribute>

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { utils, writeFile } from "xlsx";
 import { fetchGraph } from "../../api/api";
 import { getToday } from "../../pages/SensorEntryPage";
+import { useParams } from "react-router-dom";
 
 const Wrapper = styled.div`
   display: flex;
@@ -149,7 +150,11 @@ const Attributes = [
   ["PM10.0", "pm10"],
 ];
 
-function ExportLine ({
+interface RouteParams {
+  user: string;
+}
+
+function ExportLine({
   visible,
   setVisible,
   sensorName,
@@ -159,16 +164,12 @@ function ExportLine ({
   const [errorMessage, setErrorMessage] = useState("파일 형식 : XLSX");
   const [attr, setAttr] = useState<string[][]>([]);
   const excelFile = utils.book_new();
+  const { user } = useParams<keyof RouteParams>() as RouteParams;
 
   async function sequentialReques() {
     for (let i = 0; i < attr.length; i++) {
       try {
-        await fetchGraph(
-          "axr-inducwon",
-          getToday(startDate),
-          sensorId,
-          attr[i][1]
-        )
+        await fetchGraph(user, getToday(startDate), sensorId, attr[i][1])
           .then((res: IGraph[][]) => {
             if (res && res[0]) {
               const column: any = [];
@@ -286,6 +287,6 @@ function ExportLine ({
       </SelectWrapper>
     </Wrapper>
   );
-};
+}
 
 export default ExportLine;
