@@ -8,14 +8,10 @@ export function fetchSensorAvg(date: string, userId: string, sensorId: string) {
     headers: {
       "X-AUTH-TOKEN": getCookie("token"),
     },
-  })
-    .then((response) => {
-      if (response.status !== 200) throw new Error(response.status.toString());
-      else return response.json();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  }).then(async (response) => {
+    if (response.ok) return await response.json();
+    else throw response.status;
+  });
 }
 
 export function fetchGraph(

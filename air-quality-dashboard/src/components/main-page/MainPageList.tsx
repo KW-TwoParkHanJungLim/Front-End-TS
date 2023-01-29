@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
@@ -42,11 +42,6 @@ export interface MainInterface {
     value: string;
   };
   sensorInfoList: sensorlist[];
-}
-
-interface FetchItemOptions {
-  method: string;
-  body?: unknown;
 }
 
 function MainPage_List() {

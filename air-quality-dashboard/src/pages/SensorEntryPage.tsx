@@ -137,16 +137,20 @@ function SensorEntryPage() {
     isLoading: testLoading,
     data: testData,
     isError,
-  } = useQuery<IAvg>(["test", startDate], () => {
-    return fetchSensorAvg(getToday(startDate), user, sensorId);
-  });
-
-  useEffect(() => {
-    if (isError && getCookie("token") === undefined) {
-      alert("로그인 정보가 없습니다.\n로그인 화면으로 이동합니다.");
-      return navigate("/");
+  } = useQuery<IAvg>(
+    ["test", startDate],
+    () => {
+      return fetchSensorAvg(getToday(startDate), user, sensorId);
+    },
+    {
+      onError: (error) => {
+        if (error === 403) {
+          alert("로그인 정보가 없습니다.\n로그인 화면으로 이동합니다.");
+          return navigate("/");
+        }
+      },
     }
-  }, [isError]);
+  );
 
   useEffect(() => {
     if (!testLoading && !isError) {
