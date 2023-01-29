@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
 import { getCookie } from "../JWT/cookie";
 
 //2020-05-07
@@ -9,14 +8,10 @@ export function fetchSensorAvg(date: string, userId: string, sensorId: string) {
     headers: {
       "X-AUTH-TOKEN": getCookie("token"),
     },
-  })
-    .then((response) => {
-      if (response.status !== 200) throw new Error(response.status.toString());
-      else return response.json();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  }).then(async (response) => {
+    if (response.ok) return await response.json();
+    else throw response.status;
+  });
 }
 
 export function fetchGraph(
@@ -36,14 +31,10 @@ export function fetchGraph(
     headers: {
       "X-AUTH-TOKEN": getCookie("token"),
     },
-  })
-    .then((res) => {
-      if (res.status !== 200) throw new Error(res.status.toString());
-      else return res.json();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  }).then(async (res) => {
+    if (res.ok) return await res.json();
+    else throw res.status;
+  });
 }
 
 export function fetchGraphSensorList(userId: string) {
@@ -52,9 +43,9 @@ export function fetchGraphSensorList(userId: string) {
     headers: {
       "X-AUTH-TOKEN": getCookie("token"),
     },
-  }).then((res) => {
-    if (res.status !== 200) throw new Error(res.statusText);
-    else return res.json();
+  }).then(async (res) => {
+    if (res.ok) return await res.json();
+    else throw res.status;
   });
 }
 
@@ -64,12 +55,10 @@ export function fetchMain(UserId: string) {
     headers: {
       "X-AUTH-TOKEN": getCookie("token"),
     },
-  })
-  .then((response) => {
-    if (response.status !== 200) throw new Error(response.statusText);
-    else return response.json();
-  })
-  .catch(() => console.log("fetch error"));
+  }).then(async (response) => {
+    if (response.ok) return await response.json();
+    else throw response.status;
+  });
 }
 
 //로그인한 사용자의 정보를 불러오는 함수
@@ -79,12 +68,10 @@ export function fetchUser(UserId: any) {
     headers: {
       "X-AUTH-TOKEN": getCookie("token"),
     },
-  })
-  .then((response) => {
-    if(response.status !== 200) throw new Error(response.statusText)
-    else return response.json()
-  })
-  .catch(() => console.log("fetch error"));
+  }).then(async (response) => {
+    if (response.ok) return await response.json();
+    else throw response.status;
+  });
 }
 
 //관리자용 전체 사용자 리스트 불러오는 함수
@@ -94,10 +81,8 @@ export function fetchUserList() {
     headers: {
       "X-AUTH-TOKEN": getCookie("token"),
     },
-  })
-    .then((response) => {
-      if(response.status !== 200) throw new Error(response.statusText)
-      else return response.json()
-    })
-    .catch(() => console.log("fetch error"));
+  }).then(async (response) => {
+    if (response.ok) return await response.json();
+    else throw response.status;
+  });
 }

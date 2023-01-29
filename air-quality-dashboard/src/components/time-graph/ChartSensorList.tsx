@@ -8,7 +8,6 @@ import SensorSearch from "../sensor-entry-page/SensorSearch";
 import { getFace } from "../../function/getIcon";
 import { scoreTotal } from "../../function/scoreCalculate";
 import { getStatus } from "../../function/getStatus";
-import { getCookie } from "../../JWT/cookie";
 
 const Container = styled.div`
   width: 1700px;
@@ -154,19 +153,17 @@ const ChartSensorList = ({
     ["allSensors", user],
     () => fetchGraphSensorList(user),
     {
-      retry: 1,
+      onError: (error) => {
+        if (error === 403) {
+          alert("로그인 정보가 없습니다.\n로그인 화면으로 이동합니다.");
+          return navigate("/");
+        }
+      },
     }
   );
   const [hoverSensor, setHoverSensor] = useState<ISensor>();
   const [search, setSearch] = useState("");
   const [preview, setPreview] = useState("");
-
-  useEffect(() => {
-    if (isError === true && getCookie("token") === undefined) {
-      alert("로그인 정보가 없습니다.\n로그인 화면으로 이동합니다.");
-      return navigate("/");
-    }
-  }, [isError]);
 
   const onChange = (e: React.FormEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value);

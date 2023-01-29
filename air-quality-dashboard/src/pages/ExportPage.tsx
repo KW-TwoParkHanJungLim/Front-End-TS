@@ -84,7 +84,15 @@ function ExportPage() {
   const { user } = useParams<keyof RouteParams>() as RouteParams;
   const { isLoading, data, isError } = useQuery<ISensor[]>(
     ["allSensors", user],
-    () => fetchGraphSensorList(user)
+    () => fetchGraphSensorList(user),
+    {
+      onError: (error) => {
+        if (error === 403) {
+          alert("로그인 정보가 없습니다.\n로그인 화면으로 이동합니다.");
+          return navigate("/");
+        }
+      },
+    }
   );
   const [sensorName, setSensorName] = useState<string[]>([]);
   const [sensorId, setSensorId] = useState<string[]>([]);
@@ -101,13 +109,6 @@ function ExportPage() {
       document.removeEventListener("mousedown", clickModalOutside);
     };
   });
-
-  useEffect(() => {
-    if (isError && getCookie("token") === undefined) {
-      alert("로그인 정보가 없습니다.\n로그인 화면으로 이동합니다.");
-      return navigate("/");
-    }
-  }, [isError]);
 
   return (
     <div>

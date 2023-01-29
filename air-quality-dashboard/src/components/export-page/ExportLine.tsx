@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { utils, writeFile } from "xlsx";
 import { fetchGraph } from "../../api/api";
 import { getToday } from "../../pages/SensorEntryPage";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Wrapper = styled.div`
   display: flex;
@@ -165,6 +165,7 @@ function ExportLine({
   const [attr, setAttr] = useState<string[][]>([]);
   const excelFile = utils.book_new();
   const { user } = useParams<keyof RouteParams>() as RouteParams;
+  const navigate = useNavigate();
 
   async function sequentialReques() {
     for (let i = 0; i < attr.length; i++) {
@@ -199,20 +200,19 @@ function ExportLine({
             }
           })
           .catch((err) => {
-            if (err.message === "날짜 에러") {
+            console.log(err);
+            if (err === 403) {
+              setErrorMessage(`토큰이 만료되었습니다. 다시 로그인하세요`);
+              alert("로그인 정보가 없습니다.\n로그인 화면으로 이동합니다.");
+              return navigate("/");
+            } else if (err >= 500) {
               setErrorMessage(
                 `서버에 데이터가 없습니다. 다른 속성, 날짜를 선택해주세요`
-              );
-              throw new Error(err);
-            } else if (err.message === "속성 에러") {
-              setErrorMessage(
-                `서버에 데이터가 없습니다. 다른 속성, 날짜를 선택해주세요 (원인 : ${attr[i][0]})`
               );
               throw new Error(err);
             }
           });
       } catch (err) {
-        console.log(err);
         throw new Error();
       }
     }

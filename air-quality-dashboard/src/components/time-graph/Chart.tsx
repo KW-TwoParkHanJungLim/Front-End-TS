@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ReactApexChart from "react-apexcharts";
 import ReactDatePicker from "react-datepicker";
 import styled from "styled-components";
@@ -103,6 +103,7 @@ interface RouteParams {
 }
 
 function Chart({ selectedSensors, selectedSensorId }: ChartProps) {
+  const navigate = useNavigate();
   const [selectedAttr, setSelectedAttr] = useState("Temperature");
   const { user } = useParams<keyof RouteParams>() as RouteParams;
   const [startDate, setStartDate] = useState(new Date());
@@ -122,6 +123,12 @@ function Chart({ selectedSensors, selectedSensorId }: ChartProps) {
       ),
     {
       enabled: selectedSensors.length > 0,
+      onError: (error) => {
+        if (error === 403) {
+          alert("로그인 정보가 없습니다.\n로그인 화면으로 이동합니다.");
+          return navigate("/");
+        }
+      },
     }
   );
 
