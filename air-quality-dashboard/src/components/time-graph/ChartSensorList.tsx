@@ -163,7 +163,7 @@ const ChartSensorList = ({
 
   useEffect(() => {
     if (isError === true && getCookie("token") === undefined) {
-      alert("로그인 후 이용해주십시오");
+      alert("로그인 정보가 없습니다.\n로그인 화면으로 이동합니다.");
       return navigate("/");
     }
   }, [isError]);
