@@ -31,14 +31,10 @@ export function fetchGraph(
     headers: {
       "X-AUTH-TOKEN": getCookie("token"),
     },
-  })
-    .then((res) => {
-      if (res.status !== 200) throw new Error(res.status.toString());
-      else return res.json();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  }).then(async (res) => {
+    if (res.ok) return await res.json();
+    else throw res.status;
+  });
 }
 
 export function fetchGraphSensorList(userId: string) {
@@ -47,9 +43,9 @@ export function fetchGraphSensorList(userId: string) {
     headers: {
       "X-AUTH-TOKEN": getCookie("token"),
     },
-  }).then((res) => {
-    if (res.status !== 200) throw new Error(res.statusText);
-    else return res.json();
+  }).then(async (res) => {
+    if (res.ok) return await res.json();
+    else throw res.status;
   });
 }
 
