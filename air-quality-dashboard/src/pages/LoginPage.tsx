@@ -56,7 +56,7 @@ function LoginPage() {
   const login = (e: any) => {
     e.preventDefault();
     axios
-      .post("http://backend.hanseojin.shop:8088/login", {
+      .post("https://backend.hanseojin.shop:8088/login", {
         id: formRef.current.ID.value,
         password: formRef.current.PW.value,
       })

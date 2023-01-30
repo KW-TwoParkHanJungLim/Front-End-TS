@@ -1,7 +1,7 @@
 import React from "react";
 import { getCookie } from "../JWT/cookie";
 
-const URL = `http://backend.hanseojin.shop:8088`;
+const URL = `https://backend.hanseojin.shop:8088`;
 
 //2020-05-07
 export function fetchSensorAvg(date: string, userId: string, sensorId: string) {
