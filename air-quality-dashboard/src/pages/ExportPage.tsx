@@ -10,7 +10,6 @@ import ExportLine from "../components/export-page/ExportLine";
 import ExportSensor from "../components/export-page/ExportSensor";
 import ExportLoading from "../components/export-page/ExportLoading";
 import ExportError from "../components/export-page/ExportError";
-import { getCookie } from "../JWT/cookie";
 
 const Container = styled.div`
   margin: 0 auto;

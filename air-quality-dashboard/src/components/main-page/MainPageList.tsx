@@ -26,7 +26,7 @@ const Container = styled.div`
   padding-top: 30px;
   height: 100vh;
   position: relative;
-  width: 1400px;
+  width: 1600px;
 `;
 
 export interface sensorlist {

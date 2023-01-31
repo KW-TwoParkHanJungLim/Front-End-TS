@@ -14,7 +14,7 @@ const UserList = styled.div`
   //background-color: #ecf0f1;
   border: none;
   padding: 20px 40px;
-  width: 80%;
+  width: 1000px;
   margin: 50px;
   margin-left: 100px;
 `;
@@ -25,7 +25,7 @@ const Container = styled.div`
   padding-left: 100px;
   height: 200vh;
   position: relative;
-  width: 80%;
+  width: 1300px;
 `;
 
 function AdminUserList() {
