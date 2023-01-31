@@ -1,7 +1,7 @@
 # Front-End-TS
 Air Quality Dashboard
 
-https://kw-twoparkhanjunglim.github.io/Front-End-TS/
+http://twoparkhanjunglim.hanseojin.shop:3000/
 
 # 사용 라이브러리
 + styled-component
