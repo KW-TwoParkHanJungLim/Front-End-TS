@@ -17,7 +17,6 @@ import {
   scoreTemp,
   scoreTvoc,
 } from "../function/scoreCalculate";
-import { getCookie } from "../JWT/cookie";
 
 const Container = styled.div`
   margin: 0 auto;

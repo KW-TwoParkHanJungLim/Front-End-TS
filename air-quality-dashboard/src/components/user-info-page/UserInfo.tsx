@@ -5,6 +5,11 @@ import { fetchUser } from "../../api/api";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie } from "../../JWT/cookie";
 
+const Main = styled.div`
+  display:flex; justify-content: center; align-items: center; text-align:center;
+  position:absolute; width:100%; height:600px; top:100px;
+`
+
 const Header = styled.h1`
   margin-bottom: 50px;
   font-weight: 700;
@@ -13,13 +18,11 @@ const Header = styled.h1`
   position: relative;
   z-index: 1;
   position: absolute;
-  left: 670px;
   top: 50px;
 `;
 
 const Container = styled.div`
   position: absolute;
-  left: 670px;
   top: 160px;
 `;
 const H3 = styled.h3`
@@ -41,7 +44,6 @@ const InfoText = styled.input`
 
 const Back = styled.button`
   position: absolute;
-  left: 880px;
   top: 600px;
   width: 120px;
   height: 40px;
@@ -70,7 +72,7 @@ function UserInfo() {
   };
 
   return (
-    <div>
+    <Main>
       <Header>내 프로필</Header>
       <p />
       <br />
@@ -100,7 +102,7 @@ function UserInfo() {
         </H3>
       </Container>
       <Back onClick={Goback}>뒤로가기</Back>
-    </div>
+    </Main>
   );
 }
 

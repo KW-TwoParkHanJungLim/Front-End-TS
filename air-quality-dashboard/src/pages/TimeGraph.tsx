@@ -8,6 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 const Container = styled.div`
   margin: 0 auto;
   padding-top: 130px;
+  padding-left: 50px;
   height: 250vh;
   position: relative;
 `;

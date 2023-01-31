@@ -14,7 +14,7 @@ const Login = styled.div`
   position: absolute;
   top: 25%;
   width: 650px;
-  height: 45%;
+  height: 400px;
   text-align: center;
   padding: 10px;
   border: 4px solid gray;
